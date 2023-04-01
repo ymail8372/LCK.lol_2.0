@@ -1,7 +1,56 @@
-<!DOCTYPE html>
-<html lang="ko">
-	{% include "include/head.html" %}
-<body>
-	Hello World
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+	{% load static %}
+	<section id="version">
+		{% for version in versions %}
+			대회 버전 : {{version.LCK_version}}, 
+			라이브 버전 : {{version.Live_version}}
+		{% endfor %}
+	</section>
+	
+	<section id="ranking">
+		ranking
+	</section>
+	
+	<section id="schedule">
+		<h2>일정</h2>
+		<div id="schedules">
+			<!-- schedules에 있을 경우 -->
+			{% for schedule in schedules %}
+			<div class="schedule_block {{schedule.date.month}}/{{schedule.date.day}}">
+				<div class="schedule_title">
+					LCK Spring<br>
+					{{schedule.date.month}}월 {{schedule.date.day}}일 ({{schedule.date.weekday}})
+				</div>
+				<div class="schedule_team">
+					<div class="schedule_team1">
+						<img src="{% get_static_prefix %}img/{{schedule.team1}}.png"><br>
+						{{schedule.team1}}
+					</div>
+					<div class="schedule_score">
+						vs
+					</div>
+					<div class="schedule_team2">
+						<img src="{% get_static_prefix %}img/{{schedule.team2}}.png"><br>
+						{{schedule.team2}}
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			<!-- scheduls에 없을 경우 -->
+			<div class="schedule_block none">
+				<div class="schedule_title">
+					LCK Spring<br>
+					<span class="date"></span>
+				</div>
+				<div class="schedule_team">
+					<div class="schedule_none">경기가 없습니다</div>
+				</div>
+			</div>
+			<div class="controler controler_left"> &lang; </div>
+			<div class="controler controler_right"> &rang; </div>
+		</div>
+	</section>
+	<script defer type="text/javascript" src="static/js/index.js"></script>
+{% endblock content %}

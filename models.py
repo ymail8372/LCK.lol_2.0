@@ -6,7 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-import datetime
+
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -121,21 +121,10 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
 
-class Schedule23Spring(models.Model):
-    date = models.DateTimeField(db_column='date')
-    team1 = models.TextField(db_column='team1')
-    team2 = models.TextField(db_column='team2')
-    team1_score = models.IntegerField(db_column='team1_score')
-    team2_score = models.IntegerField(db_column='team2_score')
-    type = models.IntegerField(db_column='type') 
 
-    class Meta:
-        managed = False
-        db_table = 'schedule_23spring'
-        
 class Version(models.Model):
-    LCK_version = models.FloatField(db_column='LCK_version')  # Field name made lowercase.
-    Live_version = models.FloatField(db_column='Live_version')  # Field name made lowercase.
+    lck_version = models.FloatField(db_column='LCK_version')  # Field name made lowercase.
+    live_version = models.FloatField(db_column='Live_version')  # Field name made lowercase.
 
     class Meta:
         managed = False

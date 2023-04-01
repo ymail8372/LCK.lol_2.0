@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+/* blank initialization */
+body, div, ul, li, dl, dt, ol, h1, h2, h3, h4, h5, h6, input, fieldset, legend, p, select, table, th, td, tr, textarea, button, form {margin: 0; padding: 0;}
+
+/* a link initialization */
+a {color: #373a3c; text-decoration: none;}
+a:hover {color: none;}
+
+/* 폰트 초기화 */
+body, input, textarea, select, button, table {
+    font-family: 'Noto Sans KR', sans-serif; color: #373a3c; font-weight: bold;}
+
+/* body, wrap tag initialization */
+body {
+	background-color: #F7F7F7; font-weight: bold;}
+
+#wrap {
+	width: 1080px; margin: 0 auto;}
+
+/* table initialization */
+table {
+	margin: 0 auto;
+	table-layout: fixed;
+}
+
+th, td {
+	text-align: center;
+}
+
+/* nav */
+nav {width: 100%; height: 40px; overflow: hidden; background-color: #1C192B;}
+nav #title {float: left; width: 200px; height: 100%; text-align: center;}
+nav #title h1 {vertical-align: middle;}
+nav #title h1 a {color: #DCDFE0; font-size: 26px; line-height: 40px;}
+nav #menu {float: left; height: 100%;}
+nav #menu a {color: #aaa; line-height: 40px; font-size: 20px; padding: 0 20px;}
+nav #menu a:hover {color: #DCDFE0;}
+
+/* footer */
+footer {width: 100%; border-top: 1px solid #ccc; text-align: center; font-size: 13px; clear: both;}
+footer address {padding: 15px 0; font-style: normal;}
+footer p {padding: 0 0 10px 0;}
