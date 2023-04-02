@@ -10,7 +10,8 @@
 	</section>
 	
 	<section id="ranking">
-		ranking
+		<h2>순위</h2>
+		
 	</section>
 	
 	<section id="schedule">
@@ -21,7 +22,7 @@
 			<div class="schedule_block {{schedule.date.month}}/{{schedule.date.day}}">
 				<div class="schedule_title">
 					LCK Spring<br>
-					{{schedule.date.month}}월 {{schedule.date.day}}일 ({{schedule.date.weekday}})
+					{{schedule.date.month}}월 {{schedule.date.day}}일 <span class="schedule_weekday">({{schedule.date.weekday}})</span>
 				</div>
 				<div class="schedule_team">
 					<div class="schedule_team1">
@@ -42,7 +43,7 @@
 			<div class="schedule_block none">
 				<div class="schedule_title">
 					LCK Spring<br>
-					<span class="date"></span>
+					<span class="date"></span> <span class="schedule_weekday_none">({{schedule.date.weekday}})</span>
 				</div>
 				<div class="schedule_team">
 					<div class="schedule_none">경기가 없습니다</div>

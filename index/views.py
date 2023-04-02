@@ -7,4 +7,6 @@ def index(request) :
     version = Version.objects.all()
     schedule = Schedule23Spring.objects.all()
     
-    return render(request, 'index.html', {"versions": version, "schedules": schedule})
+    weekday = ['월', '화', '수', '목', '금', '토', '일']
+    
+    return render(request, 'index.html', {"versions": version, "schedules": schedule, "weekday": weekday})
