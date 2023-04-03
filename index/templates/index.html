@@ -2,6 +2,7 @@
 
 {% block content %}
 	{% load static %}
+	<script type="text/javascript" src="static/js/set_score.js"></script>
 	<section id="version">
 		{% for version in versions %}
 			대회 버전 : {{version.LCK_version}}, 
@@ -29,8 +30,15 @@
 						<img src="{% get_static_prefix %}img/{{schedule.team1}}.png"><br>
 						{{schedule.team1}}
 					</div>
-					<div class="schedule_score">
-						vs
+					<div class="schedule_score_block">
+						<div class="schedule_score">
+							<script>
+								set_score({{schedule.team1_score}}, {{schedule.team2_score}});
+							</script>
+						</div>
+						<div class="schedule_time">
+							{{schedule.date.time.hour}}시 {{schedule.date.time.minute}}분
+						</div>
 					</div>
 					<div class="schedule_team2">
 						<img src="{% get_static_prefix %}img/{{schedule.team2}}.png"><br>
@@ -49,8 +57,8 @@
 					<div class="schedule_none">경기가 없습니다</div>
 				</div>
 			</div>
-			<div class="controler controler_left"> &lang; </div>
-			<div class="controler controler_right"> &rang; </div>
+			<div class="controler controler_left"></div>
+			<div class="controler controler_right"></div>
 		</div>
 	</section>
 	<script defer type="text/javascript" src="static/js/index.js"></script>

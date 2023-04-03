@@ -9,7 +9,7 @@ a:hover {color: none;}
 
 /* 폰트 초기화 */
 body, input, textarea, select, button, table {
-    font-family: 'Noto Sans KR', sans-serif; color: #373a3c; font-weight: bold;}
+    font-family: 'Noto Sans KR', sans-serif; color: #373a3c;}
 
 /* body, wrap tag initialization */
 body {

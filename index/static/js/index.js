@@ -8,13 +8,14 @@ let schedule_block = document.querySelectorAll("#schedule .schedule_block");
 
 let weekdays = ['월', '화', '수', '목', '금', '토', '일'];
 
-function show_slide() {
+function show_slide(team1_score, team2_score) {
 	let check = 0;
 	
 	for (let i = 0; i < schedule_block.length; i ++) {
 		if (schedule_block[i].classList.contains(show_date)) {
-			schedule_block[i].style.display = "block";
-			schedule_block[i].querySelector('.schedule_weekday').innerHTML = weekdays[date.getDay()];
+			schedule_block[i].style.display = "block"; // 해당 block이 보이도록 설정
+			schedule_block[i].querySelector('.schedule_weekday').innerHTML = weekdays[date.getDay()]; // 요일 설정
+			
 			check = 1;
 		}
 		else {

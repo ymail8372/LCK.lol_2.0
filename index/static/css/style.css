@@ -8,15 +8,19 @@
 /* ranking */
 #ranking {
 	margin: 0 50px 30px 0;
-	width: 730px;
+	width: 630px;
 	float: left;
+}
+
+#ranking h2 {
+	font-size: 30px; margin-bottom: 10px;
 }
 
 /* schedule */
 #schedule {
 	margin: 0 0 30px 0;
 	float: left;
-	width: 300px;
+	width: 400px;
 	overflow: hidden;
 }
 
@@ -57,10 +61,22 @@
 	width: 40%;
 	float: left;
 }
+#schedule #schedules .schedule_block .schedule_score_block {
+	float: left;
+	width: 20%;
+	margin-top: 20px;
+	text-align: center;
+}
 
 #schedule #schedules .schedule_block .schedule_score {
-	width: 20%;
-	float: left;
+	width: 100%;
+	font-size: 24px;
+}
+
+#schedule #schedules .schedule_block .schedule_time {
+	width: 100%;
+	font-size: 14px;
+	margin-top: 10px;
 }
 
 #schedule #schedules .schedule_block .schedule_none {
@@ -73,17 +89,41 @@
 }
 
 #schedule  #schedules .controler {
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border-radius: 40px;
+	border: 2px solid #1C192B;
 	position: absolute;
 	text-align: center;
-	top: 20px;
-	font-size: 28px;
-	font-weight: bolder;
+	top: 70px;
+	font-size: 22px;
+	background-color: #F7F7F7;
+}
+
+#schedule  #schedules .controler::after {
+	display: block;
+	border-radius: 40px;
+}
+
+#schedule  #schedules .controler:hover::after {
+	background-color: #1C192B;
+	color: #F7F7F7;
 }
 
 #schedule #schedules .controler_left {
-	left: 10px;
+	left: 20px;
+}
+
+#schedule #schedules .controler_left::after {
+	content:"<";
 }
 
 #schedule #schedules .controler_right {
-	right: 10px;
+	right: 20px;
+}
+
+#schedule #schedules .controler_right::after {
+	content:">";
+	display: block;
 }
