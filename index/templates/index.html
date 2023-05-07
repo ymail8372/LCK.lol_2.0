@@ -3,6 +3,7 @@
 {% block content %}
 	{% load static %}
 	<script type="text/javascript" src="static/js/set_score.js"></script>
+	<script type="text/javascript" src="static/js/set_type.js"></script>
 	<section id="version">
 		{% for version in versions %}
 			대회 버전 : {{version.LCK_version}}, 
@@ -10,10 +11,10 @@
 		{% endfor %}
 	</section>
 	
-	<section id="ranking">
-		<h2>순위</h2>
-		
-	</section>
+	<secrion id="champion">
+		<h2>챔피언 통계</h2>
+	</secrion>
+	
 	
 	<section id="schedule">
 		<h2>일정</h2>
@@ -22,8 +23,11 @@
 			{% for schedule in schedules %}
 			<div class="schedule_block {{schedule.date.month}}/{{schedule.date.day}}">
 				<div class="schedule_title">
-					LCK Spring<br>
-					{{schedule.date.month}}월 {{schedule.date.day}}일 <span class="schedule_weekday">({{schedule.date.weekday}})</span>
+					<script>
+						let type = "{{schedule.type}}";
+					</script>
+					<div class="schedule_type">{{schedule.type}}</div>
+					<div class="schedule_date">{{schedule.date.month}}월 {{schedule.date.day}}일 <span class="schedule_weekday">({{schedule.date.weekday}})</span></div>
 				</div>
 				<div class="schedule_team">
 					<div class="schedule_team1">
@@ -50,8 +54,12 @@
 			<!-- scheduls에 없을 경우 -->
 			<div class="schedule_block none">
 				<div class="schedule_title">
-					LCK Spring<br>
-					<span class="date"></span> <span class="schedule_weekday_none">({{schedule.date.weekday}})</span>
+					<div class="schedule_type">
+						<script>
+							document.write(type);
+						</script>
+					</div>
+					<div class="schedule_date"><span class="date"></span> <span class="schedule_weekday_none">({{schedule.date.weekday}})</span></div>
 				</div>
 				<div class="schedule_team">
 					<div class="schedule_none">경기가 없습니다</div>
@@ -61,5 +69,255 @@
 			<div class="controler controler_right"></div>
 		</div>
 	</section>
+	
+	<section id="ranking">
+		<h2>순위</h2>
+		<div id="ranking_container">
+			<!-- row -->
+			<div class="ranking_group bottom">
+				A조
+			</div>
+			<div class="ranking_group">
+				B조
+			</div>
+			<!-- row -->
+			<div class="ranking_match">
+				<div></div>
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div class="bottom" style="grid-row: span 2;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			
+			<!-- row -->
+			<div class="bottom" style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 7;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 7;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+	
+			<!-- row -->
+			<div class="bottom" style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 7; border-color: #FF3636;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 7; border-color: #FF3636;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>	
+			
+			<!-- row -->
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div class="bottom" style="grid-row: span 2;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+		
+			<!-- row -->
+			<div style="grid-row: span 1;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 1;">
+				
+			</div>
+			<div class="right" style="grid-row: span 3; border-color: #FF3636;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 1;">
+				
+			</div>
+			<div class="right" style="grid-row: span 3; border-color: #FF3636;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 2;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			
+			<!-- row -->
+			<div style="grid-row: span 1;">
+				
+			</div>
+			<div class="top" style="grid-row: span 1;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 3; border-color: #FF3636;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="top" style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 4;">
+				
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+			<div class="top" style="grid-row: span 1;">
+				
+			</div>
+			<div class="bottom" style="grid-row: span 3; border-color: #FF3636;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="top" style="grid-row: span 2;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			
+			<!-- row -->
+			<div class="ranking_match" style="grid-row: span 2;">
+				winner
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div class="bottom" style="grid-row: span 5;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="ranking_match" style="grid-row: span 2;">
+				winner
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div style="grid-row: span 3;">
+				
+			</div>
+		
+			<!-- row -->
+			<div class="bottom" style="grid-row: span 6;">
+				
+			</div>
+			<div class="right" style="grid-row: span 6;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="bottom-right" style="grid-row: span 7;">
+				
+			</div>
+			<div style="grid-row: span 5;">
+				
+			</div>
+		
+			<!-- row -->
+			<div class="bottom" style="grid-row: span 12;">
+				
+			</div>
+			<div style="grid-row: span 2;">
+				
+			</div>
+			<div class="top" style="grid-row: span 12;">
+				
+			</div>
+			
+			<!-- row -->
+			<div style="grid-row: span 11;">
+				
+			</div>
+			<div class="ranking_match">
+				team1 vs team2
+			</div>
+			<div style="grid-row: span 11;">
+				
+			</div>
+		</div>
+	</section>
+	
+	
 	<script defer type="text/javascript" src="static/js/index.js"></script>
 {% endblock content %}

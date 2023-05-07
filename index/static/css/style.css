@@ -5,14 +5,13 @@
 	margin: 20px 0 30px 0; text-align: right;
 }
 
-/* ranking */
-#ranking {
-	margin: 0 50px 30px 0;
-	width: 630px;
+/* champion */
+#champion {
+	width: 680px;
 	float: left;
 }
 
-#ranking h2 {
+#champion h2 {
 	font-size: 30px; margin-bottom: 10px;
 }
 
@@ -21,7 +20,6 @@
 	margin: 0 0 30px 0;
 	float: left;
 	width: 400px;
-	overflow: hidden;
 }
 
 #schedule h2 {
@@ -126,4 +124,57 @@
 #schedule #schedules .controler_right::after {
 	content:">";
 	display: block;
+}
+
+
+/* ranking */
+#ranking {
+	margin: 0 50px 30px 0;
+	width: 100%;
+	float: left;
+}
+
+#ranking h2 {
+	font-size: 30px; margin-bottom: 10px;
+}
+
+#ranking #ranking_container {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 100px 200px 25px 25px 200px 25px 25px 200px 25px 25px 200px;
+	grid-template-rows: repeat(26, 20px);
+}
+#ranking #ranking_container div {
+	text-align: center;
+}
+
+#ranking #ranking_container .ranking_group {
+	grid-row: span 13;
+	line-height: 260px;
+	font-size: larger;
+}
+
+#ranking #ranking_container .ranking_match {
+	grid-row: span 4;
+	border: solid 2px #1C192B;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px gray;
+	
+}
+
+#ranking #ranking_container .bottom {
+	border-bottom: solid 2px #1C192B;
+}
+
+#ranking #ranking_container .top {
+	border-top: solid 2px #1C192B;
+}
+
+#ranking #ranking_container .bottom-right {
+	border-bottom: solid 2px #1C192B;
+	border-right: solid 2px #1C192B;
+}
+
+#ranking #ranking_container .right {
+	border-right: solid 2px #1C192B;
 }

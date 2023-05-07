@@ -6,7 +6,6 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-import datetime
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -140,3 +139,13 @@ class Version(models.Model):
     class Meta:
         managed = False
         db_table = 'version'
+        
+class Ranking_23_msi_playin(models.Model):
+    team1 = models.TextField(db_column='team1')
+    team2 = models.TextField(db_column='team2')
+    team1_score = models.IntegerField(db_column='team1_score')
+    team2_score = models.IntegerField(db_column='team2_score')
+    
+    class Meta:
+        managed = False
+        db_table = 'Ranking_23_msi_playin'
