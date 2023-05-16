@@ -4,29 +4,29 @@ let show_date = date.getMonth()+1 + "/" + date.getDate();
 const prev_button = document.querySelector(".controler_left");
 const next_button = document.querySelector(".controler_right");
 
-let schedule_block = document.querySelectorAll("#schedule .schedule_block");
+let block = document.querySelectorAll("#schedule .block");
 
 let weekdays = ['월', '화', '수', '목', '금', '토', '일'];
 
-function show_slide(team1_score, team2_score) {
+function show_slide() {
 	let check = 0;
 	
-	for (let i = 0; i < schedule_block.length; i ++) {
-		if (schedule_block[i].classList.contains(show_date)) {
-			schedule_block[i].style.display = "block"; // 해당 block이 보이도록 설정
-			schedule_block[i].querySelector('.schedule_weekday').innerHTML = weekdays[date.getDay()]; // 요일 설정
+	for (let i = 0; i < block.length; i ++) {
+		if (block[i].classList.contains(show_date)) {
+			block[i].style.display = "block"; // 해당 block이 보이도록 설정
+			block[i].querySelector('.weekday').innerHTML = weekdays[date.getDay()]; // 요일 설정
 			
 			check = 1;
 		}
 		else {
-			schedule_block[i].style.display = "none";
+			block[i].style.display = "none";
 		}
 	}
 	
 	if (check == 0) {
-		schedule_block[schedule_block.length-1].style.display = "block";
+		block[block.length-1].style.display = "block";
 		document.querySelector('.date').innerHTML = date.getMonth()+1 + "월 " + date.getDate()  + "일";
-		document.querySelector('.schedule_weekday_none').innerHTML = weekdays[date.getDay()];
+		document.querySelector('.weekday_none').innerHTML = weekdays[date.getDay()];
 	}
 	
 };

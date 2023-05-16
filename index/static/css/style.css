@@ -31,7 +31,7 @@
 	margin: 0 0 30px 0;
 }
 
-#schedule #schedules .schedule_block {
+#schedule #schedules .block {
 	margin: 0 auto;
 	width: 80%;
 	text-align: center;
@@ -39,49 +39,49 @@
 	box-shadow: 0px 0px 10px gray;
 }
 
-#schedule #schedules .schedule_block .schedule_title {
+#schedule #schedules .block .title {
 	background: #1C192B;
 	color: #DCDFE0;
 	border-radius: 10px 10px 0 0;
 }
 
-#schedule #schedules .schedule_block .schedule_team {
+#schedule #schedules .block .team {
 	border: #1C192B solid 2px;
 	overflow: hidden;
 	min-height: 100px;
 	border-radius: 0 0 10px 10px;
 }
 
-#schedule #schedules .schedule_block .schedule_team img {
+#schedule #schedules .block .team img {
 	width: 60px;
 }
-#schedule #schedules .schedule_block .schedule_team1 {
+#schedule #schedules .block .team1 {
 	width: 40%;
 	float: left;
 }
-#schedule #schedules .schedule_block .schedule_score_block {
+#schedule #schedules .block .score_block {
 	float: left;
 	width: 20%;
 	margin-top: 20px;
 	text-align: center;
 }
 
-#schedule #schedules .schedule_block .schedule_score {
+#schedule #schedules .block .score {
 	width: 100%;
 	font-size: 24px;
 }
 
-#schedule #schedules .schedule_block .schedule_time {
+#schedule #schedules .block .time {
 	width: 100%;
 	font-size: 14px;
 	margin-top: 10px;
 }
 
-#schedule #schedules .schedule_block .schedule_none {
+#schedule #schedules .block .none {
 	line-height: 100px;
 }
 
-#schedule #schedules .schedule_block .schedule_team2 {
+#schedule #schedules .block .team2 {
 	width: 40%;
 	float: left;
 }

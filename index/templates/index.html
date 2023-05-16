@@ -5,69 +5,61 @@
 	<script type="text/javascript" src="static/js/set_score.js"></script>
 	<script type="text/javascript" src="static/js/set_type.js"></script>
 	<section id="version">
-		{% for version in versions %}
-			대회 버전 : {{version.LCK_version}}, 
-			라이브 버전 : {{version.Live_version}}
-		{% endfor %}
+			대회 버전 : 12.1
+			라이브 버전 : 12.1
 	</section>
 	
 	<secrion id="champion">
 		<h2>챔피언 통계</h2>
 	</secrion>
 	
-	
 	<section id="schedule">
 		<h2>일정</h2>
-		<div id="schedules">
-			<!-- schedules에 있을 경우 -->
-			{% for schedule in schedules %}
-			<div class="schedule_block {{schedule.date.month}}/{{schedule.date.day}}">
-				<div class="schedule_title">
-					<script>
-						let type = "{{schedule.type}}";
-					</script>
-					<div class="schedule_type">{{schedule.type}}</div>
-					<div class="schedule_date">{{schedule.date.month}}월 {{schedule.date.day}}일 <span class="schedule_weekday">({{schedule.date.weekday}})</span></div>
-				</div>
-				<div class="schedule_team">
-					<div class="schedule_team1">
-						<img src="{% get_static_prefix %}img/{{schedule.team1}}.png"><br>
-						{{schedule.team1}}
-					</div>
-					<div class="schedule_score_block">
-						<div class="schedule_score">
-							<script>
-								set_score({{schedule.team1_score}}, {{schedule.team2_score}});
-							</script>
-						</div>
-						<div class="schedule_time">
-							{{schedule.date.time.hour}}시 {{schedule.date.time.minute}}분
-						</div>
-					</div>
-					<div class="schedule_team2">
-						<img src="{% get_static_prefix %}img/{{schedule.team2}}.png"><br>
-						{{schedule.team2}}
-					</div>
-				</div>
+		<!-- schedules에 있을 경우 -->
+		{% for schedule in schedules %}
+		<div class="block {{schedule.month}}/{{schedule.day}}">
+			<div class="title">
+				<div class="type">{{schedule.etc}}</div>
+				<div class="date">{{schedule.month}}월 {{schedule.day}}일 <span class="weekday">({{schedule.weekday}})</span></div>
 			</div>
-			{% endfor %}
-			<!-- scheduls에 없을 경우 -->
-			<div class="schedule_block none">
-				<div class="schedule_title">
-					<div class="schedule_type">
+			<div class="team">
+				<div class="team1">
+					<img src="{% get_static_prefix %}img/{{schedule.team1}}.png"><br>
+					<span class="team1_name">{{schedule.team1}}
+				</div>
+				<div class="score_block">
+					<div class="score">
 						<script>
-							document.write(type);
+							set_score({{schedule.team1_score}}, {{schedule.team2_score}});
 						</script>
 					</div>
-					<div class="schedule_date"><span class="date"></span> <span class="schedule_weekday_none">({{schedule.date.weekday}})</span></div>
+					<div class="time">
+						{{schedule.hour}}시 {{schedule.min}}분
+					</div>
 				</div>
-				<div class="schedule_team">
-					<div class="schedule_none">경기가 없습니다</div>
+				<div class="team2">
+					<img src="{% get_static_prefix %}img/{{schedule.team2}}.png"><br>
+					{{schedule.team2}}
 				</div>
 			</div>
-			<div class="controler controler_left"></div>
-			<div class="controler controler_right"></div>
 		</div>
+		{% endfor %}
+		<!-- scheduls에 없을 경우 -->
+		<div class="block none">
+			<div class="title">
+				<div class="type">
+					<script>
+						document.write(type);
+					</script>
+				</div>
+				<div class="date"><span class="date"></span> <span class="weekday_none">({{schedule.date.weekday}})</span></div>
+			</div>
+			<div class="team">
+				<div class="none">경기가 없습니다</div>
+			</div>
+		</div>
+		<div class="controler controler_left"></div>
+		<div class="controler controler_right"></div>
 	</section>
 	
 	<section id="ranking">
