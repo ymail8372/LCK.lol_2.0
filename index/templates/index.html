@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-	{% load static %}
-	<script type="text/javascript" src="static/js/set_score.js"></script>
-	<script type="text/javascript" src="static/js/set_type.js"></script>
+	<script defer type="text/javascript" src="static/js/index.js"></script>
+	<script>
+		var schedules = {{schedules}}
+		console.log(schedules);
+	</script>
+	
 	<section id="version">
 			대회 버전 : 12.1
 			라이브 버전 : 12.1
@@ -15,47 +18,27 @@
 	
 	<section id="schedule">
 		<h2>일정</h2>
-		<!-- schedules에 있을 경우 -->
-		{% for schedule in schedules %}
-		<div class="block {{schedule.month}}/{{schedule.day}}">
+		<div class="block">
 			<div class="title">
-				<div class="type">{{schedule.etc}}</div>
-				<div class="date">{{schedule.month}}월 {{schedule.day}}일 <span class="weekday">({{schedule.weekday}})</span></div>
+				<div class="type"></div>
+				<div class="date">
+					<span class="day"></span>
+					<span class="weekday"></span>
+				</div>
 			</div>
-			<div class="team">
-				<div class="team1">
-					<img src="{% get_static_prefix %}img/{{schedule.team1}}.png"><br>
-					<span class="team1_name">{{schedule.team1}}
+			<div class="teams">
+				<div class="team team1">
+					<img class="team_img team1_img" src=""><br>
+					<span class="team_name team1_name"></span>
 				</div>
 				<div class="score_block">
-					<div class="score">
-						<script>
-							set_score({{schedule.team1_score}}, {{schedule.team2_score}});
-						</script>
-					</div>
-					<div class="time">
-						{{schedule.hour}}시 {{schedule.min}}분
-					</div>
+					<div class="score"></div>
+					<div class="time"></div>
 				</div>
-				<div class="team2">
-					<img src="{% get_static_prefix %}img/{{schedule.team2}}.png"><br>
-					{{schedule.team2}}
+				<div class="team team2">
+					<img src="team_img team2_img"><br>
+					<span class="tema_name team2_name"></span>
 				</div>
-			</div>
-		</div>
-		{% endfor %}
-		<!-- scheduls에 없을 경우 -->
-		<div class="block none">
-			<div class="title">
-				<div class="type">
-					<script>
-						document.write(type);
-					</script>
-				</div>
-				<div class="date"><span class="date"></span> <span class="weekday_none">({{schedule.date.weekday}})</span></div>
-			</div>
-			<div class="team">
-				<div class="none">경기가 없습니다</div>
 			</div>
 		</div>
 		<div class="controler controler_left"></div>
@@ -310,6 +293,4 @@
 		</div>
 	</section>
 	
-	
-	<script defer type="text/javascript" src="static/js/index.js"></script>
 {% endblock content %}

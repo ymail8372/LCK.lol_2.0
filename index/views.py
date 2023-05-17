@@ -4,17 +4,6 @@ from .models import Ranking_23_spring_regular
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
-
-# Team class
-class Team :
-    def __init__(self, name, tricode, game_win=0, game_lose=0, set_win=0, set_lose=0, etc=" - ") :
-        self.name = name
-        self.tricode = tricode
-        self.game_win = game_win
-        self.game_lose = game_lose
-        self.set_win = set_win
-        self.set_lose = set_lose
-        self.etc = etc
     
 def reset_ranking_23_spring_regular() :
     Ranking_23_spring_regular.objects.all().delete()
@@ -141,6 +130,8 @@ def index(request) :
     update_schedule()
     update_ranking_23_spring_regular()
     
-    schedule = Schedule.objects.all()
+    schedule_objects = Schedule.objects.all()
     
-    return render(request, 'index.html', {"schedules": schedule})
+    schedules = [{"name":"T1", "rank":"1"}, {"name":"GEN", "rank":"2"}]
+    
+    return render(request, 'index.html', {"schedules": schedules})
