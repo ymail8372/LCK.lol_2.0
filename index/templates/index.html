@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<script defer type="text/javascript" src="static/js/index.js"></script>
-	<script>
-		var schedules = {{schedules}}
-		console.log(schedules);
-	</script>
-	
+	{% load static %}
 	<section id="version">
-			대회 버전 : 12.1
-			라이브 버전 : 12.1
+		<span id="league_version">대회 버전 : 12.1,</span>
+		<span id="live_version">라이브 버전 : 12.1</span>
 	</section>
 	
 	<secrion id="champion">
@@ -20,26 +15,53 @@
 		<h2>일정</h2>
 		<div class="block">
 			<div class="title">
+				<div class="date"></div>
 				<div class="type"></div>
-				<div class="date">
-					<span class="day"></span>
-					<span class="weekday"></span>
-				</div>
 			</div>
-			<div class="teams">
+			{% for schedule in schedules %}
+			<div class="teams date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
 				<div class="team team1">
-					<img class="team_img team1_img" src=""><br>
-					<span class="team_name team1_name"></span>
+					
+					{% with year=schedule.year|stringformat:'s' %}
+						{% if "spring" in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"spring/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+						{% elif "MSI" in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"MSI/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+						{% elif "summer" in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"summer/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+						{% elif "Worlds" in schedule.etc and "선발전" not in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+						{% else %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds_qualifying/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+						{% endif %}
+					{% endwith %}
+					
+					<span class="team_name team1_name">{{schedule.team1_name}}</span>
 				</div>
 				<div class="score_block">
-					<div class="score"></div>
-					<div class="time"></div>
+					<div class="score">{{schedule.score}}</div>
+					<div class="time">{{schedule.time}}</div>
 				</div>
 				<div class="team team2">
-					<img src="team_img team2_img"><br>
-					<span class="tema_name team2_name"></span>
+					{% with year=schedule.year|stringformat:'s' %}
+						{% if "spring" in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"spring/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+						{% elif "MSI" in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"MSI/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+						{% elif "summer" in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"summer/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+						{% elif "Worlds" in schedule.etc and "선발전" not in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+						{% else %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds_qualifying/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+						{% endif %}
+					{% endwith %}
+					
+					<span class="team_name team2_name">{{schedule.team2_name}}</span>
 				</div>
 			</div>
+			{% endfor %}
+			<div class="teams no_team">경기가 없습니다</div>
 		</div>
 		<div class="controler controler_left"></div>
 		<div class="controler controler_right"></div>
@@ -293,4 +315,5 @@
 		</div>
 	</section>
 	
+	<script type="text/javascript" src="/static/js/index.js"></script>
 {% endblock content %}

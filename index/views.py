@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Schedule
 from .models import Ranking_23_spring_regular
 from selenium import webdriver
@@ -33,7 +34,7 @@ def update_schedule() :
     
     driver.get(url)
     #driver.execute_script("window.scrollTo(0,0);")
-    time.sleep(1)
+    #time.sleep(1)
     web_source = driver.page_source
     
     ### quit driver
@@ -103,7 +104,7 @@ def update_ranking_23_spring_regular() :
     
     schedule_objects = Schedule.objects.all()
     for schedule_object in schedule_objects :
-        if "23_spring_regular" in schedule_object.etc:
+        if "LCK spring 정규시즌" in schedule_object.etc:
             team1 = Ranking_23_spring_regular.objects.get(name=schedule_object.team1_name)
             team2 = Ranking_23_spring_regular.objects.get(name=schedule_object.team2_name)
             
@@ -125,13 +126,16 @@ def update_ranking_23_spring_regular() :
             team1.save()
             team2.save()
 
+def get_schedules(request) :
+    schedule_values = Schedule.objects.values()
+    
+    return JsonResponse(list(schedule_values), safe=False)
+
 def index(request) :
     #init_ranking_23_spring_regular()
     update_schedule()
     update_ranking_23_spring_regular()
     
-    schedule_objects = Schedule.objects.all()
-    
-    schedules = [{"name":"T1", "rank":"1"}, {"name":"GEN", "rank":"2"}]
+    schedules = Schedule.objects.all()
     
     return render(request, 'index.html', {"schedules": schedules})
