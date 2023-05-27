@@ -21,18 +21,17 @@
 			{% for schedule in schedules %}
 			<div class="teams date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
 				<div class="team team1">
-					
 					{% with year=schedule.year|stringformat:'s' %}
 						{% if "spring" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"spring/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"spring"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"MSI/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"MSI"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 						{% elif "summer" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"summer/"|add:schedule.team1_name|add:'.jpg' %}"><br>
-						{% elif "Worlds" in schedule.etc and "선발전" not in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds/"|add:schedule.team1_name|add:'.jpg' %}"><br>
-						{% else %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds_qualifying/"|add:schedule.team1_name|add:'.jpg' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"summer"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+						{% elif "선발전" in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"qualifying"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+						{% elif "롤드컵" in schedule.etc %}
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
 						{% endif %}
 					{% endwith %}
 					
@@ -45,15 +44,15 @@
 				<div class="team team2">
 					{% with year=schedule.year|stringformat:'s' %}
 						{% if "spring" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"spring/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"spring"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"MSI/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"MSI"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 						{% elif "summer" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"summer/"|add:schedule.team2_name|add:'.jpg' %}"><br>
-						{% elif "Worlds" in schedule.etc and "선발전" not in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds/"|add:schedule.team2_name|add:'.jpg' %}"><br>
-						{% else %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds_qualifying/"|add:schedule.team2_name|add:'.jpg' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"summer"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+						{% elif "선발전" in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"qualifying"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+						{% elif "롤드컵" in schedule.etc %}
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
 						{% endif %}
 					{% endwith %}
 					
