@@ -1,7 +1,7 @@
 from django.db import models
 
 class Schedule(models.Model):
-    key = models.IntegerField(db_column='key', primary_key=True, default=0)
+    key = models.AutoField(db_column='key', primary_key=True)
     year = models.IntegerField(db_column='year', default=0)
     month = models.IntegerField(db_column='month', default=0)
     day = models.IntegerField(db_column='day', default=0)
@@ -21,7 +21,7 @@ class Schedule(models.Model):
         db_table = 'schedule'
         
 class Ranking_23_spring_regular(models.Model):
-    key = models.IntegerField(db_column="key", primary_key=True, default=0)
+    key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
     game_win = models.IntegerField(db_column="game_win", default=0)
@@ -34,7 +34,7 @@ class Ranking_23_spring_regular(models.Model):
         db_table = "ranking_23_spring_regular"
         
 class Ranking_23_summer_regular(models.Model):
-    key = models.IntegerField(db_column="key", primary_key=True, default=0)
+    key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
     game_win = models.IntegerField(db_column="game_win", default=0)
@@ -45,3 +45,16 @@ class Ranking_23_summer_regular(models.Model):
     
     class Meta:
         db_table = "ranking_23_summer_regular"
+        
+class Champion(models.Model) :
+    key = models.AutoField(db_column="key", primary_key=True)
+    name = models.TextField(db_column="name", default="-")
+    pick = models.IntegerField(db_column="pick", default=0)
+    ban = models.IntegerField(db_column="ban", default=0)
+    win = models.IntegerField(db_column="win", default=0)
+    lose = models.IntegerField(db_column="lose", default=0)
+    patch = models.TextField(db_column="patch", default="-")
+    
+    class Meta:
+        db_table = "chamipon"
+    

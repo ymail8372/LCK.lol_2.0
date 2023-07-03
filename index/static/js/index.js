@@ -26,9 +26,10 @@ function show_slide() {
 	for (let i = 0; i < schedules.length; i ++) {
 		if (schedules[i]['year'] == date.getFullYear() && schedules[i]['month'] == date.getMonth()+1 && schedules[i]['day'] == date.getDate()) {
 			type = schedules[i]['etc'];
-			block.querySelector(".date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).style.display = "block";
+			block.querySelectorAll(".date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).forEach(query => {
+				query.style.display = "block";
+			});
 			show_no_team = 0;
-			break;
 		}
 	}
 	
