@@ -1,17 +1,21 @@
 var date = new Date();
-const block = document.querySelector(".block");
+const block = document.querySelector("#schedule_block");
 var schedules = 0;
 var type = 0;
 
-const weekday = ['월', '화', '수', '목', '금', '토', '일'];
+const weekday = ['일', '월', '화', '수', '목', '금', '토'];
 
-const prev_button = document.querySelector(".controler_left");
-const next_button = document.querySelector(".controler_right");
+const prev_button = document.querySelector(".schedule_controler.schedule_controler_left");
+const next_button =	document.querySelector(".schedule_controler.schedule_controler_right");
 
 window.addEventListener('load', async function() {
-	const response = await fetch('http://localhost:8000/get_schedules');
-	schedules = await response.json();
+	const schedule_response = await fetch('http://localhost:8000/get_schedules_Json');
+	schedules = await schedule_response.json();
 	type = schedules[schedules.length-1]['etc'];
+	
+	const ranking_response = await this.fetch('http://localhost:8000/get_champions_Json')
+	rankings = await ranking_response.json();
+	
 	
 	show_slide();
 });
@@ -19,14 +23,14 @@ window.addEventListener('load', async function() {
 function show_slide() {
 	let show_no_team = 1;
 	
-	block.querySelectorAll(".teams").forEach(query => {
+	block.querySelectorAll(".schedule_teams").forEach(query => {
 		query.style.display = "none";
 	});
 	
 	for (let i = 0; i < schedules.length; i ++) {
 		if (schedules[i]['year'] == date.getFullYear() && schedules[i]['month'] == date.getMonth()+1 && schedules[i]['day'] == date.getDate()) {
 			type = schedules[i]['etc'];
-			block.querySelectorAll(".date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).forEach(query => {
+			block.querySelectorAll(".schedule_date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).forEach(query => {
 				query.style.display = "block";
 			});
 			show_no_team = 0;
@@ -35,13 +39,13 @@ function show_slide() {
 	
 	// If there are no schedules
 	if (show_no_team) {
-		block.querySelector(".no_team").style.display = "block";
+		block.querySelector(".schedule_no_team").style.display = "block";
 		type = " - ";
 	}
 	
 	let date_str = (date.getMonth()+1) + "월 " + date.getDate() + "일 (" + weekday[date.getDay()] + ")";
-	block.querySelector(".title .date").innerHTML = date_str;
-	block.querySelector(".title .type").innerHTML = type;
+	block.querySelector("#schedule_title #schedule_date").innerHTML = date_str;
+	block.querySelector("#schedule_title #schedule_type").innerHTML = type;
 };
 
 prev_button.addEventListener("click", function() {

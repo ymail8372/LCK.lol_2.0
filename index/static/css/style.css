@@ -7,12 +7,46 @@
 
 /* champion */
 #champion {
+	margin: 0 0 30px 0;
 	width: 680px;
 	float: left;
 }
 
 #champion h2 {
+	padding: 0 20px;
 	font-size: 30px; margin-bottom: 10px;
+}
+
+#champion .champion_table {
+	border-collapse: collapse;
+	overflow: hidden;
+	border-radius: 10px;
+	margin: 0 auto;
+	width: 95%;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+}
+
+#champion .champion_table_th_tr {
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#champion tr {
+	border-top: #BDBDBD 1px solid;
+}
+
+#champion tr td:nth-child(2) {
+	border-right: #BDBDBD 1px solid;
+}
+
+#champion .champion_table_th_tr th {
+	padding: 5px 0;
+}
+
+#champion .champion_table tr td img {
+	padding: 3px 0;
+	width: 50%;
 }
 
 /* schedule */
@@ -24,10 +58,11 @@
 }
 
 #schedule h2 {
+	padding: 0 20px;
 	font-size: 30px; margin-bottom: 10px;
 }
 
-#schedule .block {
+#schedule #schedule_block {
 	margin: 0 auto;
 	width: 80%;
 	min-height: 100px;
@@ -36,55 +71,51 @@
 	box-shadow: 0px 0px 10px gray;
 }
 
-#schedule .block .title {
+#schedule #schedule_block #schedule_title {
 	background: #1C192B;
 	color: #DCDFE0;
 	border-radius: 10px 10px 0 0;
 }
 
-#schedule .block .teams {
+#schedule #schedule_block .schedule_teams {
 	display: none;
-	border: #1C192B solid 2px;
+	/*border: #1C192B solid 2px;*/
 	overflow: hidden;
 	min-height: 100px;
 	border-radius: 0 0 10px 10px;
 }
 
-#schedule .block .team img {
+#schedule #schedule_block .schedule_team img {
 	width: 60px;
 }
-#schedule .block .team1 {
+#schedule #schedule_block .schedule_team1 {
 	width: 40%;
 	float: left;
 }
-#schedule  .block .score_block {
+#schedule  #schedule_block .schedule_score_block {
 	float: left;
 	width: 20%;
 	margin-top: 20px;
 	text-align: center;
 }
 
-#schedule .block .score {
+#schedule #schedule_block .schedule_score {
 	width: 100%;
 	font-size: 24px;
 }
 
-#schedule .block .time {
+#schedule #schedule_block .schedule_time {
 	width: 100%;
 	font-size: 14px;
 	margin-top: 10px;
 }
 
-#schedule .block .none {
-	line-height: 100px;
-}
-
-#schedule .block .team2 {
+#schedule #schedule_block .schedule_team2 {
 	width: 40%;
 	float: left;
 }
 
-#schedule .controler {
+#schedule .schedule_controler {
 	width: 40px;
 	height: 40px;
 	line-height: 40px;
@@ -97,29 +128,29 @@
 	background-color: #F7F7F7;
 }
 
-#schedule .controler::after {
+#schedule .schedule_controler::after {
 	display: block;
 	border-radius: 40px;
 }
 
-#schedule .controler:hover::after {
+#schedule .schedule_controler:hover::after {
 	background-color: #1C192B;
 	color: #F7F7F7;
 }
 
-#schedule .controler_left {
+#schedule .schedule_controler_left {
 	left: 20px;
 }
 
-#schedule .controler_left::after {
+#schedule .schedule_controler_left::after {
 	content:"<";
 }
 
-#schedule .controler_right {
+#schedule .schedule_controler_right {
 	right: 20px;
 }
 
-#schedule .controler_right::after {
+#schedule .schedule_controler_right::after {
 	content:">";
 	display: block;
 }

@@ -6,69 +6,79 @@
 		<span id="league_version">대회 버전 : 12.1,</span>
 		<span id="live_version">라이브 버전 : 12.1</span>
 	</section>
-	
-	<secrion id="champion">
+
+	<section id="champion">
 		<h2>챔피언 통계</h2>
-	</secrion>
+		<table class="champion_table">
+			<tr class="champion_table_th_tr">
+				<th colspan=2>챔피언</th><th>픽</th><th>밴</th><th>밴픽률</th><th>승리</th><th>패배</th><th>승률</th>
+			</tr>
+			{% for champion in champions %}
+			<tr>
+				<td><img class="champion_img" src="{% static 'img/champions'|add:'/'|add:champion.name|add:'.png' %}"></td><td>{{champion.name}}</td><td>{{champion.pick}}</td><td>{{champion.ban}}</td><td>{{champion.banpick_rate}}%</td><td>{{champion.win}}</td><td>{{champion.lose}}</td><td>{{champion.win_rate}}%</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</section>
 	
 	<section id="schedule">
 		<h2>일정</h2>
-		<div class="block">
-			<div class="title">
-				<div class="date"></div>
-				<div class="type"></div>
+		<div id="schedule_block">
+			<div id="schedule_title">
+				<div id="schedule_date"></div>
+				<div id="schedule_type"></div>
 			</div>
 			{% for schedule in schedules %}
-			<div class="teams date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
-				<div class="team team1">
+			<div class="schedule_teams schedule_date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
+				<div class="schedule_team schedule_team1">
 					{% with year=schedule.year|stringformat:'s' %}
 						{% if "spring" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"spring"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"MSI"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 						{% elif "summer" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"summer"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
 						{% elif "선발전" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"qualifying"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'qualifying'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 						{% elif "롤드컵" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:"Worlds"|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'Worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
 						{% endif %}
 					{% endwith %}
 					
-					<span class="team_name team1_name">{{schedule.team1_name}}</span>
+					<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
 				</div>
-				<div class="score_block">
-					<div class="score">{{schedule.score}}</div>
-					<div class="time">{{schedule.time}}</div>
+				<div class="schedule_score_block">
+					<div class="schedule_score">{{schedule.team1_score}}vs{{schedule.team2_score}}</div>
+					<div class="schedule_time">{{schedule.ampm}} {{schedule.hour}}시 {{schedule.min}}분</div>
 				</div>
-				<div class="team team2">
+				<div class="schedule_team schedule_team2">
 					{% with year=schedule.year|stringformat:'s' %}
 						{% if "spring" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"spring"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"MSI"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 						{% elif "summer" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"summer"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
 						{% elif "선발전" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"qualifying"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'qualifying'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 						{% elif "롤드컵" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:"Worlds"|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'Worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
 						{% endif %}
 					{% endwith %}
 					
-					<span class="team_name team2_name">{{schedule.team2_name}}</span>
+					<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>
 				</div>
 			</div>
 			{% endfor %}
-			<div class="teams no_team">경기가 없습니다</div>
+			<div class="schedule_teams schedule_no_team">경기가 없습니다</div>
 		</div>
-		<div class="controler controler_left"></div>
-		<div class="controler controler_right"></div>
+		<div class="schedule_controler schedule_controler_left"></div>
+		<div class="schedule_controler schedule_controler_right"></div>
 	</section>
 	
 	<section id="ranking">
 		<h2>순위</h2>
-		<div id="ranking_container">
+		{% comment %}<div id="ranking_container">
 			<!-- row -->
 			<div class="ranking_group bottom">
 				A조
@@ -311,7 +321,7 @@
 			<div style="grid-row: span 11;">
 				
 			</div>
-		</div>
+		</div>{% endcomment %}
 	</section>
 	
 	<script type="text/javascript" src="/static/js/index.js"></script>
