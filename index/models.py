@@ -2,7 +2,7 @@ from django.db import models
 
 class Schedule(models.Model):
     key = models.AutoField(db_column='key', primary_key=True)
-    year = models.IntegerField(db_column='year', default=0)
+    year = models.TextField(db_column='year', default='-')
     month = models.IntegerField(db_column='month', default=0)
     day = models.IntegerField(db_column='day', default=0)
     weekday = models.TextField(db_column='weekday', default='-')

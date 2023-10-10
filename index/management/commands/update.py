@@ -13,7 +13,7 @@ class Command(BaseCommand):
     
     def update_schedule(self) :
         # Setting web driver
-        url = "https://lolesports.com/schedule?leagues=lck"
+        url = "https://lolesports.com/schedule?leagues=worlds,lck"
         
         option = webdriver.ChromeOptions()
         option.add_argument("--headless")
@@ -23,7 +23,7 @@ class Command(BaseCommand):
         
         # driver get URL 
         driver.get(url)
-        driver.execute_script("window.scrollTo(0, 0);")
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)
         
         # driver get schedule from lol wiki
@@ -76,13 +76,13 @@ class Command(BaseCommand):
                     
                 team1 = teams_tag.find("div", class_="team1")
                 team1_name = team1.find("span", class_="name").text
-                team1_name = self.convert_team_name_23_summer(team1_name)
-                team1_tricode = team1.find("span", class_="tricode")
+                team1_name = self.convert_team_name_23(team1_name)
+                team1_tricode = team1.find("span", class_="tricode").text
                 
                 team2 = teams_tag.find("div", class_="team2")
                 team2_name = team2.find("span", class_="name").text
-                team2_name = self.convert_team_name_23_summer(team2_name)
-                team2_tricode = team2.find("span", class_="tricode")
+                team2_name = self.convert_team_name_23(team2_name)
+                team2_tricode = team2.find("span", class_="tricode").text
                 
                 if teams_tag.find("div", class_="score") != None :
                     score = teams_tag.find("div", class_="score")
@@ -94,36 +94,67 @@ class Command(BaseCommand):
                 
                 date = datetime(year, month, day, hour, min)
                 
-                # etc
-                if date < datetime(2023, 6, 7) :
-                    etc = "LCK spring"
-                elif date >= datetime(2023, 6, 7) and date <= datetime(2023, 7, 7, 17, 0) :
-                    etc = "LCK summer 정규시즌 1라운드"
-                elif date > datetime(2023, 7, 7, 17, 0) and date <= datetime(2023, 8, 6, 17, 30) :
-                    etc = "LCK summer 정규시즌 2라운드"
-                else :
-                    etc = "LCK summer 플레이오프"
+                # etc, prevent updating old schedule
+                if date <= datetime(2023, 8, 27) :
+                    continue
+                else  :
+                    etc = "Worlds"
                     
                 # update or create schedule DB
                 try :
-                    schedule = Schedule.objects.get(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode.text, team2_tricode=team2_tricode.text, hour=hour, min=min, ampm=ampm, etc=etc)
+                    schedule = Schedule.objects.get(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode, team2_tricode=team2_tricode, hour=hour, min=min, ampm=ampm, etc=etc)
                         
-                    # If there is a data that is suit for the date.
-                    if schedule.team1_score != team1_score or schedule.team2_score != team2_score :
+                    # Check whether there is a data that is suit for the date.
+                    if schedule.team1_score == team1_score and schedule.team2_score == team2_score :
                         
                         # If there is a data that is suit for date and result.
                         continue
+                    
+                    # If there is a data that is suit for date but not suit for result or teams.
                     else :
+                        schedule.team1_name = team1_name
+                        schedule.team1_tricode = team1_tricode
+                        schedule.team2_name = team2_name
+                        schedule.team2_tricode = team2_tricode
                         
-                        # If there is a data that is suit for date but is not suit for result.
                         schedule.team1_score = team1_score
                         schedule.team2_score = team2_score
                         schedule.save()
-                            
+                        
                 except Schedule.DoesNotExist :
                     # If there is a no data that is suit for the date.
-                    Schedule.objects.create(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode.text, team2_tricode=team2_tricode.text, team1_score=team1_score, team2_score=team2_score, hour=hour, min=min, ampm=ampm, etc=etc)
-                
+                    try :
+                        schedule = Schedule.objects.get(year=year, month=month, day=day, weekday=weekday, team1_name="미정", team2_name="미정", team1_tricode="TBD", team2_tricode="TBD", hour=hour, min=min, ampm=ampm, etc=etc)
+                        
+                        # If there is a TBD data
+                        schedule.delete()
+                    
+                    except Schedule.DoesNotExist :
+                        pass
+                    
+                    finally :
+                        Schedule.objects.create(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode, team2_tricode=team2_tricode, team1_score=team1_score, team2_score=team2_score, hour=hour, min=min, ampm=ampm, etc=etc)
+                    
+    def convert_team_name_23(self, team) :
+        teams = {
+            "Gen.G": "젠지",
+            "T1": "T1",
+            "kt Rolster": "kt 롤스터",
+            "Dplus Kia": "디플러스 기아",
+            "Hanwha Life Esports": "한화생명e스포츠",
+            "Kwangdong Freecs": "광동 프릭스",
+            "DRX": "DRX",
+            "OKSavingsBank BRION": "OK저축은행 브리온",
+            "Liiv SANDBOX": "리브 샌드박스",
+            "NongShim REDFORCE": "농심 레드포스",
+            "TBD": "미정",
+        }
+        
+        if team in teams :
+            return teams[team]
+        else :
+            return team
+    
     def convert_champions_name(self, name) :
         try :
             names = {
@@ -335,7 +366,6 @@ class Command(BaseCommand):
             
             patch = td[1].text
             team1 = td[2].find("a").get("data-to-id")
-            team2 = td[3].find("a").get("data-to-id")
             
             winner_team = td[4].find("a").get("data-to-id")
             winner_team_no = 0
@@ -389,66 +419,49 @@ class Command(BaseCommand):
                     champion_object.pick += 1
                     champion_object.win += 1
                     champion_object.save()
-                
-    def convert_team_name_23_summer(self, team) :
-        teams = {
-            "Gen.G": "젠지",
-            "T1": "T1",
-            "kt Rolster": "kt 롤스터",
-            "Hanwha Life Esports": "한화생명e스포츠",
-            "Dplus Kia": "디플러스 기아",
-            "Liiv SANDBOX": "리브 샌드박스",
-            "Kwangdong Freecs": "광동 프릭스",
-            "OKSavingsBank BRION": "OK저축은행 브리온",
-            "DRX": "DRX",
-            "NongShim REDFORCE": "농심 레드포스",
-            "TBD": "미정"
-        }
-        
-        return teams[team]
 
-    def reset_ranking_23_summer_regular(self) :
-        teams = ["T1", "GEN", "HLE", "KDF", "LSB", "NS", "DK", "DRX", "BRO", "KT"]
+    #def reset_ranking_23_summer_regular(self) :
+    #    teams = ["T1", "GEN", "HLE", "KDF", "LSB", "NS", "DK", "DRX", "BRO", "KT"]
         
-        for team in teams :
-            team_object = Ranking_23_summer_regular.objects.get(tricode=team)
-            team_object.game_win = 0
-            team_object.game_lose = 0
-            team_object.set_win = 0
-            team_object.set_lose = 0
+    #    for team in teams :
+    #        team_object = Ranking_23_summer_regular.objects.get(tricode=team)
+    #        team_object.game_win = 0
+    #        team_object.game_lose = 0
+    #        team_object.set_win = 0
+    #        team_object.set_lose = 0
             
-            team_object.save()
+    #        team_object.save()
 
-    def update_ranking_23_summer_regular(self) :
-        self.reset_ranking_23_summer_regular()
+    #def update_ranking_23_summer_regular(self) :
+    #    self.reset_ranking_23_summer_regular()
         
-        schedule_objects = Schedule.objects.all()
-        for schedule_object in schedule_objects :
-            if ("LCK summer 정규시즌" in schedule_object.etc) and schedule_object.year == 2023:
-                team1 = Ranking_23_summer_regular.objects.get(name=schedule_object.team1_name)
-                team2 = Ranking_23_summer_regular.objects.get(name=schedule_object.team2_name)
+    #    schedule_objects = Schedule.objects.all()
+    #    for schedule_object in schedule_objects :
+    #        if ("LCK summer 정규시즌" in schedule_object.etc) and schedule_object.year == 2023:
+    #            team1 = Ranking_23_summer_regular.objects.get(name=schedule_object.team1_name)
+    #            team2 = Ranking_23_summer_regular.objects.get(name=schedule_object.team2_name)
                 
-                # when the schedule is not started yet
-                if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :
-                    continue
+    #            # when the schedule is not started yet
+    #            if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :
+    #                continue
                 
-                # update game_win, game_lose
-                if schedule_object.team1_score > schedule_object.team2_score :
-                    team1.game_win += 1
-                    team2.game_lose += 1
-                else :
-                    team1.game_lose += 1
-                    team2.game_win += 1
+    #            # update game_win, game_lose
+    #            if schedule_object.team1_score > schedule_object.team2_score :
+    #                team1.game_win += 1
+    #                team2.game_lose += 1
+    #            else :
+    #                team1.game_lose += 1
+    #                team2.game_win += 1
                 
-                # update set_win, set_lose
-                team1.set_win += schedule_object.team1_score
-                team1.set_lose += schedule_object.team2_score
-                team2.set_win += schedule_object.team2_score
-                team2.set_lose += schedule_object.team1_score
+    #            # update set_win, set_lose
+    #            team1.set_win += schedule_object.team1_score
+    #            team1.set_lose += schedule_object.team2_score
+    #            team2.set_win += schedule_object.team2_score
+    #            team2.set_lose += schedule_object.team1_score
             
-                # apply update
-                team1.save()
-                team2.save()
+    #            # apply update
+    #            team1.save()
+    #            team2.save()
 
     def handle(self, *args, **options):
         self.update_schedule()

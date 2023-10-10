@@ -1,0 +1,116 @@
+h2 {
+	padding: 0 20px;
+	font-size: 36px; margin: 30px 0;
+}
+
+#schedule_block {
+	width: 98%;
+	margin: 50px auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#schedule_block #months {
+	display: flex;
+	/*background: #1C192B;
+	color: #DCDFE0;*/
+}
+
+#schedule_block #months .month {
+	flex: 1;
+	font-size: 20px;
+	padding: 10px;
+	position: relative;
+}
+
+#schedule_block #months .month::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	bottom: 5px;
+	left: 0;
+	border-bottom: 2px solid #1C192B;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+#schedule_block #months .month:hover::after {
+	opacity: 1;
+}
+
+#schedule_block #teams {
+	display: flex;
+}
+
+#schedule_block #teams .team {
+	flex: 1;
+}
+
+#schedule_block #teams .team img {
+	width: 50px;
+	padding: 5px;
+}
+
+#schedule_block #schedules {
+	display: flex;
+	flex-direction: column;
+}
+
+#schedule_block #schedules .schedule {
+	display: flex;
+	padding: 5px 0;
+	align-items: center;
+}
+
+#schedule_block #schedules .schedule .date {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-basis: 100px;
+}
+
+
+#schedule_block #schedules .schedule .team {
+	display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+	overflow: hidden;
+	align-items: center;
+	flex-basis: 300px;
+}
+
+#schedule_block #schedules .schedule .team1 {
+	justify-content: flex-end;
+}
+
+#schedule_block #schedules .schedule .team .team_name {
+	width: 250px;
+}
+
+#schedule_block #schedules .schedule .team img {
+	width: 50px;
+}
+
+#schedule_block #schedules .schedule .result {
+	display: flex;
+	flex-basis: 100px;
+	justify-content: center;
+}
+
+#schedule_block #schedules .schedule .time {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-basis: 150px;
+}
+
+#schedule_block #schedules .schedule .etc {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-basis: 200px;
+}
+
+

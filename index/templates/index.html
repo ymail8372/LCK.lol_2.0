@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<title>LCK.lol - LCK의 모든 것</title>
 	{% load static %}
+	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 	<section id="version">
-		<span id="league_version">대회 버전 : 12.1,</span>
+		<span id="league_version">대회 버전 : 12.1 /</span>
 		<span id="live_version">라이브 버전 : 12.1</span>
 	</section>
 
@@ -29,48 +31,44 @@
 				<div id="schedule_type"></div>
 			</div>
 			{% for schedule in schedules %}
-			<div class="schedule_teams schedule_date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
+			<div class="schedule_match schedule_date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
 				<div class="schedule_team schedule_team1">
-					{% with year=schedule.year|stringformat:'s' %}
-						{% if "spring" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-						{% elif "summer" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-						{% elif "선발전" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'qualifying'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-						{% elif "롤드컵" in schedule.etc %}
-							<img class="team_img team1_img" src="{% static 'img/'|add:year|add:'Worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-						{% endif %}
-					{% endwith %}
+					{% if "spring" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% elif "MSI" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% elif "summer" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+					{% elif "선발전" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'qualifying'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% elif "롤드컵" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+					{% endif %}
 					
 					<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
 				</div>
 				<div class="schedule_score_block">
-					<div class="schedule_score">{{schedule.team1_score}}vs{{schedule.team2_score}}</div>
-					<div class="schedule_time">{{schedule.ampm}} {{schedule.hour}}시 {{schedule.min}}분</div>
+					<div class="schedule_score">{{schedule.team1_score}} : {{schedule.team2_score}}</div>
+					<div class="schedule_time">{{schedule.ampm}}<br>{{schedule.hour}}시 {{schedule.min}}분</div>
 				</div>
 				<div class="schedule_team schedule_team2">
-					{% with year=schedule.year|stringformat:'s' %}
-						{% if "spring" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-						{% elif "MSI" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-						{% elif "summer" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-						{% elif "선발전" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'qualifying'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-						{% elif "롤드컵" in schedule.etc %}
-							<img class="team_img team2_img" src="{% static 'img/'|add:year|add:'Worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-						{% endif %}
-					{% endwith %}
+					{% if "spring" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% elif "MSI" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% elif "summer" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% elif "선발전" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'qualifying'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% elif "롤드컵" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% endif %}
 					
 					<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>
 				</div>
 			</div>
 			{% endfor %}
-			<div class="schedule_teams schedule_no_team">경기가 없습니다</div>
+			<div class="schedule_match schedule_no_team">경기가 없습니다</div>
 		</div>
 		<div class="schedule_controler schedule_controler_left"></div>
 		<div class="schedule_controler schedule_controler_right"></div>
@@ -78,251 +76,7 @@
 	
 	<section id="ranking">
 		<h2>순위</h2>
-		{% comment %}<div id="ranking_container">
-			<!-- row -->
-			<div class="ranking_group bottom">
-				A조
-			</div>
-			<div class="ranking_group">
-				B조
-			</div>
-			<!-- row -->
-			<div class="ranking_match">
-				<div></div>
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div class="bottom" style="grid-row: span 2;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			
-			<!-- row -->
-			<div class="bottom" style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 7;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 7;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-	
-			<!-- row -->
-			<div class="bottom" style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 7; border-color: #FF3636;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 7; border-color: #FF3636;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>	
-			
-			<!-- row -->
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div class="bottom" style="grid-row: span 2;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-		
-			<!-- row -->
-			<div style="grid-row: span 1;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 1;">
-				
-			</div>
-			<div class="right" style="grid-row: span 3; border-color: #FF3636;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 1;">
-				
-			</div>
-			<div class="right" style="grid-row: span 3; border-color: #FF3636;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 2;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			
-			<!-- row -->
-			<div style="grid-row: span 1;">
-				
-			</div>
-			<div class="top" style="grid-row: span 1;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 3; border-color: #FF3636;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="top" style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 4;">
-				
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-			<div class="top" style="grid-row: span 1;">
-				
-			</div>
-			<div class="bottom" style="grid-row: span 3; border-color: #FF3636;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="top" style="grid-row: span 2;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			
-			<!-- row -->
-			<div class="ranking_match" style="grid-row: span 2;">
-				winner
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div class="bottom" style="grid-row: span 5;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="ranking_match" style="grid-row: span 2;">
-				winner
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div style="grid-row: span 3;">
-				
-			</div>
-		
-			<!-- row -->
-			<div class="bottom" style="grid-row: span 6;">
-				
-			</div>
-			<div class="right" style="grid-row: span 6;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="bottom-right" style="grid-row: span 7;">
-				
-			</div>
-			<div style="grid-row: span 5;">
-				
-			</div>
-		
-			<!-- row -->
-			<div class="bottom" style="grid-row: span 12;">
-				
-			</div>
-			<div style="grid-row: span 2;">
-				
-			</div>
-			<div class="top" style="grid-row: span 12;">
-				
-			</div>
-			
-			<!-- row -->
-			<div style="grid-row: span 11;">
-				
-			</div>
-			<div class="ranking_match">
-				team1 vs team2
-			</div>
-			<div style="grid-row: span 11;">
-				
-			</div>
-		</div>{% endcomment %}
 	</section>
 	
-	<script type="text/javascript" src="/static/js/index.js"></script>
+	<script type="text/javascript" src="static/js/index.js"></script>
 {% endblock content %}

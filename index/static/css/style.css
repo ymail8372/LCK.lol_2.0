@@ -2,13 +2,13 @@
 
 /* version */
 #version {
-	margin: 20px 0 30px 0; text-align: right;
+	margin: 30px 0 30px 0; text-align: right;
 }
 
 /* champion */
 #champion {
 	margin: 0 0 30px 0;
-	width: 680px;
+	width: 920px;
 	float: left;
 }
 
@@ -45,6 +45,7 @@
 }
 
 #champion .champion_table tr td img {
+	vertical-align: middle;
 	padding: 3px 0;
 	width: 50%;
 }
@@ -54,7 +55,7 @@
 	position: relative;
 	margin: 0 0 30px 0;
 	float: left;
-	width: 400px;
+	width: 420px;
 }
 
 #schedule h2 {
@@ -64,7 +65,7 @@
 
 #schedule #schedule_block {
 	margin: 0 auto;
-	width: 80%;
+	width: 90%;
 	min-height: 100px;
 	text-align: center;
 	border-radius: 10px;
@@ -75,19 +76,22 @@
 	background: #1C192B;
 	color: #DCDFE0;
 	border-radius: 10px 10px 0 0;
+	padding: 5px 0;
 }
 
-#schedule #schedule_block .schedule_teams {
+#schedule #schedule_block .schedule_match {
 	display: none;
-	/*border: #1C192B solid 2px;*/
-	overflow: hidden;
+	justify-content: center;
+	align-items: center;
 	min-height: 100px;
 	border-radius: 0 0 10px 10px;
+	border-top: #BDBDBD 1px solid;
 }
 
 #schedule #schedule_block .schedule_team img {
-	width: 60px;
+	width: 40px;
 }
+
 #schedule #schedule_block .schedule_team1 {
 	width: 40%;
 	float: left;
@@ -95,13 +99,13 @@
 #schedule  #schedule_block .schedule_score_block {
 	float: left;
 	width: 20%;
-	margin-top: 20px;
+	margin-top: 10px;
 	text-align: center;
 }
 
 #schedule #schedule_block .schedule_score {
 	width: 100%;
-	font-size: 24px;
+	font-size: 20px;
 }
 
 #schedule #schedule_block .schedule_time {
@@ -116,10 +120,10 @@
 }
 
 #schedule .schedule_controler {
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	border-radius: 40px;
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 35px;
 	border: 2px solid #1C192B;
 	position: absolute;
 	text-align: center;
@@ -139,7 +143,7 @@
 }
 
 #schedule .schedule_controler_left {
-	left: 20px;
+	left: 5px;
 }
 
 #schedule .schedule_controler_left::after {
@@ -147,7 +151,7 @@
 }
 
 #schedule .schedule_controler_right {
-	right: 20px;
+	right: 5px;
 }
 
 #schedule .schedule_controler_right::after {

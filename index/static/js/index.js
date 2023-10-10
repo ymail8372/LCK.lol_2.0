@@ -23,7 +23,7 @@ window.addEventListener('load', async function() {
 function show_slide() {
 	let show_no_team = 1;
 	
-	block.querySelectorAll(".schedule_teams").forEach(query => {
+	block.querySelectorAll(".schedule_match").forEach(query => {
 		query.style.display = "none";
 	});
 	
@@ -31,7 +31,7 @@ function show_slide() {
 		if (schedules[i]['year'] == date.getFullYear() && schedules[i]['month'] == date.getMonth()+1 && schedules[i]['day'] == date.getDate()) {
 			type = schedules[i]['etc'];
 			block.querySelectorAll(".schedule_date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).forEach(query => {
-				query.style.display = "block";
+				query.style.display = "flex";
 			});
 			show_no_team = 0;
 		}
@@ -39,7 +39,7 @@ function show_slide() {
 	
 	// If there are no schedules
 	if (show_no_team) {
-		block.querySelector(".schedule_no_team").style.display = "block";
+		block.querySelector(".schedule_no_team").style.display = "flex";
 		type = " - ";
 	}
 	

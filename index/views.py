@@ -14,6 +14,7 @@ def get_champions_Json(request) :
     
     return JsonResponse(champion_values, safe=False)
 
+# get champions for patch == all
 def get_champions() :
     champions = []
     
@@ -81,15 +82,31 @@ def get_champions() :
     return champions
 
 def index(request) :
-    # champion
+    # champions
     champions = get_champions()
     champions_all = []
     
-    for i in range(len(champions)) :
-        if champions[i]["patch"] == "all" :
-            champions_all.append(champions[i])
+    # champions (patch == all)
+    for champion in champions :
+        if champion["patch"] == "all" :
+            champions_all.append(champion)
     
-    # schedule
+    # schedules
     schedules = Schedule.objects.all()
     
     return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5]})
+
+def schedule(request) :
+    # schedules
+    schedules = Schedule.objects.all()
+    
+    # schedules (year == 2023)
+    schedules_2023 = []
+    for schedule in schedules :
+        if schedule.year == '2023' :
+            schedules_2023.append(schedule)
+    
+    # teams
+    teams_2023 = ['BRO', 'DK', 'DRX', 'GEN', 'HLE', 'KDF', 'KT', 'LSB', 'NS', 'T1']
+    
+    return render(request, 'schedule.html', {"schedules": schedules_2023, "teams": teams_2023})
