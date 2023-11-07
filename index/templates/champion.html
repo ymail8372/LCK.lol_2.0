@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="static/champion/css/style.css">
+	<title>LCK.lol - 챔피언 통계</title>
+{% endblock %}
+
+{% block content %}
+	{% load static %}
+	<h2>챔피언 통계</h2>
+	<div id="champion_menu">
+		<div id="league_selection">
+			<a class="league LCK_spring"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK spring</a>
+			<a class="league MSI"><img src="{% static 'img/league_logo/MSI.png' %}">MSI</a>
+			<a class="league LCK_summer"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK summer</a>
+			<a class="league Worlds"><img src="{% static 'img/league_logo/Worlds.png' %}">Worlds</a>
+		</div>
+		
+		<div class="patch_selection LCK_spring">
+			<a class="patch all_patch" href="/champion?league=LCK_spring&patch=all">모든 버전</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=13.1">13.1</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=13.3">13.3</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=13.4">13.4</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=13.5">13.5</a>
+		</div>
+		<div class="patch_selection MSI">
+			<a class="patch" href="/champion?league=MSI&patch=13.8">13.8</a>
+		</div>
+		<div class="patch_selection LCK_summer">
+			<a class="patch all_patch" href="/champion?league=LCK_summer&patch=all">모든 버전</a>
+			<a class="patch" href="/champion?league=LCK_summer&patch=13.10">13.10</a>
+			<a class="patch" href="/champion?league=LCK_summer&patch=13.11">13.11</a>
+			<a class="patch" href="/champion?league=LCK_summer&patch=13.12">13.12</a>
+			<a class="patch" href="/champion?league=LCK_summer&patch=13.13">13.13</a>
+			<a class="patch" href="/champion?league=LCK_summer&patch=13.14">13.14</a>
+		</div>
+		<div class="patch_selection Worlds">
+			<a class="patch" href="/champion?league=Worlds&patch=13.19">13.19</a>
+		</div>
+	</div>
+	
+	<div id="champions">
+		<div class="champion_menu">
+			<div class="name_block_menu">챔피언 이름</div>
+			<div class="pick_menu">픽</div>
+			<div class="ban_menu">밴</div>
+			<div class="banpick_rate_menu">밴픽률</div>
+			<div class="win_menu">승리</div>
+			<div class="lose_menu">패배</div>
+			<div class="win_rate_menu">승률</div>
+			<div class="patch_menu">패치 버전</div>
+		</div>
+		{% for champion in champions %}
+		<div class="champion patch_{{champion.patch}}">
+			<div class="name_block"><img src="{% static 'img/champions/'|add:champion.name|add:'.png' %}"><div class="name">{{champion.name}}</div></div>
+			<div class="pick">{{champion.pick}}</div>
+			<div class="ban">{{champion.ban}}</div>
+			<div class="banpick_rate">{{champion.banpick_rate}}%</div>
+			<div class="win">{{champion.win}}</div>
+			<div class="lose">{{champion.lose}}</div>
+			<div class="win_rate">{{champion.win_rate}}%</div>
+			<div class="patch">{{champion.patch}}</div>
+		</div>
+		{% endfor %}
+	</div>
+	
+	<script type="text/javascript" src="static/champion/js/champion.js"></script>
+{% endblock %}

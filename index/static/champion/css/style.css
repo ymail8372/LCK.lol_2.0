@@ -1,0 +1,156 @@
+h2 {
+	padding: 0 20px;
+	font-size: 36px; margin: 30px 0;
+}
+
+#champion_menu {
+	width: 98%;
+	margin: 50px auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#champion_menu #league_selection {
+	display: flex;
+	border-bottom: #BDBDBD 1px solid;
+	align-items: center;
+	justify-content: center;
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#champion_menu #league_selection .league {
+	flex-basis: 250px;
+	font-size: 20px;
+	padding: 10px 20px;
+	position: relative;
+	cursor: pointer;
+	color: #DCDFE0;
+}
+
+#champion_menu #league_selection .league::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	border-bottom: 2px solid #1C192B;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+#champion_menu #league_selection .league:hover::after {
+	opacity: 1;
+}
+
+#champion_menu #league_selection .league img {
+	display: block;
+	margin: 0 auto 5px;
+	height: 50px;
+	opacity: 0.2;
+}
+
+#champion_menu #league_selection .league img:hover {
+	opacity: 1;
+	transition: opacity 0.3s;
+}
+
+#champion_menu .patch_selection {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	border-bottom: #BDBDBD 1px solid;
+}
+
+#champion_menu .patch_selection .patch {
+	position: relative;
+	flex-basis: 100px;
+	border: 0;
+	font-size: 18px;
+	padding: 5px 10px;
+	background: none;
+	cursor: pointer;
+}
+
+#champion_menu .patch_selection .patch::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	border-bottom: 2px solid #1C192B;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+#champion_menu .patch_selection .patch:hover::after {
+	opacity: 1;
+}
+
+#champion_menu .patch_selection .selected_patch::after {
+	opacity: 1;
+}
+
+#champions {
+	width: 98%;
+	margin: 50px auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#champions .champion_menu {
+	display: flex;
+	background: #1C192B;
+	color: #DCDFE0;
+	height: 35px;
+}
+
+#champions .champion_menu div {
+	flex: 1;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: #BDBDBD 1px solid;
+}
+
+#champions .champion_menu .name_block_menu {
+	flex: 0;
+	flex-basis: 256px;
+}
+
+#champions .champion {
+	display: flex;
+	height: 40px;
+}
+
+#champions .champion div {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: #BDBDBD 1px solid;
+	height: 100%;
+}
+
+#champions .champion div:last-child {
+	border-right: 0;
+}
+
+#champions .champion .name_block {
+	flex: 0;
+	flex-basis: 256px;
+}
+
+#champions .champion .name_block img {
+	width: 30px;
+	padding: 5px 5px 5px 20px;
+}
+
+#champions .champion .name_block .name {
+	width: 180px;
+}

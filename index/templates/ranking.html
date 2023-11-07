@@ -1,0 +1,63 @@
+
+
+{% extends "base.html" %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="static/ranking/css/style.css">
+	<title>LCK.lol - 순위</title>
+{% endblock %}
+
+{% block content %}
+	{% load static %}
+	<h2>순위</h2>
+		<div id="ranking_blocks">
+			<div class="ranking_block ranking_block1">
+				<div class="title">순위</div>
+				{% for ranking in ranking_list %}
+				<div class="ranking">{{ranking.ranking}}</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block2">
+				<div colspan="2" class="title">팀</div>
+				{% for ranking in ranking_list %}
+				<div class="team">
+					<div class="team_img"><img src="{% static 'img/teams/2023summer/'|add:ranking.tricode|add:'.webp' %}"></div>
+					<div class="team_name">{{ranking.team}}</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block3">
+				<div class="title">승리</div>
+				{% for ranking in ranking_list %}
+				<div class="game_win">{{ranking.game_win}}</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block3">
+				<div class="title">패배</div>
+				{% for ranking in ranking_list %}
+				<div class="game_lose">{{ranking.game_lose}}</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block3">
+				<div class="title">세트 득실</div>
+				{% for ranking in ranking_list %}
+				<div class="set_win_lose">{{ranking.set_win}}</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block3">
+				<div class="title">득실차</div>
+				{% for ranking in ranking_list %}
+				<div class="set_diff">{{ranking.set_lose}}</div>
+				{% endfor %}
+			</div>
+			<div class="ranking_block ranking_block3">
+				<div class="title">기타</div>
+				{% for ranking in ranking_list %}
+				<div class="etc">{{ranking.etc}}</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="static/ranking/js/ranking.js"></script>
+{% endblock %}

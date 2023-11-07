@@ -22,9 +22,16 @@ body {
 table {
 	margin: 0 auto;
 	table-layout: fixed;
+	border-collapse: collapse;
+	overflow: hidden;
+	border-radius: 10px;
+	width: 95%;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
 }
 
 th, td {
+	padding: 5px;
 	text-align: center;
 }
 

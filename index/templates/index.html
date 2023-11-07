@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
+{% block head %}
+	<title>LCK.lol - LCK의 모든 것</title>
+{% endblock head %}
+
 {% block content %}
-<title>LCK.lol - LCK의 모든 것</title>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="static/css/style.css">
 	<section id="version">
@@ -37,12 +40,10 @@
 						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 					{% elif "MSI" in schedule.etc %}
 						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.etc %}
+					{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
 						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-					{% elif "선발전" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'qualifying'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "롤드컵" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+					{% elif "Worlds" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
 					{% endif %}
 					
 					<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
@@ -56,12 +57,10 @@
 						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 					{% elif "MSI" in schedule.etc %}
 						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-					{% elif "선발전" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'qualifying'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "롤드컵" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% elif "Worlds" in schedule.etc %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
 					{% endif %}
 					
 					<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>
