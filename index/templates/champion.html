@@ -17,7 +17,7 @@
 		</div>
 		
 		<div class="patch_selection LCK_spring">
-			<a class="patch all_patch" href="/champion?league=LCK_spring&patch=all">모든 버전</a>
+			<a class="patch all" href="/champion?league=LCK_spring&patch=all">모든 버전</a>
 			<a class="patch" href="/champion?league=LCK_spring&patch=13.1">13.1</a>
 			<a class="patch" href="/champion?league=LCK_spring&patch=13.3">13.3</a>
 			<a class="patch" href="/champion?league=LCK_spring&patch=13.4">13.4</a>
@@ -27,7 +27,7 @@
 			<a class="patch" href="/champion?league=MSI&patch=13.8">13.8</a>
 		</div>
 		<div class="patch_selection LCK_summer">
-			<a class="patch all_patch" href="/champion?league=LCK_summer&patch=all">모든 버전</a>
+			<a class="patch all" href="/champion?league=LCK_summer&patch=all">모든 버전</a>
 			<a class="patch" href="/champion?league=LCK_summer&patch=13.10">13.10</a>
 			<a class="patch" href="/champion?league=LCK_summer&patch=13.11">13.11</a>
 			<a class="patch" href="/champion?league=LCK_summer&patch=13.12">13.12</a>
@@ -50,18 +50,9 @@
 			<div class="win_rate_menu">승률</div>
 			<div class="patch_menu">패치 버전</div>
 		</div>
-		{% for champion in champions %}
-		<div class="champion patch_{{champion.patch}}">
-			<div class="name_block"><img src="{% static 'img/champions/'|add:champion.name|add:'.png' %}"><div class="name">{{champion.name}}</div></div>
-			<div class="pick">{{champion.pick}}</div>
-			<div class="ban">{{champion.ban}}</div>
-			<div class="banpick_rate">{{champion.banpick_rate}}%</div>
-			<div class="win">{{champion.win}}</div>
-			<div class="lose">{{champion.lose}}</div>
-			<div class="win_rate">{{champion.win_rate}}%</div>
-			<div class="patch">{{champion.patch}}</div>
+		<div class="champion_table">
+			
 		</div>
-		{% endfor %}
 	</div>
 	
 	<script type="text/javascript" src="static/champion/js/champion.js"></script>

@@ -1,81 +1,129 @@
 from django.shortcuts import render
-from .models import Schedule
-from .models import Champion_23_summer
-from .models import Ranking_23_summer_regular
+
+from index import models
+from index.models import Schedule
+from index.models import Ranking_23_summer_regular
 from django.http import HttpResponse
 
-# get champions for patch == all
-def get_champions(league, patch) :
+def champion_table(request) :
+	league = request.GET.get('league', '')
+	patch = request.GET.get('patch', '')
+	sort = request.GET.get('sort', '')
+
+	champions = get_champions(league, patch, sort)
+	
+	if champions == "no_model" :
+		return HttpResponse("<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_summer&patch=13.14\";</script>")
+	
+	return render(request, "champion_table.html", {"champions": champions})
+
+def get_champions(league, patch,  sort='') :
 	champions = []
 	
-	if league == "LCK_spring" :
-		pass
-	elif league == "MSI" :
-		pass
-	elif league == "LCK_summer" :
-		pass
-	else :
-		pass
+	champion_model = getattr(models, f"Champion_23_{league}", "no_model")
 	
-	champion_objects = Champion_23_summer.objects.all()
-	for champion_object in champion_objects :
-		new_champion = {}
-		new_champion['name'] = champion_object.name
-		new_champion['pick'] = champion_object.pick
-		new_champion['ban'] = champion_object.ban
-		new_champion['win'] = champion_object.win
-		new_champion['lose'] = champion_object.lose
-		new_champion['patch'] = champion_object.patch
+	if champion_model == "no_model" :
+		#print("no_model_league")
+		return "no_model"
+	
+	# patch != all
+	if patch != "all" :
+		champion_objects = champion_model.objects.filter(patch = patch)
+		if len(champion_objects) == 0 :
+			#print("no_model_patch")
+			return "no_model"
 		
-		champions.append(new_champion)
-	
-	# all patch champions
-	champions_all_patch = []
-	
-	for champion in champions :
-		champion_already_in_champion_all = 0
-		# check whether the champion is in already in champions_all
-		for champion_all in champions_all_patch :
-			if champion_all['name'] == champion['name'] :
-				champion_already_in_champion_all = 1
-				
-				champion_all['pick'] += champion['pick']
-				champion_all['ban'] += champion['ban']
-				champion_all['win'] += champion['win']
-				champion_all['lose'] += champion['lose']
-				break
+		for champion_object in champion_objects :
+			new_champion = {}
+			new_champion['name'] = champion_object.name
+			new_champion['pick'] = champion_object.pick
+			new_champion['ban'] = champion_object.ban
+			new_champion['win'] = champion_object.win
+			new_champion['lose'] = champion_object.lose
+			new_champion['patch'] = champion_object.patch
 			
-		if champion_already_in_champion_all == 0 :
-			champions_all_patch.append({"name": champion["name"], "pick": champion["pick"], "ban": champion["ban"], "win": champion["win"], "lose": champion["lose"], "patch": "all"})
+			champions.append(new_champion)
+		
+	# patch == all
+	else :
+		champion_objects = champion_model.objects.all()
+		if len(champion_objects) == 0 :
+			print("no_model_patch")
+			return "no_model"
+		
+		for champion_object in champion_objects :
+			champion_already_in_champion_all = 0
+			# check whether the champion is in already in champions_all
+			for champion_all in champions :
+				if champion_all['name'] == champion_object.name :
+					champion_already_in_champion_all = 1
+					
+					champion_all['pick'] += champion_object.pick
+					champion_all['ban'] += champion_object.ban
+					champion_all['win'] += champion_object.win
+					champion_all['lose'] += champion_object.lose
+					break
+				
+			if champion_already_in_champion_all == 0 :
+				champions.append({"name": champion_object.name, "pick": champion_object.pick, "ban": champion_object.ban, "win": champion_object.win, "lose": champion_object.lose, "patch": "all"})
 	
-	champions.extend(champions_all_patch)
-	
+	# calculate banpick_rate, win_rate
 	total_game = 0
-	for champion_all_patch in champions_all_patch :
-		total_game += champion_all_patch['pick']
+	for champion in champions :
+		total_game += champion['pick']
 	total_game = total_game / 10
 	
 	for champion in champions :
 		if total_game != 0 :
 			champion["banpick_rate"] = round((champion["pick"] + champion["ban"]) / total_game * 100, 1)
 		else :
-			champion["banpick_rate"] = 0
+			champion["banpick_rate"] = 0.0
 		
 		if champion["pick"] != 0 :
 			champion["win_rate"] = round(champion["win"] / champion["pick"] * 100, 1)
 		else :
-			champion["win_rate"] = 0
-		
-	champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
+			champion["win_rate"] = 0.0
 	
-	#for champion in champions :
-	#	print(champion['name'], champion['pick'])
+	if sort == "" :
+		print("banpick_rate")
+		champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
+	elif "pick_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["pick"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["pick"])
+	elif "ban_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["ban"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["ban"])
+	elif "banpick_rate_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["banpick_rate"])
+	elif "win_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["win"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["win"])
+	elif "lose_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["lose"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["lose"])
+	elif "win_rate_menu" in sort :
+		if "descending" in sort :
+			champions = sorted(champions, key=lambda x: x["win_rate"], reverse=True)
+		else :
+			champions = sorted(champions, key=lambda x: x["win_rate"])
+	
 	
 	return champions
 
 def index(request) :
 	# champions
-	champions = get_champions()
+	champions = get_champions('LCK_summer', 'all')
 	champions_all = []
 	
 	# champions (patch == all)
@@ -136,12 +184,9 @@ def ranking(request) :
 	return render(request, 'ranking.html', {"ranking_list": ranking_list})
 
 def champion(request) :
-	league = request.GET.get('league')
-	patch = request.GET.get('patch')
 	
-	if (league != "LCK_spring" and league != "MSI" and league != "LCK_summer" and league != "Worlds") :
-		return HttpResponse("<script>alert(\"Error!\"); window.history.back();</script>")
+	return render(request, "champion.html")
+
+def history(request) :
 	
-	champions = get_champions(league, patch)
-	
-	return render(request, "champion.html", {"champions": champions})
+	return render(request, "history.html")

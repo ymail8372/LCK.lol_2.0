@@ -46,7 +46,7 @@ class Ranking_23_summer_regular(models.Model):
     class Meta:
         db_table = "ranking_23_summer_regular"
         
-class Champion_23_summer(models.Model) :
+class Champion_23_LCK_summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -56,4 +56,4 @@ class Champion_23_summer(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_23_summer"
+        db_table = "champion_23_LCK_summer"

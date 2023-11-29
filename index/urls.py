@@ -8,4 +8,6 @@ urlpatterns = [
 	path('schedule', views.schedule),
 	path('ranking', views.ranking),
 	path('champion', views.champion),
+	path('champion_table', views.champion_table),
+	path('history', views.history),
 ]

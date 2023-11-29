@@ -30,19 +30,9 @@ h2 {
 	color: #DCDFE0;
 }
 
-#champion_menu #league_selection .league::after {
-	content: "";
-	position: absolute;
-	width: 100%;
-	bottom: 0;
-	left: 0;
-	border-bottom: 2px solid #1C192B;
-	opacity: 0;
-	transition: opacity 0.3s;
-}
-
-#champion_menu #league_selection .league:hover::after {
+#champion_menu #league_selection .league:hover img {
 	opacity: 1;
+	transition: opacity 0.3s;
 }
 
 #champion_menu #league_selection .league img {
@@ -50,11 +40,6 @@ h2 {
 	margin: 0 auto 5px;
 	height: 50px;
 	opacity: 0.2;
-}
-
-#champion_menu #league_selection .league img:hover {
-	opacity: 1;
-	transition: opacity 0.3s;
 }
 
 #champion_menu .patch_selection {
@@ -110,12 +95,21 @@ h2 {
 }
 
 #champions .champion_menu div {
+	position: relative;
 	flex: 1;
 	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-right: #BDBDBD 1px solid;
+}
+
+#champions .champion_menu .ascending {
+	background: #5882FA;
+}
+
+#champions .champion_menu .descending {
+	background: #FA5858;
 }
 
 #champions .champion_menu .name_block_menu {
@@ -123,12 +117,12 @@ h2 {
 	flex-basis: 256px;
 }
 
-#champions .champion {
+#champions .champion_table .champion {
 	display: flex;
 	height: 40px;
 }
 
-#champions .champion div {
+#champions .champion_table .champion div {
 	flex: 1;
 	display: flex;
 	justify-content: center;
@@ -137,20 +131,20 @@ h2 {
 	height: 100%;
 }
 
-#champions .champion div:last-child {
+#champions .champion_table .champion div:last-child {
 	border-right: 0;
 }
 
-#champions .champion .name_block {
+#champions .champion_table .champion .name_block {
 	flex: 0;
 	flex-basis: 256px;
 }
 
-#champions .champion .name_block img {
+#champions .champion_table .champion .name_block img {
 	width: 30px;
 	padding: 5px 5px 5px 20px;
 }
 
-#champions .champion .name_block .name {
+#champions .champion_table .champion .name_block .name {
 	width: 180px;
 }
