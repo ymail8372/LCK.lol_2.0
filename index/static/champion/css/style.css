@@ -18,14 +18,13 @@ h2 {
 	align-items: center;
 	justify-content: center;
 	background: #1C192B;
-	color: #DCDFE0;
 }
 
 #champion_menu #league_selection .league {
 	flex-basis: 250px;
 	font-size: 20px;
 	padding: 10px 20px;
-	position: relative;
+	/*position: relative;*/
 	cursor: pointer;
 	color: #DCDFE0;
 }

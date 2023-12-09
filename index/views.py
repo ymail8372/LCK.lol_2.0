@@ -188,5 +188,7 @@ def champion(request) :
 	return render(request, "champion.html")
 
 def history(request) :
+	year = request.GET.get("year", "")
+	league = request.GET.get("league", "")
 	
-	return render(request, "history.html")
+	return render(request, f"history_contents/{league}/{year}.html")

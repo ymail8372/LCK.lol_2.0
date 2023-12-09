@@ -1,0 +1,228 @@
+/* reference */
+.reference {
+	display: flex;
+	justify-content: flex-end;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+.reference .reference_element {
+	margin: 0 0 0 5px;
+}
+
+.reference .reference_element .reference_letter {
+	border-right: 1px solid #bbb;
+}
+
+.reference .reference_element:last-child .reference_letter {
+	border-right: 0;
+}
+
+.reference .reference_element .reference_color {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+}
+
+
+/* result_table */
+#result {
+	margin: 0 auto 50px;
+}
+
+#result #result_table {
+	margin: 0 auto;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+/* winner_team */
+#result #result_table #winner_team #winner_team_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	padding: 5px;
+}
+
+#result #result_table #winner_team #winner_team_content img {
+	width: 100px;
+}
+
+#result #result_table #winner_team #winner_team_content #winner_star {
+	color: #FFE400;
+}
+
+/* winner_coach */
+#result #result_table #winner_coach .coach {
+	overflow: hidden;
+}
+
+#result #result_table #winner_coach .coach .coach_index {
+	float: left;
+	background: #1C192B;
+	color: #DCDFE0;
+	width: 200px;
+	padding: 10px;
+}
+
+#result #result_table #winner_coach .coach .coach_name {
+	float: left;
+	padding: 10px;
+}
+
+/* winner_player */
+#result #result_table #winner_player {
+	display: flex;
+}
+
+#result #result_table #winner_player .winner_player {
+	flex: 1;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 0 0 10px 0;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_index img {
+	height: 30px;
+	padding: 10px 0;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_name {
+	padding: 5px;
+}
+
+/* award player */
+#result #result_table #award_player {
+	display: flex;
+}
+
+#result #result_table #award_player .award_player {
+	flex: 1;
+}
+
+#result #result_table #award_player .award_player .awrd_player_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#result #result_table #award_player .award_player .awrd_player_name {
+	padding: 5px;
+}
+
+
+/* regular_season */
+#regular_season {
+	margin: 0 auto 50px;
+}
+
+#regular_season #regular_season_table {
+	margin: 0 auto 20px;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#regular_season #regular_season_table th {
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#regular_season #regular_season_table tr td img {
+	height: 40px;
+}
+
+/* post_season */
+#post_season {
+}
+
+#post_season #post_season_table {
+	display: flex;
+	width: 98%;
+	margin: 0 auto 50px;
+}
+
+#post_season #post_season_table .post_season_block {
+	flex: 1;
+	margin: 0 auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#post_season #post_season_table .post_season_block .post_season_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team {
+	display: flex;
+}
+
+#post_season #post_season_table .post_season_block .win {
+	border-left: #489CFF 5px solid;
+}
+
+#post_season #post_season_table .post_season_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team div {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team img {
+	width: 50px;
+}
+
+#post_season #post_season_table .post_season_arrow {
+	display: flex;
+	flex-basis: 50px;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* POG */
+#POG {
+	margin: 0 auto 50px;
+}
+
+#POG #POG_table {
+	margin: 0 auto 20px;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#POG #POG_table th {
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#POG #POG_table tr td .POG_team_img {
+	height: 40px;
+}
+
+#POG #POG_table tr td .POG_position_img {
+	height: 30px;
+}
