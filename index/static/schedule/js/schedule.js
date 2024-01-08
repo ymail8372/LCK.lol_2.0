@@ -100,7 +100,7 @@ team_buttons.forEach(function(button) {
 			team_buttons.forEach(function(button) {
 				let button_img = button.querySelector("img");
 				if (button_img.style.opacity == 1) {
-					button_img.style.opacity = 0.2;
+					button_img.style.opacity = 0.4;
 				}
 			});
 			all_buttons.forEach(function(all_button) {
@@ -109,7 +109,7 @@ team_buttons.forEach(function(button) {
 		}
 		else {
 			if (button_img.style.opacity == 1) {
-				button_img.style.opacity = 0.2;
+				button_img.style.opacity = 0.4;
 				selected_teams = selected_teams.filter(team => team !== selected_team);
 			}
 			else {
@@ -126,7 +126,7 @@ team_buttons.forEach(function(button) {
 			}
 			else {
 				all_buttons.forEach(function(all_button) {
-					all_button.style.opacity = 0.2;
+					all_button.style.opacity = 0.4;
 				});
 			}
 		}

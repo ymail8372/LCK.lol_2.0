@@ -1,11 +1,33 @@
+/* reference */
+.reference {
+	display: flex;
+	margin-bottom: 30px;
+	justify-content: flex-end;
+	font-size: 14px;
+	overflow: hidden;
+}
+.reference .reference_element {
+	margin: 0 0 0 5px;
+}
+.reference .reference_element .reference_letter {
+	border-right: 1px solid #bbb;
+}
+.reference .reference_element:last-child .reference_letter {
+	border-right: 0;
+}
+.reference .reference_element .reference_color {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+}
+
 h2 {
 	padding: 0 20px;
 	font-size: 36px; margin: 30px 0;
 }
 
 #ranking_blocks {
-	margin-bottom: 30px;
-	margin: 50px auto;
+	margin: 30px auto;
 	width: 98%;
 	overflow: hidden;
 	text-align: center;
@@ -34,8 +56,19 @@ h2 {
 }
 
 #ranking_blocks .ranking_block1 .ranking {
-	color: #DCDFE0;
-	background: #1C192B;
+	color: #373a3c;
+}
+
+#ranking_blocks .ranking_block1 .ranking:nth-child(n+1):nth-child(-n+5) {
+	background: #aaddff;
+}
+
+#ranking_blocks .ranking_block1 .ranking:nth-child(n+6):nth-child(-n+7) {
+	background: #97ECAB;
+}
+
+#ranking_blocks .ranking_block1 .ranking:nth-child(n+8):nth-child(-n+11) {
+	background: #FFFF99;
 }
 
 #ranking_blocks .ranking_block2 {

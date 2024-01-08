@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from index import models
 from index.models import Schedule
-from index.models import Ranking_23_summer_regular
+from index.models import Ranking_24_spring_regular
 from django.http import HttpResponse
 
 def champion_table(request) :
@@ -141,24 +141,23 @@ def schedule(request) :
 	schedules = Schedule.objects.all().order_by("month", "day", "hour")
 	
 	# schedules (year == 2023)
-	schedules_2023 = []
+	schedules_2024 = []
 	for schedule in schedules :
-		if schedule.year == '2023' :
-			schedules_2023.append(schedule)
+		if schedule.year == '2024' :
+			schedules_2024.append(schedule)
 
 	# teams
-	teams_2023_3 = ['BRO', 'DK', 'DRX', 'GEN', 'HLE', 'KDF', 'KT', 'LSB', 'NS', 'T1']
-	teams_2023_10 = ["GEN", "T1", "KT", "DK"]
+	teams_2024_1 = ['BRO', 'DK', 'DRX', 'GEN', 'HLE', 'KDF', 'KT', 'FOX', 'NS', 'T1']
 
-	return render(request, 'schedule.html', {"schedules": schedules_2023, "teams_2023_3": teams_2023_3, "teams_2023_10": teams_2023_10})
+	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1})
 
 def ranking(request) :
 	# ranking
-	ranking_23_summer_regular = Ranking_23_summer_regular.objects.all()
+	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
 	
 	# make ranking dictionary
 	ranking_list = []
-	for ranking in ranking_23_summer_regular :
+	for ranking in ranking_24_spring_regular :
 		new_ranking = {}
 		new_ranking["team"] = ranking.name
 		new_ranking["tricode"] = ranking.tricode

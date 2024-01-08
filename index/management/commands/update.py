@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
 
 from index.models import Schedule
-from index.models import Ranking_23_summer_regular
-from index.models import Champion_23_summer
+from index.models import Ranking_24_spring_regular
+from index.models import Champion_24_LCK_spring
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
@@ -45,7 +45,7 @@ class Command(BaseCommand):
 			if event_tag['class'][0] == "EventDate" :
 				monthday = event_tag.find("span", class_="monthday")
 			
-				year = 2023
+				year = 2024
 				month = int(monthday.text.split('월')[0])   # month
 				day_temp = monthday.text.split(' ')[1]
 				day = int(day_temp[:-1])	# day
@@ -76,12 +76,12 @@ class Command(BaseCommand):
 					
 				team1 = teams_tag.find("div", class_="team1")
 				team1_name = team1.find("span", class_="name").text
-				team1_name = self.convert_team_name_23(team1_name)
+				team1_name = self.convert_team_name_24(team1_name)
 				team1_tricode = team1.find("span", class_="tricode").text
 				
 				team2 = teams_tag.find("div", class_="team2")
 				team2_name = team2.find("span", class_="name").text
-				team2_name = self.convert_team_name_23(team2_name)
+				team2_name = self.convert_team_name_24(team2_name)
 				team2_tricode = team2.find("span", class_="tricode").text
 				
 				if teams_tag.find("div", class_="score") != None :
@@ -95,19 +95,15 @@ class Command(BaseCommand):
 				date = datetime(year, month, day, hour, min)
 				
 				# etc, prevent updating old schedule
-				if date <= datetime(2023, 10, 10) :
+				if date < datetime(2024, 1, 17) :
 					continue
-				elif date <= datetime(2023, 10, 16):
-					etc = "Worlds 플레이인"
-				elif date <= datetime(2023, 10, 30) :
-					etc = "Worlds 스위스"
-				elif date <= datetime(2023, 11, 6) :
-					etc = "Worlds 8강"
-				elif date <= datetime(2023, 11, 13) :
-					etc = "Worlds 4강"
+				elif date < datetime(2024, 2, 24, 17, 00) :
+					etc = "LCK spring 1라운드"
+				elif date < datetime(2024, 3, 25) :
+					etc = "LCK spring 2라운드"
 				else :
-					etc = "Worlds 결승전"
-					
+					etc = "LCK 플레이오프"
+				
 				# update or create schedule DB
 				try :
 					schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team1_name, team2_name=team2_name, hour=hour, min=min, ampm=ampm)
@@ -118,13 +114,8 @@ class Command(BaseCommand):
 						# If there is a data that is suit for date and result.
 						continue
 					
-					# If there is a data that is suit for date but not suit for result or teams.
+					# If there is a data that is suit for date but not suit for result.
 					else :
-						schedule.team1_name = team1_name
-						schedule.team1_tricode = team1_tricode
-						schedule.team2_name = team2_name
-						schedule.team2_tricode = team2_tricode
-						
 						schedule.team1_score = team1_score
 						schedule.team2_score = team2_score
 						schedule.save()
@@ -156,7 +147,7 @@ class Command(BaseCommand):
 						finally :
 							Schedule.objects.create(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode, team2_tricode=team2_tricode, team1_score=team1_score, team2_score=team2_score, hour=hour, min=min, ampm=ampm, etc=etc)
 					
-	def convert_team_name_23(self, team) :
+	def convert_team_name_24(self, team) :
 		teams = {
 			"Gen.G": "젠지",
 			"T1": "T1",
@@ -166,7 +157,6 @@ class Command(BaseCommand):
 			"Kwangdong Freecs": "광동 프릭스",
 			"DRX": "DRX",
 			"OKSavingsBank BRION": "OK저축은행 브리온",
-			"Liiv SANDBOX": "리브 샌드박스",
 			"NongShim REDFORCE": "농심 레드포스",
 			"TBD": "미정",
 		}
@@ -352,7 +342,7 @@ class Command(BaseCommand):
 		return names[name]
 		
 	def update_champion(self) :
-		URL = "https://lol.fandom.com/wiki/LCK/2023_Season/Summer_Season/Match_History"
+		URL = "https://lol.fandom.com/wiki/LCK/2024_Season/Spring_Season/Champion_Statistics"
 		
 		# Setting web driver
 		option = webdriver.ChromeOptions()
@@ -370,13 +360,13 @@ class Command(BaseCommand):
 			web_source = driver.page_source
 			soup_origin = BeautifulSoup(web_source, "html.parser")
 			table = soup_origin.find("table", class_="wikitable hoverable-multirows mhgame sortable plainlinks column-show-hide-1 jquery-tablesorter")
+			tbody = table.find("tbody")
 			if table != None :
 				break
 		
 		# quit driver
 		driver.quit()
 		
-		tbody = table.find("tbody")
 		match_histories = tbody.find_all("tr")
 		match_histories.reverse()
 		
@@ -398,9 +388,14 @@ class Command(BaseCommand):
 			last_update_datetime_object = datetime(int(last_update.split('/')[0]), int(last_update.split('/')[1]), int(last_update.split('/')[2]))
 			
 			# check match_date > last_update
-			if datetime(int(match_date_year), int(match_date_month), int(match_date_day)) < last_update_datetime_object :
+			if last_update_datetime_object > datetime(int(match_date_year), int(match_date_month), int(match_date_day)) :
 				continue
 			
+			# check match_date is before 24LCK_spring
+			if datetime(int(match_date_year), int(match_date_month), int(match_date_day)) < datetime(2024, 1, 17) :
+				continue
+			
+			# if match_date > last_update
 			patch = td[1].text
 			team1 = td[2].find("a").get("data-to-id")
 			
@@ -417,7 +412,7 @@ class Command(BaseCommand):
 			for champion_ban_span in champion_ban_spans :
 				champion_ban = champion_ban_span.get("title")
 				champion_ban = self.convert_champions_name(champion_ban)
-				champion_object, created = Champion_23_summer.objects.get_or_create(name=champion_ban, patch=patch)
+				champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_ban, patch=patch)
 				champion_object.ban += 1
 				champion_object.save()
 			
@@ -427,7 +422,7 @@ class Command(BaseCommand):
 				for champion_pick_span in champion_pick_team1_spans :
 					champion_pick = champion_pick_span.get("title")
 					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_23_summer.objects.get_or_create(name=champion_pick, patch=patch)
+					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
 					champion_object.pick += 1
 					champion_object.win += 1
 					champion_object.save()
@@ -435,7 +430,7 @@ class Command(BaseCommand):
 				for champion_pick_span in champion_pick_team2_spans :
 					champion_pick = champion_pick_span.get("title")
 					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_23_summer.objects.get_or_create(name=champion_pick, patch=patch)
+					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
 					champion_object.pick += 1
 					champion_object.lose += 1
 					champion_object.save()
@@ -444,7 +439,7 @@ class Command(BaseCommand):
 				for champion_pick_span in champion_pick_team1_spans :
 					champion_pick = champion_pick_span.get("title")
 					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_23_summer.objects.get_or_create(name=champion_pick, patch=patch)
+					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
 					champion_object.pick += 1
 					champion_object.lose += 1
 					champion_object.save()
@@ -452,7 +447,7 @@ class Command(BaseCommand):
 				for champion_pick_span in champion_pick_team2_spans :
 					champion_pick = champion_pick_span.get("title")
 					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_23_summer.objects.get_or_create(name=champion_pick, patch=patch)
+					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
 					champion_object.pick += 1
 					champion_object.win += 1
 					champion_object.save()
@@ -466,49 +461,49 @@ class Command(BaseCommand):
 			last_update = datetime(int(match_date_year), int(match_date_month), int(match_date_day)) + timedelta(days=1)
 			file.write(str(last_update.year) + "/" + str(last_update.month) + "/" + str(last_update.day))
 
-	#def reset_ranking_23_summer_regular(self) :
-	#	teams = ["T1", "GEN", "HLE", "KDF", "LSB", "NS", "DK", "DRX", "BRO", "KT"]
+	def reset_ranking_24_spring_regular(self) :
+		teams = ["T1", "GEN", "HLE", "KDF", "FOX", "NS", "DK", "DRX", "BRO", "KT"]
 		
-	#	for team in teams :
-	#		team_object = Ranking_23_summer_regular.objects.get(tricode=team)
-	#		team_object.game_win = 0
-	#		team_object.game_lose = 0
-	#		team_object.set_win = 0
-	#		team_object.set_lose = 0
+		for team in teams :
+			team_object = Ranking_24_spring_regular.objects.get(tricode=team)
+			team_object.game_win = 0
+			team_object.game_lose = 0
+			team_object.set_win = 0
+			team_object.set_lose = 0
 			
-	#		team_object.save()
+			team_object.save()
 
-	#def update_ranking_23_summer_regular(self) :
-	#	self.reset_ranking_23_summer_regular()
+	def update_ranking_24_spring_regular(self) :
+		self.reset_ranking_24_spring_regular()
 		
-	#	schedule_objects = Schedule.objects.all()
-	#	for schedule_object in schedule_objects :
-	#		if ("LCK summer 정규시즌" in schedule_object.etc) and schedule_object.year == 2023:
-	#			team1 = Ranking_23_summer_regular.objects.get(name=schedule_object.team1_name)
-	#			team2 = Ranking_23_summer_regular.objects.get(name=schedule_object.team2_name)
+		schedule_objects = Schedule.objects.all()
+		for schedule_object in schedule_objects :
+			if ("LCK spring 정규시즌" in schedule_object.etc) and schedule_object.year == 2024:
+				team1 = Ranking_24_spring_regular.objects.get(name=schedule_object.team1_name)
+				team2 = Ranking_24_spring_regular.objects.get(name=schedule_object.team2_name)
 				
-	#			# when the schedule is not started yet
-	#			if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :
-	#				continue
+				# when the schedule is not started yet
+				if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :
+					continue
 				
-	#			# update game_win, game_lose
-	#			if schedule_object.team1_score > schedule_object.team2_score :
-	#				team1.game_win += 1
-	#				team2.game_lose += 1
-	#			else :
-	#				team1.game_lose += 1
-	#				team2.game_win += 1
+				# update game_win, game_lose
+				if schedule_object.team1_score > schedule_object.team2_score :
+					team1.game_win += 1
+					team2.game_lose += 1
+				else :
+					team1.game_lose += 1
+					team2.game_win += 1
 				
-	#			# update set_win, set_lose
-	#			team1.set_win += schedule_object.team1_score
-	#			team1.set_lose += schedule_object.team2_score
-	#			team2.set_win += schedule_object.team2_score
-	#			team2.set_lose += schedule_object.team1_score
+				# update set_win, set_lose
+				team1.set_win += schedule_object.team1_score
+				team1.set_lose += schedule_object.team2_score
+				team2.set_win += schedule_object.team2_score
+				team2.set_lose += schedule_object.team1_score
 			
-	#			# apply update
-	#			team1.save()
-	#			team2.save()
+				# apply update
+				team1.save()
+				team2.save()
 
 	def handle(self, *args, **options):
 		self.update_schedule()
-		self.update_champion()
+		# self.update_champion()

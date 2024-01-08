@@ -9,51 +9,45 @@ const prev_button = document.querySelector(".schedule_controler.schedule_control
 const next_button =	document.querySelector(".schedule_controler.schedule_controler_right");
 
 window.addEventListener('load', async function() {
-	const schedule_response = await fetch('http://localhost:8000/get_schedules_Json');
-	schedules = await schedule_response.json();
-	type = schedules[schedules.length-1]['etc'];
-	
-	const ranking_response = await this.fetch('http://localhost:8000/get_champions_Json')
-	rankings = await ranking_response.json();
-	
-	
 	show_slide();
 });
 
 function show_slide() {
-	let show_no_team = 1;
+	let date_title = (date.getMonth()+1) + "월 " + date.getDate() + "일 (" + weekday[date.getDay()] + ")";
+	let date_match = String(date.getFullYear()) + String(date.getMonth()+1) + String(date.getDate());
+	let no_team = 1;
 	
-	block.querySelectorAll(".schedule_match").forEach(query => {
-		query.style.display = "none";
+	block.querySelectorAll(".schedule_match").forEach(match => {
+		if (match.classList[1].split("_")[2] == date_match) {
+			match.style.display = "flex";
+			no_team = 0;
+		}
 	});
 	
-	for (let i = 0; i < schedules.length; i ++) {
-		if (schedules[i]['year'] == date.getFullYear() && schedules[i]['month'] == date.getMonth()+1 && schedules[i]['day'] == date.getDate()) {
-			type = schedules[i]['etc'];
-			block.querySelectorAll(".schedule_date_" + date.getFullYear() + (date.getMonth()+1) + date.getDate()).forEach(query => {
-				query.style.display = "flex";
-			});
-			show_no_team = 0;
-		}
-	}
-	
 	// If there are no schedules
-	if (show_no_team) {
+	if (no_team) {
 		block.querySelector(".schedule_no_team").style.display = "flex";
 		type = " - ";
 	}
 	
-	let date_str = (date.getMonth()+1) + "월 " + date.getDate() + "일 (" + weekday[date.getDay()] + ")";
-	block.querySelector("#schedule_title #schedule_date").innerHTML = date_str;
+	block.querySelector("#schedule_title #schedule_date").innerHTML = date_title;
 	block.querySelector("#schedule_title #schedule_type").innerHTML = type;
-};
+}
+
+function hide_slide() {
+	block.querySelectorAll(".schedule_match").forEach(match => {
+		match.style.display = "none";
+	});
+}
 
 prev_button.addEventListener("click", function() {
+	hide_slide()
 	date.setDate(date.getDate() - 1);
 	show_slide();
 });
 
 next_button.addEventListener("click", function() {
+	hide_slide()
 	date.setDate(date.getDate() + 1);
 	show_slide();
 });

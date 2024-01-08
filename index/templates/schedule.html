@@ -10,39 +10,27 @@
 	<h2>일정</h2>
 	<div id="schedule_block">
 		<div id="month_selection">
-			<div class="month" id="month_1">1월</div>
-			<div class="month" id="month_2">2월</div>
+			<div class="month activated" id="month_1">1월</div>
+			<div class="month activated" id="month_2">2월</div>
 			<div class="month activated" id="month_3">3월</div>
 			<div class="month activated" id="month_4">4월</div>
 			<div class="month" id="month_5">5월</div>
-			<div class="month activated" id="month_6">6월</div>
-			<div class="month activated" id="month_7">7월</div>
-			<div class="month activated" id="month_8">8월</div>
+			<div class="month" id="month_6">6월</div>
+			<div class="month" id="month_7">7월</div>
+			<div class="month" id="month_8">8월</div>
 			<div class="month" id="month_9">9월</div>
-			<div class="month activated" id="month_10">10월</div>
-			<div class="month activated" id="month_11">11월</div>
+			<div class="month" id="month_10">10월</div>
+			<div class="month" id="month_11">11월</div>
 			<div class="month" id="month_12">12월</div>
 		</div>
-		<div class="team_selection month_3 month_4 month_6 month_7 month_8 ">
+		<div class="team_selection month_1 month_2 month_3">
 			<div class="team">
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
 			</div>
-			{% for team in teams_2023_3 %}
+			{% for team in teams_2024_1 %}
 			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/2023summer/'|add:team|add:'.webp' %}"></button>
-				<div class="team_name">{{team}}</div>
-			</div>
-			{% endfor %}
-		</div>
-		<div class="team_selection month_10 month_11" >
-			<div class="team">
-				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
-				<div class="team_name">전체</div>
-			</div>
-			{% for team in teams_2023_10 %}
-			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/2023worlds/'|add:team|add:'.webp' %}"></button>
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/2024spring/'|add:team|add:'.webp' %}"></button>
 				<div class="team_name">{{team}}</div>
 			</div>
 			{% endfor %}

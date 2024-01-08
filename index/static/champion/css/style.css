@@ -29,7 +29,7 @@ h2 {
 	color: #DCDFE0;
 }
 
-#champion_menu #league_selection .league:hover img {
+#champion_menu #league_selection .activated:hover img {
 	opacity: 1;
 	transition: opacity 0.3s;
 }
