@@ -134,7 +134,36 @@ def index(request) :
 	# schedules
 	schedules = Schedule.objects.all()
 	
-	return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5]})
+	# ranking
+	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
+	
+	# make ranking dictionary
+	ranking_list = []
+	for ranking in ranking_24_spring_regular :
+		new_ranking = {}
+		new_ranking["team"] = ranking.name
+		new_ranking["tricode"] = ranking.tricode
+		new_ranking["game_win"] = ranking.game_win
+		new_ranking["game_lose"] = ranking.game_lose
+		new_ranking["set_win"] = ranking.set_win
+		new_ranking["set_lose"] = ranking.set_lose
+		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
+		new_ranking["etc"] = ranking.etc
+		ranking_list.append(new_ranking)
+	
+	ranking_list.sort(key = lambda ranking: (ranking["game_win"], ranking["set_diff"]), reverse=True)
+	
+	for i in range(len(ranking_list)) :
+		if i == 0 :
+			ranking_list[i]["ranking"] = 1
+		else :
+			if ranking_list[i]["game_win"] == ranking_list[i-1]["game_win"] and ranking_list[i]["set_diff"] == ranking_list[i-1]["set_diff"] :
+				ranking_list[i]["ranking"] = ranking_list[i-1]["ranking"]
+			else :
+				ranking_list[i]["ranking"] = i+1
+	
+	
+	return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
 
 def schedule(request) :
 	# schedules
