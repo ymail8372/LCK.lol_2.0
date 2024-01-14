@@ -51,6 +51,6 @@ nav #menu a {color: #aaa; line-height: 40px; font-size: 20px; padding: 0 20px;}
 nav #menu a:hover {color: #DCDFE0;}
 
 /* footer */
-footer {width: 100%; border-top: 1px solid #ccc; text-align: center; font-size: 13px; clear: both;}
+footer {min-width: 1360px; border-top: 1px solid #ccc; text-align: center; font-size: 13px; clear: both;}
 footer address {padding: 15px 0; font-style: normal;}
 footer p {padding: 0 0 10px 0;}
