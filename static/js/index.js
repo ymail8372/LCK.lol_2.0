@@ -1,7 +1,6 @@
 var date = new Date();
 const block = document.querySelector("#schedule_block");
 var schedules = 0;
-var type = 0;
 
 const weekday = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -27,11 +26,9 @@ function show_slide() {
 	// If there are no schedules
 	if (no_team) {
 		block.querySelector(".schedule_no_team").style.display = "flex";
-		type = " - ";
 	}
 	
 	block.querySelector("#schedule_title #schedule_date").innerHTML = date_title;
-	block.querySelector("#schedule_title #schedule_type").innerHTML = type;
 }
 
 function hide_slide() {
