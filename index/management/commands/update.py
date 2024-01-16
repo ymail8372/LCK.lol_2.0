@@ -7,7 +7,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import time
-	
+
 class Command(BaseCommand):
 	help = 'update command!'
 	
@@ -212,6 +212,7 @@ class Command(BaseCommand):
 				"Gwen": "그웬",
 				"Hecarim": "헤카림",
 				"Heimerdinger": "하이머딩거",
+				"Hwei": "흐웨이",
 				"Illaoi": "일라오이",
 				"Irelia": "이렐리아",
 				"Ivern": "아이번",
@@ -290,6 +291,7 @@ class Command(BaseCommand):
 				"Sion": "사이온",
 				"Sivir": "시비르",
 				"Skarner": "스카너",
+				"smolder": "스몰더",
 				"Sona": "소나",
 				"Soraka": "소라카",
 				"Swain": "스웨인",
@@ -479,8 +481,8 @@ class Command(BaseCommand):
 		schedule_objects = Schedule.objects.all()
 		for schedule_object in schedule_objects :
 			if ("LCK spring 정규시즌" in schedule_object.etc) and schedule_object.year == 2024:
-				team1 = Ranking_24_spring_regular.objects.get(name=schedule_object.team1_name)
-				team2 = Ranking_24_spring_regular.objects.get(name=schedule_object.team2_name)
+				team1 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team1_name))
+				team2 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team2_name))
 				
 				# when the schedule is not started yet
 				if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :

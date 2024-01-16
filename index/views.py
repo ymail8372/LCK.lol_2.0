@@ -20,17 +20,17 @@ def champion_table(request) :
 def get_champions(league, patch,  sort='') :
 	champions = []
 	
-	champion_model = getattr(models, f"Champion_23_{league}", "no_model")
+	champion_model = getattr(models, f"Champion_24_{league}", "no_model")
 	
 	if champion_model == "no_model" :
-		#print("no_model_league")
+		print("no_model_league")
 		return "no_model"
 	
 	# patch != all
 	if patch != "all" :
 		champion_objects = champion_model.objects.filter(patch = patch)
 		if len(champion_objects) == 0 :
-			#print("no_model_patch")
+			print("no_model_patch1")
 			return "no_model"
 		
 		for champion_object in champion_objects :
@@ -48,7 +48,7 @@ def get_champions(league, patch,  sort='') :
 	else :
 		champion_objects = champion_model.objects.all()
 		if len(champion_objects) == 0 :
-			print("no_model_patch")
+			print("no_model_patch2")
 			return "no_model"
 		
 		for champion_object in champion_objects :
@@ -123,14 +123,17 @@ def get_champions(league, patch,  sort='') :
 
 def index(request) :
 	# champions
-	champions = get_champions('LCK_summer', 'all')
-	champions_all = []
-	
-	# champions (patch == all)
-	for champion in champions :
-		if champion["patch"] == "all" :
-			champions_all.append(champion)
-	
+	champions = get_champions('LCK_spring', 'all')
+	if champions == "no_model" :
+		pass
+	else :
+		champions_all = []
+		
+		# champions (patch == all)
+		for champion in champions :
+			if champion["patch"] == "all" :
+				champions_all.append(champion)
+		
 	# schedules
 	schedules = Schedule.objects.all()
 	
@@ -162,8 +165,10 @@ def index(request) :
 			else :
 				ranking_list[i]["ranking"] = i+1
 	
-	
-	return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
+	if champions == "no_model" :
+		return render(request, 'index.html', {"schedules": schedules, "champions": "", "ranking_list": ranking_list})
+	else :
+		return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
 
 def schedule(request) :
 	# schedules
