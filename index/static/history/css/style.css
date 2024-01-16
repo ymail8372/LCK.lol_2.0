@@ -64,6 +64,11 @@
 	color: #AAAAAA;
 }
 
+#history_menu .menu_year .disable {
+	pointer-events: none;
+	text-decoration: line-through;
+}
+
 /* menu_year1 */
 #history_menu .menu_year1 .years {
 	display: grid;

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-	<title>LCK.lol - LCK의 모든 것</title>
+	<title>LCKinfo.lol - LCK의 모든 것</title>
 {% endblock head %}
 
 {% block content %}
@@ -18,11 +18,17 @@
 			<tr class="champion_table_th_tr">
 				<th colspan=2>챔피언</th><th>픽</th><th>밴</th><th>밴픽률</th><th>승리</th><th>패배</th><th>승률</th>
 			</tr>
-			{% for champion in champions %}
+			{% if champions|length == 0 %}
 			<tr>
-				<td><img class="champion_img" src="{% static 'img/champions'|add:'/'|add:champion.name|add:'.png' %}"></td><td>{{champion.name}}</td><td>{{champion.pick}}</td><td>{{champion.ban}}</td><td>{{champion.banpick_rate}}%</td><td>{{champion.win}}</td><td>{{champion.lose}}</td><td>{{champion.win_rate}}%</td>
+				<td colspan=8 style="height: 90px;">챔피언 정보가 없습니다</td>
 			</tr>
-			{% endfor %}
+			{% else %}
+				{% for champion in champions %}
+				<tr>
+					<td><img class="champion_img" src="{% static 'img/champions'|add:'/'|add:champion.name|add:'.png' %}"></td><td>{{champion.name}}</td><td>{{champion.pick}}</td><td>{{champion.ban}}</td><td>{{champion.banpick_rate}}%</td><td>{{champion.win}}</td><td>{{champion.lose}}</td><td>{{champion.win_rate}}%</td>
+				</tr>
+				{% endfor %}
+			{% endif %}
 		</table>
 	</section>
 	
@@ -31,7 +37,6 @@
 		<div id="schedule_block">
 			<div id="schedule_title">
 				<div id="schedule_date"></div>
-				<div id="schedule_type"></div>
 			</div>
 			{% for schedule in schedules %}
 			<div class="schedule_match schedule_date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
