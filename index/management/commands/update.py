@@ -13,7 +13,7 @@ class Command(BaseCommand):
 	
 	def update_schedule(self) :
 		# Setting web driver
-		url = "https://lolesports.com/schedule?leagues=worlds,lck"
+		url = "https://lolesports.com/schedule?leagues=lck"
 		
 		option = webdriver.ChromeOptions()
 		option.add_argument("--headless")
@@ -95,7 +95,7 @@ class Command(BaseCommand):
 				date = datetime(year, month, day, hour, min)
 				
 				# etc, prevent updating old schedule
-				if date < datetime(2024, 1, 17) :
+				if date < datetime(2024, 1, 17) or date > datetime(2024, 4, 8) :
 					continue
 				elif date < datetime(2024, 2, 24, 17, 00) :
 					etc = "LCK spring 1라운드"
