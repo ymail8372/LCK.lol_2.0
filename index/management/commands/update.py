@@ -507,9 +507,9 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
-		#self.update_schedule()
-		#print("update schedule complete")
-		#self.update_champion()
-		#print("update champion complete")
+		self.update_schedule()
+		print("update schedule complete")
+		self.update_champion()
+		print("update champion complete")
 		self.update_ranking_24_spring_regular()
 		print("update ranking_24_spring complete")
