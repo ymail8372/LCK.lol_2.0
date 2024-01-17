@@ -4,6 +4,10 @@ from index.models import Schedule
 from index.models import Ranking_24_spring_regular
 from index.models import Champion_24_LCK_spring
 from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import time
@@ -356,19 +360,26 @@ class Command(BaseCommand):
 		# driver get URL
 		driver.get(URL)
 		
+		# improve web load speed
+		caps = DesiredCapabilities().CHROME
+		caps["pageLoadStrategy"] = "none"
+		
+		WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".wikitable.hoverable-multirows.mhgame.sortable.plainlinks.column-show-hide-1.jquery-tablesorter"))
+    )
+		
 		# get champions table from lol wiki
 		while True :
-			driver.implicitly_wait(5)
 			web_source = driver.page_source
 			soup_origin = BeautifulSoup(web_source, "html.parser")
 			table = soup_origin.find("table", class_="wikitable hoverable-multirows mhgame sortable plainlinks column-show-hide-1 jquery-tablesorter")
-			tbody = table.find("tbody")
 			if table != None :
 				break
 		
 		# quit driver
 		driver.quit()
-		
+	
+		tbody = table.find("tbody")	
 		match_histories = tbody.find_all("tr")
 		match_histories.reverse()
 		
