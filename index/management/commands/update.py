@@ -508,4 +508,5 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		self.update_schedule()
+		print("update complete\n")
 		# self.update_champion()
