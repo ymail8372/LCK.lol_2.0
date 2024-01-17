@@ -344,7 +344,7 @@ class Command(BaseCommand):
 		return names[name]
 		
 	def update_champion(self) :
-		URL = "https://lol.fandom.com/wiki/LCK/2024_Season/Spring_Season/Champion_Statistics"
+		URL = "https://lol.fandom.com/wiki/LCK/2024_Season/Spring_Season/Match_History"
 		
 		# Setting web driver
 		option = webdriver.ChromeOptions()
@@ -480,7 +480,7 @@ class Command(BaseCommand):
 		
 		schedule_objects = Schedule.objects.all()
 		for schedule_object in schedule_objects :
-			if ("LCK spring 정규시즌" in schedule_object.etc) and schedule_object.year == 2024:
+			if (schedule_object.etc == "LCK spring 1라운드" or schedule_object.etc == "LCK spring 2라운드") and schedule_object.year == "2024":
 				team1 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team1_name))
 				team2 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team2_name))
 				
@@ -507,6 +507,9 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
-		self.update_schedule()
-		print("update complete\n")
-		# self.update_champion()
+		#self.update_schedule()
+		#print("update schedule complete")
+		#self.update_champion()
+		#print("update champion complete")
+		self.update_ranking_24_spring_regular()
+		print("update ranking_24_spring complete")
