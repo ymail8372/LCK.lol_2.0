@@ -14466,3 +14466,66 @@ Wed Jan 17 14:26:01 UTC 2024
 update ranking_24_spring complete
 Wed Jan 17 14:27:01 UTC 2024
 update ranking_24_spring complete
+Wed Jan 17 14:28:01 UTC 2024
+update ranking_24_spring complete
+Wed Jan 17 14:29:01 UTC 2024
+update ranking_24_spring complete
+Wed Jan 17 14:30:01 UTC 2024
+update ranking_24_spring complete
+Wed Jan 17 14:31:01 UTC 2024
+Wed Jan 17 14:32:02 UTC 2024
+Wed Jan 17 14:41:01 UTC 2024
+Wed Jan 17 14:42:02 UTC 2024
+Wed Jan 17 14:48:01 UTC 2024
+update schedule complete
+Traceback (most recent call last):
+  File "/srv/LCK.lol_2.0/manage.py", line 22, in <module>
+    main()
+  File "/srv/LCK.lol_2.0/manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/django/core/management/__init__.py", line 442, in execute_from_command_line
+    utility.execute()
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/django/core/management/__init__.py", line 436, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/django/core/management/base.py", line 412, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/django/core/management/base.py", line 458, in execute
+    output = self.handle(*args, **options)
+  File "/srv/LCK.lol_2.0/index/management/commands/update.py", line 512, in handle
+    self.update_champion()
+  File "/srv/LCK.lol_2.0/index/management/commands/update.py", line 357, in update_champion
+    driver.get(URL)
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py", line 357, in get
+    self.execute(Command.GET, {"url": url})
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py", line 348, in execute
+    self.error_handler.check_response(response)
+  File "/home/ubuntu/myvenv/lib/python3.10/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 299.710
+  (Session info: chrome-headless-shell=120.0.6099.109)
+Stacktrace:
+#0 0x559608ddef83 <unknown>
+#1 0x559608a97cf7 <unknown>
+#2 0x559608a7d7a1 <unknown>
+#3 0x559608a7d44a <unknown>
+#4 0x559608a7b7e1 <unknown>
+#5 0x559608a7c18a <unknown>
+#6 0x559608a8d07c <unknown>
+#7 0x559608aa57c1 <unknown>
+#8 0x559608aab6bb <unknown>
+#9 0x559608a7c92d <unknown>
+#10 0x559608aa55c2 <unknown>
+#11 0x559608b30204 <unknown>
+#12 0x559608b10e53 <unknown>
+#13 0x559608ad8dd4 <unknown>
+#14 0x559608ada1de <unknown>
+#15 0x559608da3531 <unknown>
+#16 0x559608da7455 <unknown>
+#17 0x559608d8ff55 <unknown>
+#18 0x559608da80ef <unknown>
+#19 0x559608d7399f <unknown>
+#20 0x559608dcc008 <unknown>
+#21 0x559608dcc1d7 <unknown>
+#22 0x559608dde124 <unknown>
+#23 0x7f8912e94ac3 <unknown>
+
