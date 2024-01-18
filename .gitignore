@@ -6,7 +6,4 @@ update.sh
 index/management/commands/update.py
 LCKlol/settings.py
 log/update.log
-<<<<<<< HEAD
 
-=======
->>>>>>> d526d3a9a4e2b4f13c639af9ab332822b60bcd54
