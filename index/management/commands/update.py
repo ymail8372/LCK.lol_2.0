@@ -360,13 +360,13 @@ class Command(BaseCommand):
 		# driver get URL
 		driver.get(URL)
 		
-		# improve web load speed
-		caps = DesiredCapabilities().CHROME
-		caps["pageLoadStrategy"] = "none"
+	#	# improve web load speed
+	#	caps = DesiredCapabilities().CHROME
+	#	caps["pageLoadStrategy"] = "none"
 		
-		WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, ".wikitable.hoverable-multirows.mhgame.sortable.plainlinks.column-show-hide-1.jquery-tablesorter"))
-    )
+	#	WebDriverWait(driver, 30).until(
+    #    EC.presence_of_element_located((By.CSS_SELECTOR, ".wikitable.hoverable-multirows.mhgame.sortable.plainlinks.column-show-hide-1.jquery-tablesorter"))
+    #)
 		
 		# get champions table from lol wiki
 		while True :
@@ -396,7 +396,7 @@ class Command(BaseCommand):
 			match_date_day = match_date.split('-')[2]
 			
 			# last_update
-			with open("index/management/commands/last_update.txt", "r") as file :
+			with open("/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('/')[0]), int(last_update.split('/')[1]), int(last_update.split('/')[2]))
 			
@@ -470,7 +470,7 @@ class Command(BaseCommand):
 				file.write(match_date_year + "/" + match_date_month + "/" + match_date_day)
 		
 		# at last, +1 days at last_update.txt
-		with open("index/management/commands/last_update.txt", "w") as file :
+		with open("/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/last_update.txt", "w") as file :
 			last_update = datetime(int(match_date_year), int(match_date_month), int(match_date_day)) + timedelta(days=1)
 			file.write(str(last_update.year) + "/" + str(last_update.month) + "/" + str(last_update.day))
 

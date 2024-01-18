@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-fyh11)zhketi6a02#p2!=y&(1l_dtta+k559jhg6p!8i242%0&
 DEBUG = True
 
 ALLOWED_HOSTS = [
+	"127.0.0.1",
 	".ap-northeast-2.compute.amazonaws.com",
     ".lckinfo.lol",
 ]
@@ -87,9 +88,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'LCKlol',
         'USER': 'ymail8372',
-        'PASSWORD': 'Hs1261101@',
-        'HOST': '127.0.0.1',
-        'PORT': '',
+        'PASSWORD': '',
+        'HOST': '3.34.2.87',
+        'PORT': '3306',
     }
 }
 
