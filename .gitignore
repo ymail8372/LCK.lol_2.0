@@ -1,0 +1,9 @@
+# .gitignore
+
+index/__pycache__
+__pycache__/
+update.sh
+index/management/commands/update.py
+LCKlol/settings.py
+log/update.log
+
