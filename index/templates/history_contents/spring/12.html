@@ -1,0 +1,485 @@
+{% extends "history_base.html" %}
+{% load static %}
+
+{% block css_head %}
+	<link rel="stylesheet" type="text/css" href="static/history/css/LCK/12spring-12summer.css">
+{% endblock %}
+
+{% block history_content %}
+	<section id="result">
+		<h2>결과</h2>
+		<div id="result_table">
+			<div id="winner_team">
+				<div id="winner_team_index">
+					우승팀
+				</div>
+				<div id="winner_team_content">
+					<img src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}">
+					<div id="winner_team_name">MVP Ozone</div>
+				</div>
+			</div>
+			<div id="winner_coach">
+				<div class="coach">
+					<div class="coach_index">감독</div>
+					<div class="coach_name">Dopani 임현석</div>
+				</div>
+				<div class="coach">
+					<div class="coach_index">코치</div>
+					<div class="coach_name">Choi 최윤상</div>
+				</div>
+			</div>
+			<div id="winner_player">
+				<div class="winner_player">
+					<div class="winner_player_index top"><img src="{% static 'img/position/TOP.webp' %}"><br>TOP</div>
+					<div class="winner_player_name">Homme 윤성영</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index jg"><img src="{% static 'img/position/JG.webp' %}"><br>JG</div>
+					<div class="winner_player_name">DanDy 최인규</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index mid"><img src="{% static 'img/position/MID.webp' %}"><br>MID</div>
+					<div class="winner_player_name">Dade 배어진</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index AD"><img src="{% static 'img/position/AD.webp' %}"><br>AD</div>
+					<div class="winner_player_name">imp 구승빈</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index sup"><img src="{% static 'img/position/SUP.webp' %}"><br>SUP</div>
+					<div class="winner_player_name">Mata 조세형</div>
+				</div>
+			</div>
+			<div id="award_player">
+				<div class="award_player regular_MVP">
+					<div class="awrd_player_index">MVP</div>
+					<div class="awrd_player_name">Dade 배어진</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="round16">
+		<h2>12강</h2>
+		
+		<table class="round16_table">
+			<colgroup>
+				<col style="width: 100px;">
+				<col style="width: 150px;">
+				<col style="width: 250px;">
+				<col>
+				<col>
+				<col>
+				<col>
+				<col style="width: 250px;">
+			</colgroup>
+			<tr>
+				<th colspan="8">A조</th>
+			</tr>
+			<th>순위</th><th colspan="2">팀</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>기타</th>
+			<tr>
+				<td style="background-color: #eeccee;">1</td>
+				<td><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></td>
+				<td>SK telecom T1 #2</td>
+				<td>10</td>
+				<td>3</td>
+				<td>1</td>
+				<td>1</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #aaddff;">2</td>
+				<td><img src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></td>
+				<td>CJ Entus Blaze</td>
+				<td>10</td>
+				<td>3</td>
+				<td>1</td>
+				<td>1</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #97ECAB;">3</td>
+				<td><img src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></td>
+				<td>MVP Ozone</td>
+				<td>8</td>
+				<td>2</td>
+				<td>2</td>
+				<td>1</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ccffcc;">4</td>
+				<td><img src="{% static 'img/teams/2012spring/NaJin_Sword.webp' %}"></td>
+				<td>NaJin Sword</td>
+				<td>5</td>
+				<td>1</td>
+				<td>2</td>
+				<td>2</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ffcccc;">5</td>
+				<td><img src="{% static 'img/teams/2012spring/kt_Rolster_A.webp' %}"></td>
+				<td>kt Rolster A</td>
+				<td>4</td>
+				<td>1</td>
+				<td>1</td>
+				<td>3</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ffcccc;">6</td>
+				<td><img src="{% static 'img/teams/2012spring/MVP_Blue.webp' %}"></td>
+				<td>MVP Blue</td>
+				<td>4</td>
+				<td>1</td>
+				<td>1</td>
+				<td>3</td>
+				<td> - </td>
+			</tr>
+		</table>
+		<table class="round16_table">
+			<colgroup>
+				<col style="width: 100px;">
+				<col style="width: 150px;">
+				<col style="width: 250px;">
+				<col>
+				<col>
+				<col>
+				<col>
+				<col style="width: 250px;">
+			</colgroup>
+			<tr>
+				<th colspan="8">B조</th>
+			</tr>
+			<th>순위</th><th colspan="2">팀</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>기타</th>
+			<tr>
+				<td style="background-color: #eeccee;">1</td>
+				<td><img src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></td>
+				<td>CJ Entus Frost</td>
+				<td>11</td>
+				<td>3</td>
+				<td>2</td>
+				<td>0</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #aaddff;">2</td>
+				<td><img src="{% static 'img/teams/2012spring/kt_Rolster_B.webp' %}"></td>
+				<td>kt Rolster B</td>
+				<td>8</td>
+				<td>2</td>
+				<td>2</td>
+				<td>1</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #97ECAB;">3</td>
+				<td><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#1.webp' %}"></td>
+				<td>SK telecom T1 #1</td>
+				<td>5</td>
+				<td>0</td>
+				<td>5</td>
+				<td>0</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ccffcc;">4</td>
+				<td><img src="{% static 'img/teams/2012spring/Najin_Shield.webp' %}"></td>
+				<td>Najin Shield</td>
+				<td>4</td>
+				<td>0</td>
+				<td>4</td>
+				<td>1</td>
+				<td>분당 KDA 우세</td>
+			</tr>
+			<tr>
+				<td style="background-color: #ffcccc;">5</td>
+				<td><img src="{% static 'img/teams/2012spring/ahq_Korea.webp' %}"></td>
+				<td>ahq Korea</td>
+				<td>4</td>
+				<td>0</td>
+				<td>4</td>
+				<td>1</td>
+				<td>분당 KDA 열세</td>
+			</tr>
+			<tr>
+				<td style="background-color: #ffcccc;">6</td>
+				<td><img src="{% static 'img/teams/2012spring/LG-Incredible_Miracle_#1.webp' %}"></td>
+				<td>LG-Incredible Miracle #1</td>
+				<td>3</td>
+				<td>0</td>
+				<td>3</td>
+				<td>2</td>
+				<td> - </td>
+			</tr>
+		</table>
+		
+		<div class="reference">
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #eeccee"></div><span class="reference_letter"> : 8강 진출 (1시드) &nbsp;</span>
+			</div>
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #aaddff"></div><span class="reference_letter"> : 8강 진출 (2시드) &nbsp;</span>
+			</div>
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #97ECAB"></div><span class="reference_letter"> : 8강 진출 (3시드) &nbsp;</span>
+			</div>
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #ccffcc"></div><span class="reference_letter"> : 8강 진출 (4시드) &nbsp;</span>
+			</div>
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #ffcccc"></div><span class="reference_letter"> : 탈락 &nbsp;</span>
+			</div>
+		</div>
+	</section>
+	
+	<section id="round8">
+		<h2>8강 토너먼트</h2>
+		<div id="round8_table">
+			<div class="round8_round">
+				<div class="round8_block" style="margin-bottom: 50px;">
+					<div class="round8_index">8강 A조<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></div>
+						<div class="round8_team_name">SKT T1 #2</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/NaJin_Shield.webp' %}"></div>
+						<div class="round8_team_name">NaJin Shield</div>
+						<div class="round8_team_score">0</div>
+					</div>
+				</div>
+				<div class="round8_block" style="margin-bottom: 50px;">
+					<div class="round8_index">8강 B조<br>(Bo5)</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/kt_Rolster_B.webp' %}"></div>
+						<div class="round8_team_name">kt Rolster B</div>
+						<div class="round8_team_score">1</div>
+					</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></div>
+						<div class="round8_team_name">MVP Ozone</div>
+						<div class="round8_team_score">3</div>
+					</div>
+				</div>
+				<div class="round8_block" style="margin-bottom: 50px;">
+					<div class="round8_index">8강 C조<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Blaze</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#1.webp' %}"></div>
+						<div class="round8_team_name">SKT T1 #1</div>
+						<div class="round8_team_score">0</div>
+					</div>
+				</div>
+				<div class="round8_block">
+					<div class="round8_index">8강 D조<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Frost</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/NaJin_Sword.webp' %}"></div>
+						<div class="round8_team_name">NaJin Sword</div>
+						<div class="round8_team_score">1</div>
+					</div>
+				</div>
+			</div>
+			<div class="blanc">
+				<div class="blanc1">
+					<div style="height: 125px;"></div>
+					<div style="height: 244px; border-top: 2px solid #1C192B; border-bottom: 2px solid #1C192B; border-right: 2px solid #1C192B"></div>
+					<div style="height: 244px;"></div>
+					<div style="height: 244px; border-top: 2px solid #1C192B; border-bottom: 2px solid #1C192B; border-right: 2px solid #1C192B"></div>
+				</div>
+				<div class="blanc1">
+					<div style="height: 220px; border-bottom: 2px solid #1C192B;"></div>
+					<div style="height: 490px; border-bottom: 2px solid #1C192B;"></div>
+				</div>
+			</div>
+			<div class="round8_round">
+				<div class="round8_block" style="margin-top: 95px;">
+					<div class="round8_index">4강 A조<br>(Bo5)</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></div>
+						<div class="round8_team_name">SKT T1 #2</div>
+						<div class="round8_team_score">1</div>
+					</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></div>
+						<div class="round8_team_name">MVP Ozone</div>
+						<div class="round8_team_score">3</div>
+					</div>
+				</div>
+				<div class="round8_block" style="margin-top: 296px;">
+					<div class="round8_index">4강 B조<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Blaze</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Frost</div>
+						<div class="round8_team_score">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="blanc">
+				<div class="blanc1">
+					<div style="height: 220px;"></div>
+					<div style="height: 490px; border-top: 2px solid #1C192B; border-bottom: 2px solid #1C192B; border-right: 2px solid #1C192B"></div>
+				</div>
+				<div class="blanc1">
+					<div style="height: 410px; border-bottom: 2px solid #1C192B;"></div>
+				</div>
+			</div>
+			<div class="round8_round">
+				<div class="round8_block" style="margin-top: 285px;">
+					<div class="round8_index">결승전<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></div>
+						<div class="round8_team_name">MVP Ozone</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Blaze</div>
+						<div class="round8_team_score">0</div>
+					</div>
+				</div>
+				<div class="round8_block" style="margin-top: 250px;">
+					<div class="round8_index">3,4위전<br>(Bo5)</div>
+					<div class="round8_team win">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></div>
+						<div class="round8_team_name">SKT T1 #2</div>
+						<div class="round8_team_score">3</div>
+					</div>
+					<div class="round8_team lose">
+						<div class="round8_team_img"><img src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></div>
+						<div class="round8_team_name">CJ Entus Frost</div>
+						<div class="round8_team_score">0</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="POG">
+		<h2>MVP</h2>
+		<table id="POG_table">
+			<colgroup>
+				<col style="width: 100px;">
+				<col style="width: 100px;">
+				<col style="width: 300px;">
+				<col style="">
+				<col style="">
+				<col style="width: 150px;">
+				<col style="width: 100px;">
+			</colgroup>
+			<th>순위</th><th colspan="2">팀</th><th colspan="2">선수</th><th>포인트</th><th>포지션</th>
+			<tr>
+				<td style="background-color: #aaddff;">1</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></td>
+				<td>MVP Ozone</td>
+				<td>dade</td>
+				<td>배어진</td>
+				<td>900</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></td>
+				<td>MVP Ozone</td>
+				<td>imp</td>
+				<td>구승빈</td>
+				<td>800</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/AD_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></td>
+				<td>CJ Entus Blaze</td>
+				<td>Flame</td>
+				<td>이호종</td>
+				<td>700</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/TOP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/MVP_Ozone.webp' %}"></td>
+				<td>MVP Ozone</td>
+				<td>Mata</td>
+				<td>조세형</td>
+				<td>650</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/SUP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></td>
+				<td>SK telecom T1 #2</td>
+				<td>bengi</td>
+				<td>배성웅</td>
+				<td>650</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/JG_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/SK_telecom_T1_#2.webp' %}"></td>
+				<td>SK telecom T1 #2</td>
+				<td>Faker</td>
+				<td>이상혁</td>
+				<td>650</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/CJ_Entus_Blaze.webp' %}"></td>
+				<td>CJ Entus Blaze</td>
+				<td>Helios</td>
+				<td>신동진</td>
+				<td>550</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/JG_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></td>
+				<td>CJ Entus Frost</td>
+				<td>Shy</td>
+				<td>박상면</td>
+				<td>450</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/TOP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/SK_telecom_T1_#1.webp' %}"></td>
+				<td>SK telecom T1 #1</td>
+				<td>Reapered</td>
+				<td>복한규</td>
+				<td>400</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2012spring/CJ_Entus_Frost.webp' %}"></td>
+				<td>CJ Entus Frost</td>
+				<td>RapidStar</td>
+				<td>정민성</td>
+				<td>350</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+		</table>
+		<div class="reference">
+			<div class="reference_element">
+				<div class="reference_color" style="background-color: #aaddff"></div><span class="reference_letter"> : MVP</span>
+			</div>
+		</div>
+	</section>
+	
+{% endblock %}

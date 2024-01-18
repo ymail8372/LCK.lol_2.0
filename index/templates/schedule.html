@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="static/schedule/css/style.css">
+	<title>LCKinfo.lol - 일정</title>
+{% endblock %}
+
+{% block content %}
+	{% load static %}
+	<h2>일정</h2>
+	<div id="schedule_block">
+		<div id="month_selection">
+			<div class="month activated" id="month_1">1월</div>
+			<div class="month activated" id="month_2">2월</div>
+			<div class="month activated" id="month_3">3월</div>
+			<div class="month activated" id="month_4">4월</div>
+			<div class="month" id="month_5">5월</div>
+			<div class="month" id="month_6">6월</div>
+			<div class="month" id="month_7">7월</div>
+			<div class="month" id="month_8">8월</div>
+			<div class="month" id="month_9">9월</div>
+			<div class="month" id="month_10">10월</div>
+			<div class="month" id="month_11">11월</div>
+			<div class="month" id="month_12">12월</div>
+		</div>
+		<div class="team_selection month_1 month_2 month_3">
+			<div class="team">
+				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
+				<div class="team_name">전체</div>
+			</div>
+			{% for team in teams_2024_1 %}
+			<div class="team">
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/2024spring/'|add:team|add:'.webp' %}"></button>
+				<div class="team_name">{{team}}</div>
+			</div>
+			{% endfor %}
+		</div>
+		<div id="schedules">
+			{% for schedule in schedules %}
+			<div class="schedule month_{{schedule.month}}">
+				<div class="date">{{schedule.month}}월 {{schedule.day}}일</div>
+				<div class="time">{{schedule.ampm}}<br>{{schedule.hour}}시 {{schedule.min}}분</div>
+				
+				{% if "TBD" in schedule.team1_tricode %}
+					<div class="team team1 {{schedule.team1_tricode}}"><img class="team_img team1_img" src="{% static 'img/teams/TBD.webp' %}"><div class="team_name">미정</div></div>
+				{% elif "spring" in schedule.etc %}
+					<div class="team team1 {{schedule.team1_tricode}}"><img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring/'|add:schedule.team1_tricode|add:'.webp' %}"><div class="team_name">{{schedule.team1_name}}</div></div>
+				{% elif "MSI" in schedule.etc %}
+					<div class="team team1 {{schedule.team1_tricode}}"><img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI/'|add:schedule.team1_tricode|add:'.webp' %}"><div class="team_name">{{schedule.team1_name}}</div></div>
+				{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
+					<div class="team team1 {{schedule.team1_tricode}}"><img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer/'|add:schedule.team1_tricode|add:'.webp' %}"><div class="team_name">{{schedule.team1_name}}</div></div>
+				{% elif "Worlds" in schedule.etc %}
+					<div class="team team1 {{schedule.team1_tricode}}"><img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds/'|add:schedule.team1_tricode|add:'.webp' %}"><div class="team_name">{{schedule.team1_name}}</div></div>
+				{% endif %}
+				
+				{% if schedule.team1_score == 0 and schedule.team2_score == 0 %}
+					<div class="result">vs</div>
+				{% else %}
+					<div class="result">{{schedule.team1_score}} : {{schedule.team2_score}}</div>
+				{% endif %}
+				
+				{% if "TBD" in schedule.team2_tricode %}
+					<div class="team team2 {{schedule.team2_tricode}}"><div class="team_name">미정</div><img class="team_img team2_img" src="{% static 'img/teams/TBD.webp' %}"></div>
+				{% elif "spring" in schedule.etc %}
+					<div class="team team2 {{schedule.team2_tricode}}"><div class="team_name">{{schedule.team2_name}}</div><img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring/'|add:schedule.team2_tricode|add:'.webp' %}"></div>
+				{% elif "MSI" in schedule.etc %}
+					<div class="team team2 {{schedule.team2_tricode}}"><div class="team_name">{{schedule.team2_name}}</div><img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI/'|add:schedule.team2_tricode|add:'.webp' %}"></div>
+				{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
+					<div class="team team2 {{schedule.team2_tricode}}"><div class="team_name">{{schedule.team2_name}}</div><img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer/'|add:schedule.team2_tricode|add:'.webp' %}"></div>
+				{% elif "Worlds" in schedule.etc %}
+					<div class="team team2 {{schedule.team2_tricode}}"><div class="team_name">{{schedule.team2_name}}</div><img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'Worlds/'|add:schedule.team2_tricode|add:'.webp' %}"></div>
+				{% endif %}
+				
+				<div class="etc">{{schedule.etc}}</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="static/schedule/js/schedule.js"></script>
+{% endblock content %}
