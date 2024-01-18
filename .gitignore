@@ -1,5 +1,6 @@
 # .gitignore
 
+update.sh
 index/management/commands/update.py
 LCKlol/settings.py
 log/update.log
