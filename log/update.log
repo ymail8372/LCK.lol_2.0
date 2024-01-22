@@ -1371,3 +1371,363 @@ Traceback (most recent call last):
     _mysql.connection.query(self, query)
 django.db.utils.OperationalError: (2013, 'Lost connection to MySQL server during query')
 -------------------------------------
+Fri Jan 19 22:00:00 JST 2024
+update schedule complete
+pass: 2024-01-19_3
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Fri Jan 19 23:00:00 JST 2024
+update schedule complete
+pass: 2024-01-19_4
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 00:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 01:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 04:00:01 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 05:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 09:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 12:00:01 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 13:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 14:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 15:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 16:01:13 JST 2024
+update schedule complete
+Traceback (most recent call last):
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 22, in <module>
+    main()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 446, in execute_from_command_line
+    utility.execute()
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 440, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 414, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 460, in execute
+    output = self.handle(*args, **options)
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 525, in handle
+    self.update_champion()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 365, in update_champion
+    web_source = driver.page_source
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py", line 445, in page_source
+    return self.execute(Command.GET_PAGE_SOURCE)["value"]
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py", line 344, in execute
+    self.error_handler.check_response(response)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.WebDriverException: Message: disconnected: not connected to DevTools
+  (failed to check if window was closed: disconnected: not connected to DevTools)
+  (Session info: chrome-headless-shell=120.0.6099.234)
+Stacktrace:
+0   chromedriver                        0x00000001047e84dc chromedriver + 4162780
+1   chromedriver                        0x00000001047e0664 chromedriver + 4130404
+2   chromedriver                        0x0000000104437bc0 chromedriver + 293824
+3   chromedriver                        0x000000010441f0b0 chromedriver + 192688
+4   chromedriver                        0x000000010441efd8 chromedriver + 192472
+5   chromedriver                        0x00000001044bd2b0 chromedriver + 840368
+6   chromedriver                        0x00000001044716bc chromedriver + 530108
+7   chromedriver                        0x0000000104472930 chromedriver + 534832
+8   chromedriver                        0x00000001047ade08 chromedriver + 3923464
+9   chromedriver                        0x00000001047b23dc chromedriver + 3941340
+10  chromedriver                        0x0000000104796038 chromedriver + 3825720
+11  chromedriver                        0x00000001047b2f3c chromedriver + 3944252
+12  chromedriver                        0x00000001047886f4 chromedriver + 3770100
+13  chromedriver                        0x00000001047cf980 chromedriver + 4061568
+14  chromedriver                        0x00000001047cfaf8 chromedriver + 4061944
+15  chromedriver                        0x00000001047e02e4 chromedriver + 4129508
+16  libsystem_pthread.dylib             0x0000000183ba2034 _pthread_start + 136
+17  libsystem_pthread.dylib             0x0000000183b9ce3c thread_start + 8
+
+-------------------------------------
+Sat Jan 20 18:00:00 JST 2024
+update schedule complete
+pass: 2024-01-20_1
+pass: 2024-01-20_2
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 19:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 20:00:00 JST 2024
+update schedule complete
+pass: 2024-01-20_3
+pass: 2024-01-20_4
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 21:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 22:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sat Jan 20 23:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 00:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 01:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 02:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 03:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 04:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 05:00:01 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 06:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 07:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 08:00:01 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 09:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 10:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 11:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 12:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 13:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 14:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 15:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 16:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 17:00:00 JST 2024
+update schedule complete
+pass: 2024-01-21_1
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 18:00:01 JST 2024
+update schedule complete
+pass: 2024-01-21_2
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 19:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 20:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 21:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 22:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Sun Jan 21 23:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Mon Jan 22 00:00:00 JST 2024
+update schedule complete
+pass: 2024-01-21_3
+pass: 2024-01-21_4
+pass: 2024-01-21_5
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Mon Jan 22 01:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Mon Jan 22 08:00:00 JST 2024
+update schedule complete
+update champion complete
+update ranking_24_spring complete
+-------------------------------------
+Mon Jan 22 16:00:00 JST 2024
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/driver_finder.py", line 38, in get_path
+    path = SeleniumManager().driver_location(options) if path is None else path
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/selenium_manager.py", line 95, in driver_location
+    output = self.run(args)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/selenium_manager.py", line 141, in run
+    raise WebDriverException(f"Unsuccessful command executed: {command}.\n{result}{stderr}")
+selenium.common.exceptions.WebDriverException: Message: Unsuccessful command executed: /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/macos/selenium-manager --browser chrome --output json.
+{'code': 65, 'message': 'error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: failed to lookup address information: nodename nor servname provided, or not known', 'driver_path': '', 'browser_path': ''}
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 22, in <module>
+    main()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 446, in execute_from_command_line
+    utility.execute()
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 440, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 414, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 460, in execute
+    output = self.handle(*args, **options)
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 523, in handle
+    self.update_schedule()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 26, in update_schedule
+    driver = webdriver.Chrome(option)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/chrome/webdriver.py", line 45, in __init__
+    super().__init__(
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/chromium/webdriver.py", line 51, in __init__
+    self.service.path = DriverFinder.get_path(self.service, options)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/driver_finder.py", line 41, in get_path
+    raise NoSuchDriverException(msg) from err
+selenium.common.exceptions.NoSuchDriverException: Message: Unable to obtain driver for chrome using Selenium Manager.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+-------------------------------------
+Mon Jan 22 17:00:44 JST 2024
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/driver_finder.py", line 38, in get_path
+    path = SeleniumManager().driver_location(options) if path is None else path
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/selenium_manager.py", line 95, in driver_location
+    output = self.run(args)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/selenium_manager.py", line 141, in run
+    raise WebDriverException(f"Unsuccessful command executed: {command}.\n{result}{stderr}")
+selenium.common.exceptions.WebDriverException: Message: Unsuccessful command executed: /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/macos/selenium-manager --browser chrome --output json.
+{'code': 65, 'message': 'error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json): error trying to connect: dns error: failed to lookup address information: nodename nor servname provided, or not known', 'driver_path': '', 'browser_path': ''}
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 22, in <module>
+    main()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/manage.py", line 18, in main
+    execute_from_command_line(sys.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 446, in execute_from_command_line
+    utility.execute()
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/__init__.py", line 440, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 414, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/django/core/management/base.py", line 460, in execute
+    output = self.handle(*args, **options)
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 523, in handle
+    self.update_schedule()
+  File "/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/update.py", line 26, in update_schedule
+    driver = webdriver.Chrome(option)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/chrome/webdriver.py", line 45, in __init__
+    super().__init__(
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/chromium/webdriver.py", line 51, in __init__
+    self.service.path = DriverFinder.get_path(self.service, options)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/selenium/webdriver/common/driver_finder.py", line 41, in get_path
+    raise NoSuchDriverException(msg) from err
+selenium.common.exceptions.NoSuchDriverException: Message: Unable to obtain driver for chrome using Selenium Manager.; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location
+
+-------------------------------------
