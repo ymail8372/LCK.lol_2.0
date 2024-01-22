@@ -4,9 +4,6 @@ from index.models import Schedule
 from index.models import Ranking_24_spring_regular
 from index.models import Champion_24_LCK_spring
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
@@ -520,9 +517,12 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
+		print("update schedule...")
 		self.update_schedule()
-		print("update schedule complete")
+		print("updating schedule complete!")
+		print("update champion...")
 		self.update_champion()
-		print("update champion complete")
+		print("updating champion complete!")
+		print("update ranking_24_spring...")
 		self.update_ranking_24_spring_regular()
-		print("update ranking_24_spring complete")
+		print("updating ranking_24_spring complete")
