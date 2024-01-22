@@ -1,6 +1,7 @@
 # .gitignore
 
 index/management/commands/__pycache__
+index/management/commands/last_update.txt
 index/__pycache__
 __pycache__/
 LCKlol/__pycache__
