@@ -398,7 +398,7 @@ class Command(BaseCommand):
 			match_date_day = match_date.split('-')[2]
 			
 			# last_update
-			with open("/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/last_update.txt", "r") as file :
+			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
 			last_update_match_no = int(last_update.split('_')[1])
@@ -414,7 +414,7 @@ class Command(BaseCommand):
 			if datetime(int(match_date_year), int(match_date_month), int(match_date_day)) < datetime(2024, 1, 17) :
 				continue
 			
-			print(f"pass: {match_date}_{match_no}")
+			print(f"record: {match_date}_{match_no}")
 			# if match_date > last_update
 			patch = td[1].text
 			team1 = td[2].find("a").get("data-to-id")
@@ -473,7 +473,7 @@ class Command(BaseCommand):
 					champion_object.save()
 			
 			# update last_update.txt
-			with open("/Users/kimminseok/Library/Mobile Documents/com~apple~CloudDocs/Desktop/coding/LCKlol/index/management/commands/last_update.txt", "w") as file :
+			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
 				file.write(f"{match_date_year}/{match_date_month}/{match_date_day}_{match_no}")
 
 	def reset_ranking_24_spring_regular(self) :
