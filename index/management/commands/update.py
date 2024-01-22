@@ -372,51 +372,39 @@ class Command(BaseCommand):
 		match_histories = tbody.find_all("tr")
 		match_histories.reverse()
 		
-		match_date_year = ""
-		match_date_month = ""
-		match_date_day = ""
-		
-		match_no = 1
-		prev_match_date = 0
 		for match_history in match_histories :
-			td = match_history.find_all("td")
-			
-			# match_date, match_no
-			match_date = td[0].text
-			if prev_match_date == match_date :
-				match_no += 1
-			else :
-				match_no = 1
-			
-			prev_match_date = match_date
-			
-			match_date_year = match_date.split('-')[0]
-			match_date_month = match_date.split('-')[1]
-			match_date_day = match_date.split('-')[2]
-			
-			# last_update
+			# last_update (get from last_update.txt)
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
-			last_update_match_no = int(last_update.split('_')[1])
+			last_update_match_num = int(last_update.split('_')[1])
+			
+			# match_date (get from website table)
+			td_match_history = match_history.find_all("td")
+			match_date = datetime(td_match_history[0].split("-")[0], td_match_history[0].split("-")[1], td_match_history[0].split("-")[2])
+			
+			# match_num (get from website table)
+			match_num = 0
+			for match_history_for_match_num in match_histories :
+				td_match_history_for_match_num = match_history_for_match_num.find_all("td")
+				match_date_for_match_num = datetime(td_match_history_for_match_num[0].split("-")[0], td_match_history_for_match_num[0].split("-")[1], td_match_history_for_match_num[0].split("-")[2])
+				if match_date == match_date_for_match_num :
+					match_num += 1
 			
 			# check the match already recorded
-			if last_update_datetime_object > datetime(int(match_date_year), int(match_date_month), int(match_date_day)) :
+			if last_update_datetime_object > match_date :
 				continue
-			elif last_update_datetime_object == datetime(int(match_date_year), int(match_date_month), int(match_date_day)) :
-				if last_update_match_no >= match_no :
+			elif last_update_datetime_object == match_date :
+				if last_update_match_num >= match_num :
 					continue
-				
-			# check match_date is before 24LCK_spring
-			if datetime(int(match_date_year), int(match_date_month), int(match_date_day)) < datetime(2024, 1, 17) :
-				continue
 			
-			print(f"record: {match_date}_{match_no}")
-			# if match_date > last_update
-			patch = td[1].text
-			team1 = td[2].find("a").get("data-to-id")
+			print(f"record: {match_date.year}/{match_date.month}/{match_date.date}_{match_num}")
 			
-			winner_team = td[4].find("a").get("data-to-id")
+			# record
+			patch = td_match_history[1].text
+			team1 = td_match_history[2].find("a").get("data-to-id")
+			
+			winner_team = td_match_history[4].find("a").get("data-to-id")
 			winner_team_no = 0
 			
 			if winner_team == team1 :
@@ -424,8 +412,8 @@ class Command(BaseCommand):
 			else :
 				winner_team_no = 2
 			
-			champion_ban_spans = td[5].find_all("span")
-			champion_ban_spans.extend(td[6].find_all("span"))
+			champion_ban_spans = td_match_history[5].find_all("span")
+			champion_ban_spans.extend(td_match_history[6].find_all("span"))
 			for champion_ban_span in champion_ban_spans :
 				champion_ban = champion_ban_span.get("title")
 				champion_ban = self.convert_champions_name(champion_ban)
@@ -433,8 +421,8 @@ class Command(BaseCommand):
 				champion_object.ban += 1
 				champion_object.save()
 			
-			champion_pick_team1_spans = td[7].find_all("span")
-			champion_pick_team2_spans = td[8].find_all("span")
+			champion_pick_team1_spans = td_match_history[7].find_all("span")
+			champion_pick_team2_spans = td_match_history[8].find_all("span")
 			if winner_team_no == 1 :
 				for champion_pick_span in champion_pick_team1_spans :
 					champion_pick = champion_pick_span.get("title")
@@ -471,7 +459,7 @@ class Command(BaseCommand):
 			
 			# update last_update.txt
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
-				file.write(f"{match_date_year}/{match_date_month}/{match_date_day}_{match_no}")
+				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 
 	def reset_ranking_24_spring_regular(self) :
 		teams = ["T1", "GEN", "HLE", "KDF", "FOX", "NS", "DK", "DRX", "BRO", "KT"]
