@@ -41,13 +41,13 @@
 		<div class="ranking_block ranking_block3">
 			<div class="title">세트 득실</div>
 			{% for ranking in ranking_list %}
-			<div class="set_win_lose">{{ranking.set_win}}</div>
+			<div class="set_win_lose">{{ranking.set_win}}승 {{ranking.set_lose}}패</div>
 			{% endfor %}
 		</div>
 		<div class="ranking_block ranking_block3">
 			<div class="title">득실차</div>
 			{% for ranking in ranking_list %}
-			<div class="set_diff">{{ranking.set_lose}}</div>
+			<div class="set_diff">{{ranking.set_diff}}</div>
 			{% endfor %}
 		</div>
 		<div class="ranking_block ranking_block3">
