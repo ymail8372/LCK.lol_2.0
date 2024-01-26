@@ -374,7 +374,7 @@ class Command(BaseCommand):
 		
 		for match_history in match_histories :
 			# last_update (get from last_update.txt)
-			with open("./index/management/commands/last_update.txt", "r") as file :
+			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
 			last_update_match_num = int(last_update.split('_')[1])
@@ -457,7 +457,7 @@ class Command(BaseCommand):
 					champion_object.save()
 			
 			# update last_update.txt
-			with open("./index/management/commands/last_update.txt", "w") as file :
+			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
 				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 
 	def reset_ranking_24_spring_regular(self) :
@@ -504,12 +504,12 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
-		#print("update schedule...")
-		#self.update_schedule()
-		#print("updating schedule complete!")
-		print("update champion...")
+		print("start to update schedule...")
+		self.update_schedule()
+		print("updating schedule complete!")
+		print("start to update champion...")
 		self.update_champion()
 		print("updating champion complete!")
-		print("update ranking_24_spring...")
+		print("start to update ranking_24_spring...")
 		self.update_ranking_24_spring_regular()
 		print("updating ranking_24_spring complete")
