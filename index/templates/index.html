@@ -13,7 +13,7 @@
 	</section>
 
 	<section id="champion">
-		<h2>챔피언 통계</h2>
+		<h2><a href="/champion?league=LCK_spring&patch=14.1">챔피언 통계</a></h2>
 		<table class="champion_table">
 			<tr class="champion_table_th_tr">
 				<th colspan=2>챔피언</th><th>픽</th><th>밴</th><th>밴픽률</th><th>승리</th><th>패배</th><th>승률</th>
@@ -29,11 +29,14 @@
 				</tr>
 				{% endfor %}
 			{% endif %}
+			<tr>
+				<td class="view_more" colspan="8"><a href="/champion?league=LCK_spring&patch=14.1">챔피언 통계 더보기 -></a></td>
+			</tr>
 		</table>
 	</section>
 	
 	<section id="schedule">
-		<h2>일정</h2>
+		<h2><a href="/schedule">일정</a></h2>
 		<div id="schedule_block">
 			<div id="schedule_title">
 				<div id="schedule_date"></div>
@@ -73,13 +76,14 @@
 			</div>
 			{% endfor %}
 			<div class="schedule_match schedule_no_team">경기가 없습니다</div>
+			<div class="view_more"><a href="/schedule">일정 더보기 -></a></div>
 		</div>
 		<div class="schedule_controler schedule_controler_left"></div>
 		<div class="schedule_controler schedule_controler_right"></div>
 	</section>
 	
 	<section id="ranking">
-		<h2>순위</h2>
+		<h2><a href="/ranking">순위</a></h2>
 		<div id="ranking_blocks">
 			<div class="ranking_block ranking_block1">
 				<div class="title">순위</div>

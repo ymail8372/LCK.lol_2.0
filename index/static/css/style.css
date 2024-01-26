@@ -74,8 +74,7 @@
 	justify-content: center;
 	align-items: center;
 	min-height: 100px;
-	border-radius: 0 0 10px 10px;
-	border-top: #BDBDBD 1px solid;
+	border-bottom: #BDBDBD 1px solid;
 }
 
 #schedule #schedule_block .schedule_team img {
@@ -160,7 +159,7 @@
 }
 
 #ranking_blocks {
-	margin: 30px auto;
+	margin: 0px auto 20px;
 	width: 98%;
 	display: flex;
 	overflow: hidden;
@@ -282,4 +281,10 @@
 	display: inline-block;
 	width: 15px;
 	height: 15px;
+}
+
+/* view more */
+.view_more {
+	height: 40px;
+	line-height: 40px;
 }
