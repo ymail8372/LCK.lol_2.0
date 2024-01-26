@@ -372,6 +372,7 @@ class Command(BaseCommand):
 		match_histories = tbody.find_all("tr")
 		match_histories.reverse()
 		
+		prev_matches = []
 		for match_history in match_histories :
 			# last_update (get from last_update.txt)
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
@@ -385,15 +386,20 @@ class Command(BaseCommand):
 			
 			# set match_date and match_num
 			if last_update_datetime_object > match_date :
+				prev_matches.append(match_history)
 				continue
 			elif last_update_datetime_object == match_date :
 				total_match_num = 0
-				for match_history_for_match_num in match_histories :
+				for match_history_for_match_num in prev_matches :
 					td_match_history_for_match_num = match_history_for_match_num.find_all("td")
 					match_date_for_match_num = datetime(int(td_match_history_for_match_num[0].text.split("-")[0]), int(td_match_history_for_match_num[0].text.split("-")[1]), int(td_match_history_for_match_num[0].text.split("-")[2]))
 					if match_date == match_date_for_match_num :
 						total_match_num += 1
-				match_num = last_update_match_num + 1
+				match_num = total_match_num + 1
+				
+				if match_num <= last_update_match_num :
+					prev_matches.append(match_history)
+					continue
 			else :
 				match_num = 1
 			
@@ -457,6 +463,7 @@ class Command(BaseCommand):
 					champion_object.save()
 			
 			# update last_update.txt
+            prev_matches.append(match_history)
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
 				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 
@@ -504,10 +511,17 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
+<<<<<<< HEAD
 		print("start to update schedule...")
 		self.update_schedule()
 		print("updating schedule complete!")
 		print("start to update champion...")
+=======
+		print("update schedule...")
+		self.update_schedule()
+		print("updating schedule complete!")
+		print("update champion...")
+>>>>>>> ecbbba2e044977d49ac22968c0483820e969a97d
 		self.update_champion()
 		print("updating champion complete!")
 		print("start to update ranking_24_spring...")
