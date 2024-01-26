@@ -511,17 +511,10 @@ class Command(BaseCommand):
 				team2.save()
 
 	def handle(self, *args, **options):
-<<<<<<< HEAD
 		print("start to update schedule...")
 		self.update_schedule()
 		print("updating schedule complete!")
 		print("start to update champion...")
-=======
-		print("update schedule...")
-		self.update_schedule()
-		print("updating schedule complete!")
-		print("update champion...")
->>>>>>> ecbbba2e044977d49ac22968c0483820e969a97d
 		self.update_champion()
 		print("updating champion complete!")
 		print("start to update ranking_24_spring...")
