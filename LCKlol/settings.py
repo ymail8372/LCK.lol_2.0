@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
 	"127.0.0.1",
 	".ap-northeast-2.compute.amazonaws.com",
     ".lckinfo.lol",
+    "172.31.44.166",
 ]
 
 
@@ -87,7 +88,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'LCKlol',
-        'USER': 'root',
+        'USER': 'ymail8372',
         'PASSWORD': 'Hs1261101@',
         'HOST': 'localhost',
         'PORT': '3306',
