@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from index.models import Schedule
 from index.models import Ranking_24_spring_regular
 from index.models import Champion_24_LCK_spring
+from index.models import Ranking_24_spring_player
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup

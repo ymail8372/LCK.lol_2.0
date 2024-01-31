@@ -3,6 +3,7 @@ from django.shortcuts import render
 from index import models
 from index.models import Schedule
 from index.models import Ranking_24_spring_regular
+from index.models import Ranking_24_spring_player
 from django.http import HttpResponse
 
 def champion_table(request) :
@@ -185,12 +186,30 @@ def schedule(request) :
 
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1})
 
+def convert_team_name_to_tricode_24spring(team) :
+	teams = {
+		"한화생명e스포츠":"HLE",
+		"젠지":"GEN",
+		"디플러스 기아":"DK",
+		"T1":"T1",
+		"kt 롤스터":"KT",
+		"FearX":"FOX",
+		"농심 레드포스":"NS",
+		"광동 프릭스":"KDF",
+		"DRX":"DRX",
+		"OK저축은행 브리온":"BRO",
+	}
+	
+	if team in teams :
+		return teams[team]
+	else :
+		return team
+
 def ranking(request) :
-	# ranking
+	# team ranking
 	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
 	
-	# make ranking dictionary
-	ranking_list = []
+	ranking_list_team = []
 	for ranking in ranking_24_spring_regular :
 		new_ranking = {}
 		new_ranking["team"] = ranking.name
@@ -201,20 +220,51 @@ def ranking(request) :
 		new_ranking["set_lose"] = ranking.set_lose
 		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
 		new_ranking["etc"] = ranking.etc
-		ranking_list.append(new_ranking)
+		ranking_list_team.append(new_ranking)
 	
-	ranking_list.sort(key = lambda ranking: (ranking["game_win"], ranking["set_diff"]), reverse=True)
+	ranking_list_team.sort(key = lambda ranking: (ranking["game_win"], ranking["set_diff"]), reverse=True)
 	
-	for i in range(len(ranking_list)) :
+	for i in range(len(ranking_list_team)) :
 		if i == 0 :
-			ranking_list[i]["ranking"] = 1
+			ranking_list_team[i]["ranking"] = 1
 		else :
-			if ranking_list[i]["game_win"] == ranking_list[i-1]["game_win"] and ranking_list[i]["set_diff"] == ranking_list[i-1]["set_diff"] :
-				ranking_list[i]["ranking"] = ranking_list[i-1]["ranking"]
+			if ranking_list_team[i]["game_win"] == ranking_list_team[i-1]["game_win"] and ranking_list_team[i]["set_diff"] == ranking_list_team[i-1]["set_diff"] :
+				ranking_list_team[i]["ranking"] = ranking_list_team[i-1]["ranking"]
 			else :
-				ranking_list[i]["ranking"] = i+1
+				ranking_list_team[i]["ranking"] = i+1
+				
+	# player ranking
+	ranking_list_player = []
 	
-	return render(request, 'ranking.html', {"ranking_list": ranking_list})
+	ranking_24_spring_player = Ranking_24_spring_player.objects.all()
+	for player in ranking_24_spring_player :
+		i = 0
+		check = 0
+		for temp in ranking_list_player :
+			if player.nickname == temp["nickname"] :
+				check = 1
+				ranking_list_player[i]["POG_point"] += 100
+				break
+			i += 1
+		if check == 0 :
+			ranking_list_player.append({"name": player.name, "nickname": player.nickname, "team": player.team, "team_tricode": convert_team_name_to_tricode_24spring(player.team), "position": player.position, "POG_point": 100})
+	
+	
+	ranking_list_player.sort(key = lambda ranking: ranking["POG_point"], reverse=True)
+	ranking_list_player = ranking_list_player[:10]
+	
+	for i in range(len(ranking_list_player)) :
+		if i == 0 :
+			ranking_list_player[0]["ranking"] = 1
+		else :
+			if ranking_list_player[i-1]["POG_point"] == ranking_list_player[i]["POG_point"] :
+				ranking_list_player[i]["ranking"] = ranking_list_player[i-1]["ranking"]
+			else :
+				ranking_list_player[i]["ranking"] = i+1
+				
+	print(ranking_list_player)
+	
+	return render(request, 'ranking.html', {"ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
 
 def champion(request) :
 	

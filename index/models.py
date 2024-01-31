@@ -58,7 +58,18 @@ class Ranking_24_spring_regular(models.Model):
     
     class Meta:
         db_table = "ranking_24_spring_regular"
-        
+
+class Ranking_24_spring_player(models.Model) :
+    key = models.AutoField(db_column="key", primary_key=True)
+    date = models.TextField(db_column="date", default="-")
+    name = models.TextField(db_column="name", default="-")
+    nickname = models.TextField(db_column="nickname", default="-")
+    team = models.TextField(db_column="team", default="-")
+    position = models.TextField(db_column="position", default="-")
+    
+    class Meta :
+        db_table = "ranking_24_spring_player"
+
 class Champion_23_LCK_summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
