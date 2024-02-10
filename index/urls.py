@@ -10,4 +10,5 @@ urlpatterns = [
 	path('champion', views.champion),
 	path('champion_table', views.champion_table),
 	path('history', views.history),
+	path('ads.txt', views.Ads),
 ]
