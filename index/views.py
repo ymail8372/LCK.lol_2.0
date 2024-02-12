@@ -166,10 +166,14 @@ def index(request) :
 			else :
 				ranking_list[i]["ranking"] = i+1
 	
+	# version
+	league_version = "14.1b"
+	live_version = "14.3"
+	
 	if champions == "no_model" :
-		return render(request, 'index.html', {"schedules": schedules, "champions": "", "ranking_list": ranking_list})
+		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
 	else :
-		return render(request, 'index.html', {"schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
+		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
 
 def schedule(request) :
 	# schedules
