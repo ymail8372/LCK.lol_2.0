@@ -16,7 +16,7 @@ body, input, textarea, select, button, table {
 
 /* body, wrap tag initialization */
 body {
-	background-color: #F7F7F7; font-weight: bold;}
+	background-color: #F7F7F7; font-weight: bold; overflow: hidden;}
 
 #wrap {
 	width: 1360px; margin: 0 auto; overflow: hidden;}

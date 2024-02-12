@@ -376,7 +376,7 @@ class Command(BaseCommand):
 		prev_matches = []
 		for match_history in match_histories :
 			# last_update (get from last_update.txt)
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
+			with open("./index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
 			last_update_match_num = int(last_update.split('_')[1])
@@ -407,7 +407,13 @@ class Command(BaseCommand):
 			print(f"record: {match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 			
 			# record
-			patch = td_match_history[1].text
+			if match_date < datetime(2024, 1, 22) :
+				patch = "14.1"
+			elif match_date < datetime(2024, 2, 5) :
+				patch = "14.1b"
+			else :
+				patch = "14.2"
+			
 			team1 = td_match_history[2].find("a").get("data-to-id")
 			
 			winner_team = td_match_history[4].find("a").get("data-to-id")
@@ -465,7 +471,7 @@ class Command(BaseCommand):
 			
 			# update last_update.txt
 			prev_matches.append(match_history)
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
+			with open("./index/management/commands/last_update.txt", "w") as file :
 				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 
 	def reset_ranking_24_spring_regular(self) :
