@@ -6,11 +6,13 @@
 	{% endblock head %}
 <body>
 	{% include "include/nav.html" %}
+	{% comment %}{% include "include/ads1.html" %}{% endcomment %}
 	<div id="wrap">
 		{% block content %}
 		
 		{% endblock content %}
 	</div>
+	{% comment %}{% include "include/ads2.html" %}{% endcomment %}
 	{% include "include/footer.html" %}
 </body>
 </html>
