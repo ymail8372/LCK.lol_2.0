@@ -376,7 +376,12 @@ class Command(BaseCommand):
 		prev_matches = []
 		for match_history in match_histories :
 			# last_update (get from last_update.txt)
+			
+			# Server Environment
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
+				
+			# Develop Environment
+			# with open("./index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
 			last_update_match_num = int(last_update.split('_')[1])
