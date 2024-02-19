@@ -7,6 +7,12 @@ from index.models import Ranking_24_spring_player
 from index.models import Version
 from django.http import HttpResponse
 
+# version
+version = Version.objects.get(key=0)
+
+league_version = version.league_version
+live_version = version.live_version
+
 def champion_table(request) :
 	league = request.GET.get('league', '')
 	patch = request.GET.get('patch', '')
@@ -167,11 +173,6 @@ def index(request) :
 			else :
 				ranking_list[i]["ranking"] = i+1
 	
-	# version
-	version = Version.objects.get(key=0)
-	
-	league_version = version["league_version"]
-	live_version = version["live_version"]
 	
 	if champions == "no_model" :
 		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
