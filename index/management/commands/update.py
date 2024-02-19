@@ -148,7 +148,7 @@ class Command(BaseCommand):
 						
 						finally :
 							Schedule.objects.create(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode, team2_tricode=team2_tricode, team1_score=team1_score, team2_score=team2_score, hour=hour, min=min, ampm=ampm, etc=etc)
-					
+	
 	def convert_team_name_24(self, team) :
 		teams = {
 			"Gen.G": "젠지",
@@ -379,9 +379,6 @@ class Command(BaseCommand):
 			
 			# Server Environment
 			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
-				
-			# Develop Environment
-			# with open("./index/management/commands/last_update.txt", "r") as file :
 				last_update = file.read()
 			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
 			last_update_match_num = int(last_update.split('_')[1])
@@ -476,7 +473,7 @@ class Command(BaseCommand):
 			
 			# update last_update.txt
 			prev_matches.append(match_history)
-			with open("./index/management/commands/last_update.txt", "w") as file :
+			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
 				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
 
 	def reset_ranking_24_spring_regular(self) :

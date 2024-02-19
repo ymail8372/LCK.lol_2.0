@@ -93,3 +93,11 @@ class Champion_24_LCK_spring(models.Model) :
     
     class Meta:
         db_table = "champion_24_LCK_spring"
+        
+class Version(models.Model) :
+    key = models.AutoField(db_column="key", primary_key=True)
+    league_version = models.TextField(db_column="league_version", default="-")
+    live_version = models.TextField(db_column="live_version", default="-")
+    
+    class Meta:
+        db_table = "version"
