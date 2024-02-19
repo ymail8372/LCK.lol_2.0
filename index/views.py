@@ -8,7 +8,7 @@ from index.models import Version
 from django.http import HttpResponse
 
 # version
-version = Version.objects.get(key=0)
+version = Version.objects.all()[0]
 
 league_version = version.league_version
 live_version = version.live_version
