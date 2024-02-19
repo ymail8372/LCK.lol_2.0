@@ -93,7 +93,6 @@ def get_champions(league, patch,  sort='') :
 			champion["win_rate"] = 0.0
 	
 	if sort == "" :
-		print("banpick_rate")
 		champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
 	elif "pick_menu" in sort :
 		if "descending" in sort :
