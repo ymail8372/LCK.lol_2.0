@@ -293,7 +293,7 @@ class Command(BaseCommand):
 				"Sion": "사이온",
 				"Sivir": "시비르",
 				"Skarner": "스카너",
-				"smolder": "스몰더",
+				"Smolder": "스몰더",
 				"Sona": "소나",
 				"Soraka": "소라카",
 				"Swain": "스웨인",
