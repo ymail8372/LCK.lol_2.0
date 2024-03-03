@@ -26,7 +26,6 @@ class Command(BaseCommand):
 		# driver get URL 
 		driver.get(url)
 		driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-		time.sleep(3)
 		
 		# driver get schedule from lol wiki
 		while True :
@@ -108,7 +107,7 @@ class Command(BaseCommand):
 				
 				# update or create schedule DB
 				try :
-					schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team1_name, team2_name=team2_name, hour=hour, min=min, ampm=ampm)
+					schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team1_name, team2_name=team2_name)
 					
 					# Check whether there is a data that is suit for the date and result.
 					if schedule.team1_score == team1_score and schedule.team2_score == team2_score :
@@ -125,7 +124,7 @@ class Command(BaseCommand):
 				except Schedule.DoesNotExist :
 					try :
 						# Check whether team1_name, team2_name are switched.
-						schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team2_name, team2_name=team1_name, hour=hour, min=min, ampm=ampm)
+						schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team2_name, team2_name=team1_name)
 						
 						schedule.team1_name = team1_name
 						schedule.team1_tricode = team1_tricode
@@ -503,12 +502,14 @@ class Command(BaseCommand):
 					continue
 				
 				# update game_win, game_lose
-				if schedule_object.team1_score > schedule_object.team2_score :
+				if schedule_object.team1_score == 2:
 					team1.game_win += 1
 					team2.game_lose += 1
-				else :
+				elif schedule_object.team2_score == 2 :
 					team1.game_lose += 1
 					team2.game_win += 1
+				else :
+					continue
 				
 				# update set_win, set_lose
 				team1.set_win += schedule_object.team1_score
