@@ -103,7 +103,7 @@ class Command(BaseCommand):
 				elif date < datetime(2024, 3, 25) :
 					etc = "LCK spring 2라운드"
 				else :
-					etc = "LCK 플레이오프"
+					etc = "LCK spring 플레이오프"
 				
 				# update or create schedule DB
 				try :
