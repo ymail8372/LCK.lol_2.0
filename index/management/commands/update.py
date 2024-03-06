@@ -413,8 +413,10 @@ class Command(BaseCommand):
 				patch = "14.1b"
 			elif match_date < datetime(2024, 2, 19) :
 				patch = "14.2"
-			else :
+			elif match_date < datetime(2024, 3, 6) :
 				patch = "14.3"
+			else :
+				patch = "14.4"
 			
 			team1 = td_match_history[2].find("a").get("data-to-id")
 			
