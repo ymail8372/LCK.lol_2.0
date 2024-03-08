@@ -126,13 +126,13 @@ class Command(BaseCommand):
 						# Check whether team1_name, team2_name are switched.
 						schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team2_name, team2_name=team1_name)
 						
-						schedule.team1_name = team1_name
-						schedule.team1_tricode = team1_tricode
-						schedule.team2_name = team2_name
-						schedule.team2_tricode = team2_tricode
+						schedule.team1_name = team2_name
+						schedule.team1_tricode = team2_tricode
+						schedule.team2_name = team1_name
+						schedule.team2_tricode = team1_tricode
 						
-						schedule.team1_score = team1_score
-						schedule.team2_score = team2_score
+						schedule.team1_score = team2_score
+						schedule.team2_score = team1_score
 						schedule.save()
 							
 					except Schedule.DoesNotExist :
