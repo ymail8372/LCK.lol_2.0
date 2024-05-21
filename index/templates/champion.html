@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="static/champion/css/style.css">
+	<title>LCKinfo.lol - 챔피언 통계</title>
+{% endblock %}
+
+{% block content %}
+	{% load static %}
+	<h2>챔피언 통계</h2>
+	<div id="champion_menu">
+		<div id="league_selection">
+			<a class="league LCK_spring activated"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK spring</a>
+			<a class="league MSI"><img src="{% static 'img/league_logo/MSI.png' %}">MSI</a>
+			<a class="league LCK_summer"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK summer</a>
+			<a class="league Worlds"><img src="{% static 'img/league_logo/Worlds.png' %}">Worlds</a>
+		</div>
+		
+		<div class="patch_selection LCK_spring">
+			<a class="patch all" href="/champion?league=LCK_spring&patch=all">모든 버전</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=14.1">14.1</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=14.1b">14.1b</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=14.2">14.2</a>
+			<a class="patch" href="/champion?league=LCK_spring&patch=14.3">14.3</a>
+		</div>
+		<div class="patch_selection MSI">
+		</div>
+		<div class="patch_selection LCK_summer">
+		</div>
+		<div class="patch_selection Worlds">
+		</div>
+	</div>
+	
+	<div id="champions">
+		<div class="champion_menu">
+			<div class="name_block_menu">챔피언 이름</div>
+			<div class="pick_menu">픽</div>
+			<div class="ban_menu">밴</div>
+			<div class="banpick_rate_menu descending">밴픽률</div>
+			<div class="win_menu">승리</div>
+			<div class="lose_menu">패배</div>
+			<div class="win_rate_menu">승률</div>
+			<div class="patch_menu">패치 버전</div>
+		</div>
+		<div class="champion_table">
+			
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="static/champion/js/champion.js"></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load static %}
+
+{% for champion in champions %}
+<div class="champion patch_{{champion.patch}}">
+	<div class="name_block"><img src="{% static 'img/champions/'|add:champion.name|add:'.png' %}"><div class="name">{{champion.name}}</div></div>
+	<div class="pick">{{champion.pick}}</div>
+	<div class="ban">{{champion.ban}}</div>
+	<div class="banpick_rate">{{champion.banpick_rate}}%</div>
+	<div class="win">{{champion.win}}</div>
+	<div class="lose">{{champion.lose}}</div>
+	<div class="win_rate">{{champion.win_rate}}%</div>
+	<div class="patch">{{champion.patch}}</div>
+</div>
+{% endfor %}

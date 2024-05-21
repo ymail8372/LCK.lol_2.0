@@ -1,0 +1,382 @@
+{% extends "history_base.html" %}
+{% load static %}
+
+{% block css_head %}
+	<link rel="stylesheet" type="text/css" href="static/history/css/LCK/15summer-20summer.css">
+{% endblock %}
+
+{% block history_content %}
+	<section id="result">
+		<h2>결과</h2>
+		<div id="result_table">
+			<div id="winner_team">
+				<div id="winner_team_index">
+					우승팀
+				</div>
+				<div id="winner_team_content">
+					<img src="{% static 'img/teams/2020summer/DWG.webp' %}">
+					<div id="winner_team_name">DAMWON Gaming</div>
+				</div>
+			</div>
+			<div id="winner_coach">
+				<div class="coach"> · 
+					<div class="coach_index">감독</div>
+					<div class="coach_name">Zefa 이재민</div>
+				</div>
+				<div class="coach">
+					<div class="coach_index">코치</div>
+					<div class="coach_name">Daeny 양대인</div>
+				</div>
+			</div>
+			<div id="winner_player">
+				<div class="winner_player">
+					<div class="winner_player_index top"><img src="{% static 'img/position/TOP.webp' %}"><br>TOP</div>
+					<div class="winner_player_name">Nuguri 장하권</div>
+					<div class="winner_player_name">Flame 이호종</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index jg"><img src="{% static 'img/position/JG.webp' %}"><br>JG</div>
+					<div class="winner_player_name">Canyon 김건부</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index mid"><img src="{% static 'img/position/MID.webp' %}"><br>MID</div>
+					<div class="winner_player_name">ShowMaker 허수</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index AD"><img src="{% static 'img/position/AD.webp' %}"><br>AD</div>
+					<div class="winner_player_name">Ghost 장용준</div>
+					<div class="winner_player_name">Nuclear 신정현</div>
+				</div>
+				<div class="winner_player">
+					<div class="winner_player_index sup"><img src="{% static 'img/position/SUP.webp' %}"><br>SUP</div>
+					<div class="winner_player_name">BeryL 조건희</div>
+					<div class="winner_player_name">Hoit 류호성</div>
+				</div>
+			</div>
+			<div id="award_player">
+				<div class="award_player player_of_the_split">
+					<div class="awrd_player_index">Player of the Split</div>
+					<div class="awrd_player_name">Bdd 곽보성</div>
+				</div>
+				<div class="award_player regular_MVP">
+					<div class="awrd_player_index">정규시즌 MVP</div>
+					<div class="awrd_player_name">ShowMaker 허수</div>
+				</div>
+				<div class="award_player final_MVP">
+					<div class="awrd_player_index">파이널 MVP</div>
+					<div class="awrd_player_name">Nuguri 장하권</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="regular_season">
+		<h2>정규시즌</h2>
+		<table id="regular_season_table">
+			<colgroup>
+				<col style="width: 100px;">
+				<col style="width: 150px;">
+				<col style="width: 250px;">
+			</colgroup>
+			<th>순위</th><th colspan="2">팀</th><th>승</th><th>패</th><th>세트 득실</th><th>득실차</th><th>기타</th>
+			<tr>
+				<td style="background-color: #eeccee;">1</td>
+				<td><img src="{% static 'img/teams/2020summer/DWG.webp' %}"></td>
+				<td>DAMWON Gaming</td>
+				<td>16</td>
+				<td>2</td>
+				<td>34승 5패</td>
+				<td>+29</td>
+				<td>우승</td>
+			</tr>
+			<tr>
+				<td style="background-color: #aaddff;">2</td>
+				<td><img src="{% static 'img/teams/2020summer/DRX.webp' %}"></td>
+				<td>DRX</td>
+				<td>15</td>
+				<td>3</td>
+				<td>32승 13패</td>
+				<td>+19</td>
+				<td>준우승</td>
+			</tr>
+			<tr>
+				<td style="background-color: #97ECAB;">3</td>
+				<td><img src="{% static 'img/teams/2020summer/GEN.webp' %}"></td>
+				<td>Gen.G</td>
+				<td>14</td>
+				<td>4</td>
+				<td>31승 12패</td>
+				<td>+19</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ccffcc;">4</td>
+				<td><img src="{% static 'img/teams/2020summer/T1.webp' %}"></td>
+				<td>T1</td>
+				<td>13</td>
+				<td>5</td>
+				<td>28승 14패</td>
+				<td>+14</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #ccffcc;">5</td>
+				<td><img src="{% static 'img/teams/2020summer/AF.webp' %}"></td>
+				<td>Afreeca Freecs</td>
+				<td>10</td>
+				<td>8</td>
+				<td>21승 20패</td>
+				<td>+1</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #FFFF99;">6</td>
+				<td><img src="{% static 'img/teams/2020summer/KT.webp' %}"></td>
+				<td>kt Rolster</td>
+				<td>7</td>
+				<td>11</td>
+				<td>18승 25패</td>
+				<td>-7</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #FFFF99;">7</td>
+				<td><img src="{% static 'img/teams/2020summer/SB.webp' %}"></td>
+				<td>SANDBOX Gaming</td>
+				<td>7</td>
+				<td>11</td>
+				<td>17승 25패</td>
+				<td>-8</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #FFFF99;">8</td>
+				<td><img src="{% static 'img/teams/2020summer/DYN.webp' %}"></td>
+				<td>Team Dynamics</td>
+				<td>5</td>
+				<td>13</td>
+				<td>16승 28패</td>
+				<td>-12</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #FFFF99;">9</td>
+				<td><img src="{% static 'img/teams/2020summer/HLE.webp' %}"></td>
+				<td>Hanwha Life Esports</td>
+				<td>2</td>
+				<td>16</td>
+				<td>8승 34패</td>
+				<td>-26</td>
+				<td> - </td>
+			</tr>
+			<tr>
+				<td style="background-color: #FFFF99;">10</td>
+				<td><img src="{% static 'img/teams/2020summer/SP.webp' %}"></td>
+				<td>SeolHaeOne Prince</td>
+				<td>1</td>
+				<td>17</td>
+				<td>6승 35패</td>
+				<td>-29</td>
+				<td> - </td>
+			</tr>
+		</table>
+		<div class="reference">
+			<div class="reference_border">
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #eeccee"></div><span class="reference_letter"> : 결승전 진출 &nbsp;</span>
+				</div>
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #aaddff"></div><span class="reference_letter"> : PO 2라운드 진출 &nbsp;</span>
+				</div>
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #97ECAB"></div><span class="reference_letter"> : PO 1라운드 진출 &nbsp;</span>
+				</div>
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #ccffcc"></div><span class="reference_letter"> : 와일드카드전 진출 &nbsp;</span>
+				</div>
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #FFFF99"></div><span class="reference_letter"> : 잔류 &nbsp;</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="post_season">
+		<h2>포스트시즌</h2>
+		<div id="post_season_table">
+			<div class="post_season_block">
+				<div class="post_season_index">와일드카드<br>(Bo3)</div>
+				
+				<div class="post_season_team lose">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/T1.webp' %}"></div>
+					<div class="post_season_team_name">T1</div>
+					<div class="post_season_team_score">1</div>
+				</div>
+				<div class="post_season_team win">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/AF.webp' %}"></div>
+					<div class="post_season_team_name">AF</div>
+					<div class="post_season_team_score">2</div>
+				</div>
+			</div>
+			<div class="post_season_arrow">></div>
+			<div class="post_season_block">
+				<div class="post_season_index">플레이오프 1R<br>(Bo5)</div>
+				
+				<div class="post_season_team win">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/GEN.webp' %}"></div>
+					<div class="post_season_team_name">GEN</div>
+					<div class="post_season_team_score">3</div>
+				</div>
+				<div class="post_season_team lose">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/AF.webp' %}"></div>
+					<div class="post_season_team_name">AF</div>
+					<div class="post_season_team_score">0</div>
+				</div>
+			</div>
+			<div class="post_season_arrow">></div>
+			<div class="post_season_block">
+				<div class="post_season_index">플레이오프 2R<br>(Bo5)</div>
+				
+				<div class="post_season_team win">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/DRX.webp' %}"></div>
+					<div class="post_season_team_name">DRX</div>
+					<div class="post_season_team_score">3</div>
+				</div>
+				<div class="post_season_team lose">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/GEN.webp' %}"></div>
+					<div class="post_season_team_name">GEN</div>
+					<div class="post_season_team_score">2</div>
+				</div>
+			</div>
+			<div class="post_season_arrow">></div>
+			<div class="post_season_block">
+				<div class="post_season_index">파이널<br>(Bo5)</div>
+				
+				<div class="post_season_team win">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/DWG.webp' %}"></div>
+					<div class="post_season_team_name">DWG</div>
+					<div class="post_season_team_score">3</div>
+				</div>
+				<div class="post_season_team lose">
+					<div class="post_season_team_img"><img src="{% static 'img/teams/2020summer/DRX.webp' %}"></div>
+					<div class="post_season_team_name">DRX</div>
+					<div class="post_season_team_score">0</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="POG">
+		<h2>Player of the Game 포인트</h2>
+		<table id="POG_table">
+			<colgroup>
+				<col style="width: 100px;">
+				<col style="width: 100px;">
+				<col style="width: 200px;">
+				<col style="">
+				<col style="">
+				<col style="width: 150px;">
+				<col style="width: 100px;">
+			</colgroup>
+			<th>순위</th><th colspan="2">팀</th><th colspan="2">선수</th><th>포인트</th><th>포지션</th>
+			<tr>
+				<td style="background-color: #aaddff;">1</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/GEN.webp' %}"></td>
+				<td>Gen.G</td>
+				<td>Bdd</td>
+				<td>곽보성</td>
+				<td>1300</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DWG.webp' %}"></td>
+				<td>DAMWON Gaming</td>
+				<td>ShowMaker</td>
+				<td>허수</td>
+				<td>1100</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DWG.webp' %}"></td>
+				<td>DAMWON Gaming</td>
+				<td>Canyon</td>
+				<td>김건부</td>
+				<td>1000</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/JG_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DRX.webp' %}"></td>
+				<td>DRX</td>
+				<td>Chovy</td>
+				<td>정지훈</td>
+				<td>1000</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/MID_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/T1.webp' %}"></td>
+				<td>T1</td>
+				<td>Canna</td>
+				<td>김창동</td>
+				<td>1000</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/TOP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DYN.webp' %}"></td>
+				<td>Team Dynamics</td>
+				<td>Rich</td>
+				<td>이재원</td>
+				<td>900</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/TOP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DRX.webp' %}"></td>
+				<td>DRX</td>
+				<td>Keria</td>
+				<td>류민석</td>
+				<td>800</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/SUP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/GEN.webp' %}"></td>
+				<td>Gen.G</td>
+				<td>Ruler</td>
+				<td>박재혁</td>
+				<td>700</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/AD_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DWG.webp' %}"></td>
+				<td>DAMWON Gaming</td>
+				<td>BeryL</td>
+				<td>조건희</td>
+				<td>600</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/SUP_black.webp' %}"></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td><img class="POG_team_img" src="{% static 'img/teams/2020summer/DRX.webp' %}"></td>
+				<td>DRX</td>
+				<td>Doran</td>
+				<td>최현준</td>
+				<td>600</td>
+				<td><img class="POG_position_img" src="{% static 'img/position/TOP_black.webp' %}"></td>
+			</tr>
+		</table>
+		<div class="reference">
+			<div class="reference_border">
+				<div class="reference_element reference_element_type_color">
+					<div class="reference_color" style="background-color: #aaddff"></div><span class="reference_letter"> : Player of the Split</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+{% endblock %}
