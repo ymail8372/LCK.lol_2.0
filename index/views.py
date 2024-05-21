@@ -2,8 +2,6 @@ from django.shortcuts import render
 
 from index import models
 from index.models import Schedule
-from index.models import Ranking_24_spring_regular
-from index.models import Ranking_24_spring_player
 from index.models import Version
 from django.http import HttpResponse
 

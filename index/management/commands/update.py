@@ -1,154 +1,220 @@
 from django.core.management.base import BaseCommand
 
+import index.models
 from index.models import Schedule
-from index.models import Ranking_24_spring_regular
-from index.models import Champion_24_LCK_spring
-from index.models import Ranking_24_spring_player
-from selenium import webdriver
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
-import time
+
+from mwrogue.esports_client import EsportsClient
+
+from datetime import datetime
+import pytz
 
 class Command(BaseCommand):
 	help = 'update command!'
+	UTC = pytz.timezone("UTC")
+	KST = pytz.timezone("Asia/Seoul")
+	site = EsportsClient("lol")
 	
 	def update_schedule(self) :
-		# Setting web driver
-		url = "https://lolesports.com/schedule?leagues=lck"
+		league = "LCK 2024 spring"
 		
-		option = webdriver.ChromeOptions()
-		option.add_argument("--headless")
-		option.add_argument("--lang=ko_KR")
-		
-		driver = webdriver.Chrome(option)
-		
-		# driver get URL 
-		driver.get(url)
-		driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-		
-		# driver get schedule from lol wiki
-		while True :
-			web_source = driver.page_source
-			soup_origin = BeautifulSoup(web_source, "html.parser")
-			event = soup_origin.find("div", class_="Event")
-			if event != None :
-				break
-		
-		# quit driver
-		driver.quit()
-		
-		# get schedule information
-		event_tags = event.find_all("div")
-		for event_tag in event_tags :
+		schedules = self.site.cargo_client.query(
+			tables="Tournaments=T, MatchSchedule=MS",
+			join_on="T.OverviewPage=MS.OverviewPage",
+			where=f"T.Name='{league}'",
+			order_by="MS.DateTime_UTC",
+			limit=400,
 			
-			# EventDate
-			if event_tag['class'][0] == "EventDate" :
-				monthday = event_tag.find("span", class_="monthday")
+			fields="T.Name, MS.Team1, MS.Team2, MS.Team1Score, MS.Team2Score, MS.DateTime_UTC, MS.MVP, MS.MVPPoints",
+		)
+		
+		for schedule in schedules :
+			schedule["DateTime UTC"] = datetime.strptime(schedule["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
+			schedule_obj, created = Schedule.objects.get_or_create(
+				team1_name=schedule["Team1"],
+				team2_name=schedule["Team2"],
+				datetime=schedule["DateTime UTC"],
+				etc=schedule["Name"],
+			)
 			
-				year = 2024
-				month = int(monthday.text.split('월')[0])   # month
-				day_temp = monthday.text.split(' ')[1]
-				day = int(day_temp[:-1])	# day
-				weekday_datetime = datetime(year, month, day).weekday()
-				days = ['월', '화', '수', '목', '금', '토', '일']
-				weekday = days[weekday_datetime]	# weekday
+			if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team2Score"]) :
+				print("continue")
+				continue
+			else :
+				print(f"recording {schedule}")
+				
+				schedule_obj.team1_score = schedule["Team1Score"]
+				schedule_obj.team2_score = schedule["Team2Score"]
+				
+				schedule_obj.save()
+	
+	def update_champion(self) :
+		league = "LCK 2024 spring"
+		
+		pickbans = self.site.cargo_client.query(
+			tables="Tournaments=T, ScoreboardGames=SG",
+			where=f"T.Name='{league}'",
+			join_on="T.Name=SG.Tournament",
+			order_by="SG.DateTime_UTC",
+			limit=400,
 			
-			# EventTime
-			elif event_tag['class'][0] == "EventMatch" :
-				# continue if the Match is about live
-				a = event_tag.find("a")
-				if a != None :
-					if a['href'].find("live") != -1 :
-						continue
+			fields="SG.Winner, SG.Team1Bans, SG.Team2Bans, SG.Team1Picks, SG.Team2Picks, SG.Patch, SG.DateTime_UTC",
+		)
+		
+		# Get champion model
+		champion_DB = getattr(index.models, f"Champion_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}")
+		
+		for pickban in pickbans :
+			# check whether the log is after last_update.
+			# /srv/LCK.lol_2.0/index/management/commands/last_update.txt
+			pickban["DateTime_UTC"] = datetime.strptime(pickban["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
+			
+			with open("./index/management/commands/last_update_champion.txt", "r") as file :
+				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
+			
+			if not pickban["DateTime_UTC"] > last_update :
+				print("continue")
+				continue
+			
+			# 2024 LCK spring 14.1 -> 14.1b
+			if pickban["Patch"] == "14.1" :
+				if pickban["DateTime_UTC"] > datetime(2024, 1, 23) :
+					pickban["Patch"] = "14.1b"
+			
+			bans = []
+			team1Picks = []
+			team2Picks = []
+			patch = pickban["Patch"]
+			
+			bans.extend(pickban["Team1Bans"].split(","))
+			bans.extend(pickban["Team2Bans"].split(","))
+			
+			team1Picks.extend(pickban["Team1Picks"].split(","))
+			team2Picks.extend(pickban["Team2Picks"].split(","))
+			
+			# Add ban
+			for ban in bans :
+				champion_obj, created = champion_DB.objects.get_or_create(name=ban, patch=patch)
 				
-				EventTime = event_tag.find("div", class_="EventTime")
-
-				hour = int(EventTime.find("span", class_="hour").text)  # hour
-				min = EventTime.find("span", class_="minute")   # min
-				if min == None :
-					min = 0
+				champion_obj.ban += 1
+				#print(f"{champion.name} updated")
+				champion_obj.save()
+			
+			# Add pick, win, lose
+			for team1Pick in team1Picks :
+				champion_obj, created = champion_DB.objects.get_or_create(name=team1Pick, patch=patch)
+				
+				champion_obj.pick += 1
+				if int(pickban["Winner"]) == 1 :
+					champion_obj.win += 1
+					#print(f"{champion.name} updated")
+					champion_obj.save()
 				else :
-					min = int(min.text)
-				ampm = EventTime.find("span", class_="ampm").text   # ampm
-
-				# EventTeam
-				teams_tag = event_tag.find("div", class_="teams")
+					champion_obj.lose += 1
+					#print(f"{champion.name} updated")
+					champion_obj.save()
 					
-				team1 = teams_tag.find("div", class_="team1")
-				team1_name = team1.find("span", class_="name").text
-				team1_name = self.convert_team_name_24(team1_name)
-				team1_tricode = team1.find("span", class_="tricode").text
+			for team2Pick in team2Picks :
+				champion_obj, created = champion_DB.objects.get_or_create(name=team2Pick, patch=patch)
 				
-				team2 = teams_tag.find("div", class_="team2")
-				team2_name = team2.find("span", class_="name").text
-				team2_name = self.convert_team_name_24(team2_name)
-				team2_tricode = team2.find("span", class_="tricode").text
-				
-				if teams_tag.find("div", class_="score") != None :
-					score = teams_tag.find("div", class_="score")
-					team1_score = score.find("span", class_="scoreTeam1").text
-					team2_score = score.find("span", class_="scoreTeam2").text
+				champion_obj.pick += 1
+				if int(pickban["Winner"]) == 2 :
+					champion_obj.win += 1
+					champion_obj.save()
 				else :
-					team1_score = 0
-					team2_score = 0
+					champion_obj.lose += 1
+					champion_obj.save()
+			
+			print(f"recording {pickban}")		
+			
+			# Update last_update.txt
+			with open("./index/management/commands/last_update_champion.txt", "w") as file :
+				print(pickban["DateTime_UTC"].strftime("%Y-%m-%d %H:%M:%S"))
+				file.write(pickban["DateTime_UTC"].strftime("%Y-%m-%d %H:%M:%S"))
+	
+	def update_ranking_2024_LCK_spring(self) :
+		league = "LCK 2024 spring"
+		
+		rankings = self.site.cargo_client.query(
+			tables="Tournaments=T, Standings=S",
+			where=f"T.Name='{league}'",
+			join_on="T.OverviewPage=S.OverviewPage",
+			order_by="S.Place",
+			limit=400,
+			
+			fields="T.Name, S.Team, S.Place, S.WinSeries, S.LossSeries, S.WinGames, S.LossGames",
+		)
+		
+		# Get standing model
+		standing_DB = getattr(index.models, f"Ranking_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}")
+		
+		for standing in rankings :
+			standing_obj, created = standing_DB.objects.get_or_create(name=standing["Team"])
+			
+			if standing["WinGames"] == standing_obj.set_win and standing["LossGames"] == standing_obj.set_lose :
+				print("continue")
+				continue
+			
+			print(f"recording {standing}")
+			
+			standing_obj.set_win = standing["WinGames"]
+			standing_obj.set_lose = standing["LossGames"]
+			standing_obj.match_win = standing["WinSeries"]
+			standing_obj.match_lose = standing["LossSeries"]
+			
+			standing_obj.save()
+	
+	def update_ranking_2024_LCK_spring_player(self) :
+		league = "LCK 2024 spring"
+		
+		# Get MVP list
+		mvps = self.site.cargo_client.query(
+			tables="MatchScheduleGame=MSG, ScoreboardGames=SG",
+			join_on="MSG.GameId=SG.GameId",
+			order_by="SG.DateTime_UTC",
+			where=f"SG.Tournament='LCK 2024 spring'",
+			limit=400,
+			
+			fields="MSG.MVP, SG.DateTime_UTC",
+		)
+		
+		# Get ranking_player model
+		ranking_player_DB = getattr(index.models, f"Ranking_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}_player")
+		
+		for mvp in mvps :
+			# check whether the log is after last_update.
+			mvp["DateTime UTC"] = datetime.strptime(mvp["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
+			
+			with open("./index/management/commands/last_update_player_ranking.txt", "r") as file :
+				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
+			
+			if not mvp["DateTime UTC"] > last_update :
+				print("continue")
+				continue
+			
+			# MVP ID
+			mvp_ID = mvp["MVP"].split(' ')[0]
+			
+			# Get MVP info
+			player_ranking = self.site.cargo_client.query(
+				tables="Players=P",
+				where=f"P.ID='{mvp_ID}' and P.Country='South Korea' and P.IsRetired='No'",
+				limit=30,
 				
-				date = datetime(year, month, day, hour, min)
-				
-				# etc, prevent updating old schedule
-				if date < datetime(2024, 1, 17) or date > datetime(2024, 4, 8) :
-					continue
-				elif date < datetime(2024, 2, 24, 17, 00) :
-					etc = "LCK spring 1라운드"
-				elif date < datetime(2024, 3, 25) :
-					etc = "LCK spring 2라운드"
-				elif date < datetime(2024, 4, 14) :
-					etc = "LCK spring 플레이오프"
-				else :
-					etc = "LCK spring 결승전"
-				
-				# update or create schedule DB
-				try :
-					schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team1_name, team2_name=team2_name)
-					
-					# Check whether there is a data that is suit for the date and result.
-					if schedule.team1_score == team1_score and schedule.team2_score == team2_score :
-						
-						# If there is a data that is suit for date and result.
-						continue
-					
-					# If there is a data that is suit for date but not suit for result.
-					else :
-						schedule.team1_score = team1_score
-						schedule.team2_score = team2_score
-						schedule.save()
-						
-				except Schedule.DoesNotExist :
-					try :
-						# Check whether team1_name, team2_name are switched.
-						schedule = Schedule.objects.get(year=year, month=month, day=day, team1_name=team2_name, team2_name=team1_name)
-						
-						schedule.team1_name = team2_name
-						schedule.team1_tricode = team2_tricode
-						schedule.team2_name = team1_name
-						schedule.team2_tricode = team1_tricode
-						
-						schedule.team1_score = team2_score
-						schedule.team2_score = team1_score
-						schedule.save()
-							
-					except Schedule.DoesNotExist :
-						# If there is a no data that is suit for the date.
-						try :
-							schedule = Schedule.objects.get(year=year, month=month, day=day, team2_name="미정", hour=hour, min=min, ampm=ampm)
-							# If there is a TBD data
-							schedule.delete()
-						
-						except Schedule.DoesNotExist :
-							pass
-						
-						finally :
-							Schedule.objects.create(year=year, month=month, day=day, weekday=weekday, team1_name=team1_name, team2_name=team2_name, team1_tricode=team1_tricode, team2_tricode=team2_tricode, team1_score=team1_score, team2_score=team2_score, hour=hour, min=min, ampm=ampm, etc=etc)
+				fields="P.ID, P.NativeName, P.Team, P.Role",
+			)
+			
+			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(nickname=player_ranking[0]["ID"], name=player_ranking[0]["NativeName"], team=player_ranking[0]["Team"], position=player_ranking[0]["Role"])
+			ranking_player_obj.POG_point += 100
+			
+			ranking_player_obj.save()
+			
+			print(f"{player_ranking}")
+			
+			# Update last_update.txt
+			with open("./index/management/commands/last_update_player_ranking.txt", "w") as file :
+				print(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
+				file.write(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
+	
 	
 	def convert_team_name_24(self, team) :
 		teams = {
@@ -346,187 +412,6 @@ class Command(BaseCommand):
 		
 		return names[name]
 		
-	def update_champion(self) :
-		URL = "https://lol.fandom.com/wiki/LCK/2024_Season/Spring_Season/Match_History"
-		
-		# Setting web driver
-		option = webdriver.ChromeOptions()
-		option.add_argument("--headless")
-		option.add_argument("--lang=ko_KR")
-		
-		driver = webdriver.Chrome(option)
-		
-		# driver get URL
-		driver.get(URL)
-		
-		# get champions table from lol wiki
-		while True :
-			web_source = driver.page_source
-			soup_origin = BeautifulSoup(web_source, "html.parser")
-			table = soup_origin.find("table", class_="wikitable hoverable-multirows mhgame sortable plainlinks column-show-hide-1 jquery-tablesorter")
-			if table != None :
-				break
-		
-		# quit driver
-		driver.quit()
-	
-		tbody = table.find("tbody")	
-		match_histories = tbody.find_all("tr")
-		match_histories.reverse()
-		
-		prev_matches = []
-		for match_history in match_histories :
-			
-			# last_update (get from last_update.txt)
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "r") as file :
-				last_update = file.read()
-			last_update_datetime_object = datetime(int(last_update.split('_')[0].split('/')[0]), int(last_update.split('_')[0].split('/')[1]), int(last_update.split('_')[0].split('/')[2]))
-			last_update_match_num = int(last_update.split('_')[1])
-			
-			# match_date (get from website table)
-			td_match_history = match_history.find_all("td")
-			match_date = datetime(int(td_match_history[0].text.split("-")[0]), int(td_match_history[0].text.split("-")[1]), int(td_match_history[0].text.split("-")[2]))
-			
-			# set match_date and match_num
-			if last_update_datetime_object > match_date :
-				prev_matches.append(match_history)
-				continue
-			elif last_update_datetime_object == match_date :
-				total_match_num = 0
-				for match_history_for_match_num in prev_matches :
-					td_match_history_for_match_num = match_history_for_match_num.find_all("td")
-					match_date_for_match_num = datetime(int(td_match_history_for_match_num[0].text.split("-")[0]), int(td_match_history_for_match_num[0].text.split("-")[1]), int(td_match_history_for_match_num[0].text.split("-")[2]))
-					if match_date == match_date_for_match_num :
-						total_match_num += 1
-				match_num = total_match_num + 1
-				
-				if match_num <= last_update_match_num :
-					prev_matches.append(match_history)
-					continue
-			else :
-				match_num = 1
-			
-			print(f"record: {match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
-			
-			# record
-			if match_date < datetime(2024, 1, 22) :
-				patch = "14.1"
-			elif match_date < datetime(2024, 2, 5) :
-				patch = "14.1b"
-			elif match_date < datetime(2024, 2, 19) :
-				patch = "14.2"
-			elif match_date < datetime(2024, 3, 6) :
-				patch = "14.3"
-			elif match_date < datetime(2024, 3, 20) :
-				patch = "14.4"
-			else :
-				patch = "14.5"
-			
-			team1 = td_match_history[2].find("a").get("data-to-id")
-			
-			winner_team = td_match_history[4].find("a").get("data-to-id")
-			winner_team_no = 0
-			
-			if winner_team == team1 :
-				winner_team_no = 1
-			else :
-				winner_team_no = 2
-			
-			champion_ban_spans = td_match_history[5].find_all("span")
-			champion_ban_spans.extend(td_match_history[6].find_all("span"))
-			for champion_ban_span in champion_ban_spans :
-				champion_ban = champion_ban_span.get("title")
-				champion_ban = self.convert_champions_name(champion_ban)
-				champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_ban, patch=patch)
-				champion_object.ban += 1
-				champion_object.save()
-			
-			champion_pick_team1_spans = td_match_history[7].find_all("span")
-			champion_pick_team2_spans = td_match_history[8].find_all("span")
-			if winner_team_no == 1 :
-				for champion_pick_span in champion_pick_team1_spans :
-					champion_pick = champion_pick_span.get("title")
-					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
-					champion_object.pick += 1
-					champion_object.win += 1
-					champion_object.save()
-			
-				for champion_pick_span in champion_pick_team2_spans :
-					champion_pick = champion_pick_span.get("title")
-					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
-					champion_object.pick += 1
-					champion_object.lose += 1
-					champion_object.save()
-					
-			else :
-				for champion_pick_span in champion_pick_team1_spans :
-					champion_pick = champion_pick_span.get("title")
-					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
-					champion_object.pick += 1
-					champion_object.lose += 1
-					champion_object.save()
-			
-				for champion_pick_span in champion_pick_team2_spans :
-					champion_pick = champion_pick_span.get("title")
-					champion_pick = self.convert_champions_name(champion_pick)
-					champion_object, created = Champion_24_LCK_spring.objects.get_or_create(name=champion_pick, patch=patch)
-					champion_object.pick += 1
-					champion_object.win += 1
-					champion_object.save()
-			
-			# update last_update.txt
-			prev_matches.append(match_history)
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update.txt", "w") as file :
-				file.write(f"{match_date.year}/{match_date.month}/{match_date.day}_{match_num}")
-
-	def reset_ranking_24_spring_regular(self) :
-		teams = ["T1", "GEN", "HLE", "KDF", "FOX", "NS", "DK", "DRX", "BRO", "KT"]
-		
-		for team in teams :
-			team_object = Ranking_24_spring_regular.objects.get(tricode=team)
-			team_object.game_win = 0
-			team_object.game_lose = 0
-			team_object.set_win = 0
-			team_object.set_lose = 0
-			
-			team_object.save()
-	
-	def update_ranking_24_spring_regular(self) :
-		self.reset_ranking_24_spring_regular()
-		
-		schedule_objects = Schedule.objects.all()
-		for schedule_object in schedule_objects :
-			if (schedule_object.etc == "LCK spring 1라운드" or schedule_object.etc == "LCK spring 2라운드") and schedule_object.year == "2024":
-				team1 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team1_name))
-				team2 = self.convert_team_name_24(Ranking_24_spring_regular.objects.get(name=schedule_object.team2_name))
-				
-				# when the schedule is not started yet
-				if schedule_object.team1_score == 0 and schedule_object.team2_score == 0 :
-					continue
-				
-				# update game_win, game_lose
-				if schedule_object.team1_score == 2:
-					team1.game_win += 1
-					team2.game_lose += 1
-				elif schedule_object.team2_score == 2 :
-					team1.game_lose += 1
-					team2.game_win += 1
-				else :
-					continue
-				
-				# update set_win, set_lose
-				team1.set_win += schedule_object.team1_score
-				team1.set_lose += schedule_object.team2_score
-				team2.set_win += schedule_object.team2_score
-				team2.set_lose += schedule_object.team1_score
-			
-				# apply update
-				team1.save()
-				team2.save()
-
 	def handle(self, *args, **options):
 		print("start to update schedule...")
 		self.update_schedule()
@@ -534,6 +419,10 @@ class Command(BaseCommand):
 		print("start to update champion...")
 		self.update_champion()
 		print("updating champion complete!")
-		print("start to update ranking_24_spring...")
-		self.update_ranking_24_spring_regular()
-		print("updating ranking_24_spring complete")
+		print("start to update ranking_2024_LCK_spring...")
+		self.update_ranking_2024_LCK_spring()
+		print("updating ranking_2024_LCK_spring complete")
+		print("start to update ranking_2024_LCK_spring_player...")
+		self.update_ranking_2024_LCK_spring_player()
+		print("updating ranking_2024_LCK_spring_player complete!")
+		

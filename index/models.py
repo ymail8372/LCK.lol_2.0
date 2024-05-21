@@ -1,76 +1,66 @@
 from django.db import models
+from datetime import datetime
 
 class Schedule(models.Model):
     key = models.AutoField(db_column='key', primary_key=True)
-    year = models.TextField(db_column='year', default='-')
-    month = models.IntegerField(db_column='month', default=0)
-    day = models.IntegerField(db_column='day', default=0)
-    weekday = models.TextField(db_column='weekday', default='-')
     team1_name = models.TextField(db_column='team1_name', default='-')
     team2_name = models.TextField(db_column='team2_name', default='-')
-    team1_tricode = models.TextField(db_column='team1_tricdoe', default='-')
-    team2_tricode = models.TextField(db_column='team2_tricode', default='-')
     team1_score = models.IntegerField(db_column='team1_score', default=0)
     team2_score = models.IntegerField(db_column='team2_score', default=0)
-    hour = models.IntegerField(db_column='hour', default=0)
-    min = models.IntegerField(db_column='min', default=0)
-    ampm = models.TextField(db_column='ampm', default='-')
+    datetime = models.DateTimeField(db_column='datetime', default=datetime(2000, 1, 1))
     etc = models.TextField(db_column='etc', default='-')
 
     class Meta:
         db_table = 'schedule'
     
-class Ranking_23_spring_regular(models.Model):
+class Ranking_2023_LCK_spring(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
-    tricode = models.TextField(db_column="tricode", default='-')
-    game_win = models.IntegerField(db_column="game_win", default=0)
-    game_lose = models.IntegerField(db_column="game_lose", default=0)
+    match_win = models.IntegerField(db_column="match_win", default=0)
+    match_lose = models.IntegerField(db_column="match_lose", default=0)
     set_win = models.IntegerField(db_column="set_win", default=0)
     set_lose = models.IntegerField(db_column="set_lose", default=0)
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_23_spring_regular"
+        db_table = "ranking_2023_LCK_spring"
         
-class Ranking_23_summer_regular(models.Model):
+class Ranking_2023_LCK_summer(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
-    tricode = models.TextField(db_column="tricode", default='-')
-    game_win = models.IntegerField(db_column="game_win", default=0)
-    game_lose = models.IntegerField(db_column="game_lose", default=0)
+    match_win = models.IntegerField(db_column="match_win", default=0)
+    match_lose = models.IntegerField(db_column="match_lose", default=0)
     set_win = models.IntegerField(db_column="set_win", default=0)
     set_lose = models.IntegerField(db_column="set_lose", default=0)
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_23_summer_regular"
+        db_table = "ranking_2023_LCK_summer"
         
-class Ranking_24_spring_regular(models.Model):
+class Ranking_2024_LCK_spring(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
-    tricode = models.TextField(db_column="tricode", default='-')
-    game_win = models.IntegerField(db_column="game_win", default=0)
-    game_lose = models.IntegerField(db_column="game_lose", default=0)
+    match_win = models.IntegerField(db_column="match_win", default=0)
+    match_lose = models.IntegerField(db_column="match_lose", default=0)
     set_win = models.IntegerField(db_column="set_win", default=0)
     set_lose = models.IntegerField(db_column="set_lose", default=0)
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_24_spring_regular"
+        db_table = "ranking_2024_LCK_spring"
 
-class Ranking_24_spring_player(models.Model) :
+class Ranking_2024_LCK_spring_player(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
-    date = models.TextField(db_column="date", default="-")
-    name = models.TextField(db_column="name", default="-")
     nickname = models.TextField(db_column="nickname", default="-")
+    name = models.TextField(db_column="name", default="-")
     team = models.TextField(db_column="team", default="-")
     position = models.TextField(db_column="position", default="-")
+    POG_point = models.IntegerField(db_column="POG_point", default=0)
     
     class Meta :
-        db_table = "ranking_24_spring_player"
+        db_table = "ranking_2024_LCK_spring_player"
 
-class Champion_23_LCK_summer(models.Model) :
+class Champion_2023_LCK_summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -80,9 +70,9 @@ class Champion_23_LCK_summer(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_23_LCK_summer"
+        db_table = "champion_2023_LCK_summer"
         
-class Champion_24_LCK_spring(models.Model) :
+class Champion_2024_LCK_spring(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -92,8 +82,8 @@ class Champion_24_LCK_spring(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_24_LCK_spring"
-        
+        db_table = "champion_2024_LCK_spring"
+
 class Version(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     league_version = models.TextField(db_column="league_version", default="-")
@@ -101,3 +91,4 @@ class Version(models.Model) :
     
     class Meta:
         db_table = "version"
+
