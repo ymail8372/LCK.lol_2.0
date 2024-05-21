@@ -1,0 +1,152 @@
+/* reference */
+.reference {
+	display: flex;
+	margin-bottom: 30px;
+	justify-content: flex-end;
+	font-size: 14px;
+}
+.reference .reference_element {
+	margin: 0 0 0 5px;
+}
+.reference .reference_element .reference_letter {
+	border-right: 1px solid #bbb;
+}
+.reference .reference_element:last-child .reference_letter {
+	border-right: 0;
+}
+.reference .reference_element .reference_color {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+}
+
+h2 {
+	padding: 0 20px;
+	font-size: 36px; margin: 30px 0;
+}
+
+/* team ranking block */
+#team_ranking_blocks {
+	margin: 30px auto;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+	display: flex;
+}
+
+#team_ranking_blocks .team_ranking_block {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+#team_ranking_blocks .team_ranking_block div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70px;
+	width: 100%;
+}
+
+#team_ranking_blocks .team_ranking_block1 {
+	display: flex;
+	flex-basis: 50px;
+}
+
+#team_ranking_blocks .team_ranking_block1 .ranking {
+	color: #373a3c;
+}
+
+#team_ranking_blocks .team_ranking_block1 .ranking:nth-child(n+1):nth-child(-n+5) {
+	background: #aaddff;
+}
+
+#team_ranking_blocks .team_ranking_block1 .ranking:nth-child(n+6):nth-child(-n+7) {
+	background: #97ECAB;
+}
+
+#team_ranking_blocks .team_ranking_block1 .ranking:nth-child(n+8):nth-child(-n+11) {
+	background: #FFFF99;
+}
+
+#team_ranking_blocks .team_ranking_block2 {
+	display: flex;
+	flex-basis: 280px;
+	border-right: #BDBDBD 1px solid;
+}
+
+#team_ranking_blocks .team_ranking_block2 .team .team_name {
+	flex: 1;
+	flex-basis: 200px;
+}
+
+#team_ranking_blocks .team_ranking_block2 .team .team_img {
+	flex: 1;
+	flex-basis: 80px;
+}
+
+#team_ranking_blocks .team_ranking_block2 .team .team_img img {
+	width: 60px;
+}
+
+#team_ranking_blocks .team_ranking_block3 {
+	flex-basis: 60px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+#team_ranking_blocks .team_ranking_block3 .game_win:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block3 .game_lose:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block3 .set_win_lose:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block3 .set_diff:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block3 .etc:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block2 .team:nth-child(odd) {
+	background: #E7E7E7;
+}
+
+#team_ranking_blocks .team_ranking_block .title {
+	height: 40px;
+	color: #DCDFE0;
+	background: #1C192B;
+}
+
+/* player ranking block */
+#player_ranking_block {
+	margin: 30px auto;
+}
+
+#player_ranking_block table {
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#player_ranking_block table tr:nth-child(odd) td {
+	background: #E7E7E7;
+}
+
+#player_ranking_block table .player_ranking_block_position {
+	width: 40px;
+}
+
+#player_ranking_block table td img {
+	width: 50px;
+}
+
