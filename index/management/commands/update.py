@@ -20,7 +20,7 @@ class Command(BaseCommand):
 		schedules = self.site.cargo_client.query(
 			tables="Tournaments=T, MatchSchedule=MS",
 			join_on="T.OverviewPage=MS.OverviewPage",
-			where=f"T.Name='{league}'",
+			where=f"T.Name LIKE '%{league}%'",
 			order_by="MS.DateTime_UTC",
 			limit=400,
 			
@@ -32,27 +32,31 @@ class Command(BaseCommand):
 			schedule_obj, created = Schedule.objects.get_or_create(
 				team1_name=schedule["Team1"],
 				team2_name=schedule["Team2"],
-				datetime=schedule["DateTime UTC"],
-				etc=schedule["Name"],
+				team1_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team1"]),
+				team2_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team2"]),
+				date=schedule["DateTime UTC"],
 			)
+			
+			# set schedule.tournament
+			if created :
+				schedule_obj.tournament=schedule["Name"]
 			
 			if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team2Score"]) :
 				print("continue")
 				continue
 			else :
 				print(f"recording {schedule}")
-				
 				schedule_obj.team1_score = schedule["Team1Score"]
 				schedule_obj.team2_score = schedule["Team2Score"]
 				
 				schedule_obj.save()
 	
 	def update_champion(self) :
-		league = "LCK 2024 spring"
+		league = "MSI 2024"
 		
 		pickbans = self.site.cargo_client.query(
 			tables="Tournaments=T, ScoreboardGames=SG",
-			where=f"T.Name='{league}'",
+			where=f"T.Name LIKE '%{league}%'",
 			join_on="T.Name=SG.Tournament",
 			order_by="SG.DateTime_UTC",
 			limit=400,
@@ -61,7 +65,7 @@ class Command(BaseCommand):
 		)
 		
 		# Get champion model
-		champion_DB = getattr(index.models, f"Champion_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}")
+		champion_DB = getattr(index.models, f"Champion_{league.replace(' ', '_')}")
 		
 		for pickban in pickbans :
 			# check whether the log is after last_update.
@@ -134,7 +138,7 @@ class Command(BaseCommand):
 	def update_ranking_2024_LCK_spring(self) :
 		league = "LCK 2024 spring"
 		
-		rankings = self.site.cargo_client.query(
+		standings = self.site.cargo_client.query(
 			tables="Tournaments=T, Standings=S",
 			where=f"T.Name='{league}'",
 			join_on="T.OverviewPage=S.OverviewPage",
@@ -145,9 +149,9 @@ class Command(BaseCommand):
 		)
 		
 		# Get standing model
-		standing_DB = getattr(index.models, f"Ranking_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}")
+		standing_DB = getattr(index.models, f"Ranking_{league.replace(' ', '_')}")
 		
-		for standing in rankings :
+		for standing in standings :
 			standing_obj, created = standing_DB.objects.get_or_create(name=standing["Team"])
 			
 			if standing["WinGames"] == standing_obj.set_win and standing["LossGames"] == standing_obj.set_lose :
@@ -156,6 +160,7 @@ class Command(BaseCommand):
 			
 			print(f"recording {standing}")
 			
+			standing_obj.tricode = getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(standing["Team"])
 			standing_obj.set_win = standing["WinGames"]
 			standing_obj.set_lose = standing["LossGames"]
 			standing_obj.match_win = standing["WinSeries"]
@@ -178,7 +183,7 @@ class Command(BaseCommand):
 		)
 		
 		# Get ranking_player model
-		ranking_player_DB = getattr(index.models, f"Ranking_{league.split()[1]}_{league.split()[0]}_{league.split()[2]}_player")
+		ranking_player_DB = getattr(index.models, f"Ranking_{league.replace(' ', '_')}_player")
 		
 		for mvp in mvps :
 			# check whether the log is after last_update.
@@ -203,7 +208,14 @@ class Command(BaseCommand):
 				fields="P.ID, P.NativeName, P.Team, P.Role",
 			)
 			
-			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(nickname=player_ranking[0]["ID"], name=player_ranking[0]["NativeName"], team=player_ranking[0]["Team"], position=player_ranking[0]["Role"])
+			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(
+				nickname=player_ranking[0]["ID"],
+				name=player_ranking[0]["NativeName"],
+				team=player_ranking[0]["Team"],
+				position=player_ranking[0]["Role"]
+			)
+			
+			ranking_player_obj.tricode = getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(player_ranking[0]["Team"])
 			ranking_player_obj.POG_point += 100
 			
 			ranking_player_obj.save()
@@ -216,25 +228,46 @@ class Command(BaseCommand):
 				file.write(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	
-	def convert_team_name_24(self, team) :
+	def convert_team_name_to_tricode_LCK_2024_spring(self, team) :
 		teams = {
-			"Gen.G": "젠지",
-			"T1": "T1",
-			"kt Rolster": "kt 롤스터",
-			"Dplus Kia": "디플러스 기아",
-			"Hanwha Life Esports": "한화생명e스포츠",
-			"Kwangdong Freecs": "광동 프릭스",
-			"DRX": "DRX",
-			"OKSavingsBank BRION": "OK저축은행 브리온",
-			"NongShim REDFORCE": "농심 레드포스",
-			"TBD": "미정",
+			"Gen.G":"GEN",
+			"T1":"T1",
+			"Hanwha Life Esports":"HLE",
+			"Dplus KIA":"DK",
+			"KT Rolster":"KT",
+			"Nongshim RedForce":"NS",
+			"DRX":"DRX",
+			"OKSavingsBank BRION":"BRO",
+			"Kwangdong Freecs":"KDF",
+			"FearX":"FOX",
 		}
 		
 		if team in teams :
 			return teams[team]
 		else :
 			return team
-	
+
+	def convert_team_name_to_tricode_MSI_2024(self, team) :
+		teams = {
+			"Gen.G":"GEN",
+			"T1":"T1",
+			"Bilibili Gaming":"BLG",
+			"G2 Esports":"G2",
+			"Team Liquid":"TL",
+			"Top Esports":"TES",
+			"PSG Talon":"PSG",
+			"Fnatic":"FNC",
+			"GAM Esports":"GAM",
+			"FlyQuest":"FLY",
+			"LOUD":"LOUD",
+			"Estral Esports":"EST",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+
 	def convert_champions_name(self, name) :
 		try :
 			names = {
@@ -412,16 +445,18 @@ class Command(BaseCommand):
 		
 		return names[name]
 		
+		
+		
 	def handle(self, *args, **options):
-		print("start to update schedule...")
-		self.update_schedule()
-		print("updating schedule complete!")
-		print("start to update champion...")
-		self.update_champion()
-		print("updating champion complete!")
-		print("start to update ranking_2024_LCK_spring...")
-		self.update_ranking_2024_LCK_spring()
-		print("updating ranking_2024_LCK_spring complete")
+		#print("start to update schedule...")
+		#self.update_schedule()
+		#print("updating schedule complete!")
+		#print("start to update champion...")
+		#self.update_champion()
+		#print("updating champion complete!")
+		#print("start to update ranking_2024_LCK_spring...")
+		#self.update_ranking_2024_LCK_spring()
+		#print("updating ranking_2024_LCK_spring complete")
 		print("start to update ranking_2024_LCK_spring_player...")
 		self.update_ranking_2024_LCK_spring_player()
 		print("updating ranking_2024_LCK_spring_player complete!")

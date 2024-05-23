@@ -8,15 +8,17 @@ from datetime import datetime, timedelta
 
 site = EsportsClient("lol")
 region = "Korea"
-league = "LCK 2024 spring playoffs"
+league = "LCK 2024 spring"
+
 
 response = site.cargo_client.query(
-	tables="Players=P, MatchScheduleGame=MSG, ScoreboardGames=SG",
-	join_on="MSG.MVP=P.ID, MSG.GameId=SG.GameId",
-	where=f"SG.Tournament=\"LCK 2024 spring\"",
+	tables="Tournaments=T, MatchSchedule=MS",
+	join_on="T.OverviewPage=MS.OverviewPage",
+	where=f"T.Name LIKE '%{league}%'",
+	order_by="MS.DateTime_UTC",
 	limit=400,
 	
-	fields="SG.DateTime_UTC, P.NativeName, P.Team, P.Role, P.Country, MSG.MVP",
+	fields="T.Name, MS.Team1, MS.Team2, MS.Team1Score, MS.Team2Score, MS.DateTime_UTC, MS.MVP, MS.MVPPoints",
 )
 
 for i in response :

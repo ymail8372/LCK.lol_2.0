@@ -42,16 +42,16 @@
 				<div id="schedule_date"></div>
 			</div>
 			{% for schedule in schedules %}
-			<div class="schedule_match schedule_date_{{schedule.year}}{{schedule.month}}{{schedule.day}}">
+			<div class="schedule_match schedule_date_{{schedule.date|date:'Y'}}{{schedule.date|date:'m'}}{{schedule.date|date:'d'}}">
 				<div class="schedule_team schedule_team1">
-					{% if "spring" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "MSI" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-					{% elif "Worlds" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+					{% if "spring" in schedule.tournament %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% elif "MSI" in schedule.tournament %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% elif "summer" in schedule.tournament or "Worlds 선발전" in schedule.tournament %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
+					{% elif "Worlds" in schedule.tournament %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
 					{% endif %}
 					
 					<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
@@ -61,14 +61,14 @@
 					<div class="schedule_time">{{schedule.ampm}}<br>{{schedule.hour}}시 {{schedule.min}}분</div>
 				</div>
 				<div class="schedule_team schedule_team2">
-					{% if "spring" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "MSI" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.etc or "Worlds 선발전" in schedule.etc %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.year|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-					{% elif "Worlds" in schedule.etc %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.year|add:'worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% if "spring" in schedule.tournament %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% elif "MSI" in schedule.tournament %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% elif "summer" in schedule.tournament or "Worlds 선발전" in schedule.tournament %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
+					{% elif "Worlds" in schedule.tournament %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
 					{% endif %}
 					
 					<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>

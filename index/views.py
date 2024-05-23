@@ -5,11 +5,79 @@ from index.models import Schedule
 from index.models import Version
 from django.http import HttpResponse
 
+from datetime import datetime
+
 # version
 version = Version.objects.all()[0]
 
 league_version = version.league_version
 live_version = version.live_version
+
+def index(request) :
+	league = "LCK 2024 spring"
+	
+	# champions
+	champions = get_champions(league, 'all')
+	if champions == "Error" :
+		return "Error"
+	
+	#else :
+	#	champions_all = []
+		
+	#	# champions (patch == all)
+	#	for champion in champions :
+	#		if champion["patch"] == "all" :
+	#			champions_all.append(champion)
+		
+	# schedules
+	schedules = Schedule.objects.filter(date__gt=datetime(2024, 1, 1))
+	
+	# tricode
+	#tricode_dict = dict()
+	
+	#for schedule in schedules :
+	#	print(schedule.tournament)
+	#	print(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")
+	#	tricode = globals().get(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")(schedule.team1_name)
+	#	if not tricode_dict.get(f"{schedule.tournament}_{schedule.team1_name}") :
+	#		tricode_dict[f"{schedule.tournament}_{schedule.team1_name}"] = tricode
+	#	tricode = globals().get(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")(schedule.team2_name)
+	#	if not tricode_dict.get(f"{schedule.tournament}_{schedule.team2_name}") :
+	#		tricode_dict[f"{schedule.tournament}_{schedule.team2_name}"] = tricode
+		
+	# ranking
+	rankings = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
+	
+	# make ranking dictionary
+	ranking_list = []
+	for ranking in rankings :
+		new_ranking = {}
+		new_ranking["team"] = ranking.name
+		new_ranking["tricode"] = ranking.tricode
+		new_ranking["match_win"] = ranking.match_win
+		new_ranking["match_lose"] = ranking.match_lose
+		new_ranking["set_win"] = ranking.set_win
+		new_ranking["set_lose"] = ranking.set_lose
+		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
+		new_ranking["etc"] = ranking.etc
+		ranking_list.append(new_ranking)
+	
+	ranking_list.sort(key = lambda ranking: (ranking["match_win"], ranking["set_diff"]), reverse=True)
+	
+	# set place
+	for i in range(len(ranking_list)) :
+		if i == 0 :
+			ranking_list[i]["ranking"] = 1
+		else :
+			if ranking_list[i]["match_win"] == ranking_list[i-1]["match_win"] and ranking_list[i]["set_diff"] == ranking_list[i-1]["set_diff"] :
+				ranking_list[i]["ranking"] = ranking_list[i-1]["ranking"]
+			else :
+				ranking_list[i]["ranking"] = i+1
+	
+	if champions == "Error" :
+		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
+	else :
+		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions[0:5], "ranking_list": ranking_list})
 
 def champion_table(request) :
 	league = request.GET.get('league', '')
@@ -23,21 +91,21 @@ def champion_table(request) :
 	
 	return render(request, "champion_table.html", {"champions": champions})
 
-def get_champions(league, patch,  sort='') :
+def get_champions(league, patch, sort='') :
 	champions = []
 	
-	champion_model = getattr(models, f"Champion_24_{league}", "no_model")
+	champion_model = getattr(models, f"Champion_{league.replace(' ', '_')}", "No_champion_DB_model")
 	
-	if champion_model == "no_model" :
-		print("no_model_league")
-		return "no_model"
+	if champion_model == "No_champion_DB_model" :
+		print("No_champion_DB_model")
+		return "Error"
 	
 	# patch != all
 	if patch != "all" :
 		champion_objects = champion_model.objects.filter(patch = patch)
 		if len(champion_objects) == 0 :
-			print("no_model_patch1")
-			return "no_model"
+			print("no champion at the patch")
+			return "Error"
 		
 		for champion_object in champion_objects :
 			new_champion = {}
@@ -54,8 +122,8 @@ def get_champions(league, patch,  sort='') :
 	else :
 		champion_objects = champion_model.objects.all()
 		if len(champion_objects) == 0 :
-			print("no_model_patch2")
-			return "no_model"
+			print("no champion at all")
+			return "Error"
 		
 		for champion_object in champion_objects :
 			champion_already_in_champion_all = 0
@@ -126,61 +194,11 @@ def get_champions(league, patch,  sort='') :
 	
 	return champions
 
-def index(request) :
-	# champions
-	champions = get_champions('LCK_spring', 'all')
-	if champions == "no_model" :
-		pass
-	else :
-		champions_all = []
-		
-		# champions (patch == all)
-		for champion in champions :
-			if champion["patch"] == "all" :
-				champions_all.append(champion)
-		
-	# schedules
-	schedules = Schedule.objects.all()
-	
-	# ranking
-	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
-	
-	# make ranking dictionary
-	ranking_list = []
-	for ranking in ranking_24_spring_regular :
-		new_ranking = {}
-		new_ranking["team"] = ranking.name
-		new_ranking["tricode"] = ranking.tricode
-		new_ranking["game_win"] = ranking.game_win
-		new_ranking["game_lose"] = ranking.game_lose
-		new_ranking["set_win"] = ranking.set_win
-		new_ranking["set_lose"] = ranking.set_lose
-		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
-		new_ranking["etc"] = ranking.etc
-		ranking_list.append(new_ranking)
-	
-	ranking_list.sort(key = lambda ranking: (ranking["game_win"], ranking["set_diff"]), reverse=True)
-	
-	for i in range(len(ranking_list)) :
-		if i == 0 :
-			ranking_list[i]["ranking"] = 1
-		else :
-			if ranking_list[i]["game_win"] == ranking_list[i-1]["game_win"] and ranking_list[i]["set_diff"] == ranking_list[i-1]["set_diff"] :
-				ranking_list[i]["ranking"] = ranking_list[i-1]["ranking"]
-			else :
-				ranking_list[i]["ranking"] = i+1
-	
-	
-	if champions == "no_model" :
-		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
-	else :
-		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions_all[0:5], "ranking_list": ranking_list})
-
 def schedule(request) :
 	# schedules
 	schedules = Schedule.objects.all().order_by("month", "day", "hour")
 	
-	# schedules (year == 2023)
+	# schedules (year == 2024)
 	schedules_2024 = []
 	for schedule in schedules :
 		if schedule.year == '2024' :
@@ -191,25 +209,6 @@ def schedule(request) :
 
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1})
 
-def convert_team_name_to_tricode_24spring(team) :
-	teams = {
-		"한화생명e스포츠":"HLE",
-		"젠지":"GEN",
-		"디플러스 기아":"DK",
-		"T1":"T1",
-		"kt 롤스터":"KT",
-		"FearX":"FOX",
-		"농심 레드포스":"NS",
-		"광동 프릭스":"KDF",
-		"DRX":"DRX",
-		"OK저축은행 브리온":"BRO",
-	}
-	
-	if team in teams :
-		return teams[team]
-	else :
-		return team
-
 def ranking(request) :
 	# team ranking
 	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
@@ -219,21 +218,21 @@ def ranking(request) :
 		new_ranking = {}
 		new_ranking["team"] = ranking.name
 		new_ranking["tricode"] = ranking.tricode
-		new_ranking["game_win"] = ranking.game_win
-		new_ranking["game_lose"] = ranking.game_lose
+		new_ranking["match_win"] = ranking.match_win
+		new_ranking["match_lose"] = ranking.match_lose
 		new_ranking["set_win"] = ranking.set_win
 		new_ranking["set_lose"] = ranking.set_lose
 		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
 		new_ranking["etc"] = ranking.etc
 		ranking_list_team.append(new_ranking)
 	
-	ranking_list_team.sort(key = lambda ranking: (ranking["game_win"], ranking["set_diff"]), reverse=True)
+	ranking_list_team.sort(key = lambda ranking: (ranking["match_win"], ranking["set_diff"]), reverse=True)
 	
 	for i in range(len(ranking_list_team)) :
 		if i == 0 :
 			ranking_list_team[i]["ranking"] = 1
 		else :
-			if ranking_list_team[i]["game_win"] == ranking_list_team[i-1]["game_win"] and ranking_list_team[i]["set_diff"] == ranking_list_team[i-1]["set_diff"] :
+			if ranking_list_team[i]["match_win"] == ranking_list_team[i-1]["match_win"] and ranking_list_team[i]["set_diff"] == ranking_list_team[i-1]["set_diff"] :
 				ranking_list_team[i]["ranking"] = ranking_list_team[i-1]["ranking"]
 			else :
 				ranking_list_team[i]["ranking"] = i+1
