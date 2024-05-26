@@ -6,8 +6,13 @@ const team_buttons = document.querySelectorAll("#schedule_block .team_selection 
 const schedules = document.querySelectorAll("#schedule_block #schedules .schedule");
 
 // initalize
-var selected_month = "month_" + String(today.getMonth() + 1);
+var temp_month = String(today.getMonth() + 1);
+if (temp_month.length == 1) {
+	temp_month = "0" + temp_month;
+}
+var selected_month = "month_" + temp_month;
 month_blocks.forEach(function(month_block) {
+	console.log(selected_month);
 	if (month_block.classList.contains(selected_month)) {
 		month_block.style.display = "flex";
 	}

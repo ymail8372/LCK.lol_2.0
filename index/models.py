@@ -11,7 +11,7 @@ class Schedule(models.Model):
     team2_score = models.IntegerField(db_column='team2_score', default=0)
     date = models.DateTimeField(db_column='date', default=datetime(2000, 1, 1))
     tournament = models.TextField(db_column='tournament', default='-')
-    etc = models.TextField(db_column='etc', default='-')
+    etc = models.TextField(db_column='etc')
 
     class Meta:
         db_table = 'schedule'

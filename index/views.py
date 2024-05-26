@@ -14,44 +14,24 @@ league_version = version.league_version
 live_version = version.live_version
 
 def index(request) :
-	league = "LCK 2024 spring"
+	league = "MSI 2024"
 	
 	# champions
 	champions = get_champions(league, 'all')
 	if champions == "Error" :
 		return "Error"
 	
-	#else :
-	#	champions_all = []
-		
-	#	# champions (patch == all)
-	#	for champion in champions :
-	#		if champion["patch"] == "all" :
-	#			champions_all.append(champion)
-		
 	# schedules
 	schedules = Schedule.objects.filter(date__gt=datetime(2024, 1, 1))
 	
-	# tricode
-	#tricode_dict = dict()
-	
-	#for schedule in schedules :
-	#	print(schedule.tournament)
-	#	print(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")
-	#	tricode = globals().get(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")(schedule.team1_name)
-	#	if not tricode_dict.get(f"{schedule.tournament}_{schedule.team1_name}") :
-	#		tricode_dict[f"{schedule.tournament}_{schedule.team1_name}"] = tricode
-	#	tricode = globals().get(f"convert_team_name_to_tricode_{schedule.tournament.replace(' ', '_')}")(schedule.team2_name)
-	#	if not tricode_dict.get(f"{schedule.tournament}_{schedule.team2_name}") :
-	#		tricode_dict[f"{schedule.tournament}_{schedule.team2_name}"] = tricode
-		
 	# ranking
-	rankings = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
+	rankings = getattr(models, f"Ranking_LCK_2024_spring").objects.all()
 	
 	# make ranking dictionary
 	ranking_list = []
 	for ranking in rankings :
 		new_ranking = {}
+		new_ranking["tournament"] = "LCK 2024 spring"
 		new_ranking["team"] = ranking.name
 		new_ranking["tricode"] = ranking.tricode
 		new_ranking["match_win"] = ranking.match_win
@@ -196,18 +176,31 @@ def get_champions(league, patch, sort='') :
 
 def schedule(request) :
 	# schedules
-	schedules = Schedule.objects.all().order_by("month", "day", "hour")
+	schedules = Schedule.objects.all().order_by("date")
+	
+	# team tricode list
+	teams_2024_1 = set()
+	teams_2024_2 = set()
+	teams_2024_3 = set()
 	
 	# schedules (year == 2024)
 	schedules_2024 = []
 	for schedule in schedules :
-		if schedule.year == '2024' :
+		if schedule.date > datetime(2024, 1, 1) :
+			if "Spring" in schedule.tournament :
+				teams_2024_1.add(schedule.team1_tricode)
+				teams_2024_1.add(schedule.team2_tricode)
+			elif "MSI" in schedule.tournament :
+				teams_2024_2.add(schedule.team1_tricode)
+				teams_2024_2.add(schedule.team2_tricode)
+			elif "Summer" in schedule.tournament :
+				teams_2024_3.add(schedule.team1_tricode)
+				teams_2024_3.add(schedule.team2_tricode)
+			
 			schedules_2024.append(schedule)
 
-	# teams
-	teams_2024_1 = ['BRO', 'DK', 'DRX', 'GEN', 'HLE', 'KDF', 'KT', 'FOX', 'NS', 'T1']
 
-	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1})
+	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
 
 def ranking(request) :
 	# team ranking

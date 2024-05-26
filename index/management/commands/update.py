@@ -15,7 +15,7 @@ class Command(BaseCommand):
 	site = EsportsClient("lol")
 	
 	def update_schedule(self) :
-		league = "LCK 2024 spring"
+		league = "MSI 2024"
 		
 		schedules = self.site.cargo_client.query(
 			tables="Tournaments=T, MatchSchedule=MS",
@@ -30,8 +30,8 @@ class Command(BaseCommand):
 		for schedule in schedules :
 			schedule["DateTime UTC"] = datetime.strptime(schedule["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			schedule_obj, created = Schedule.objects.get_or_create(
-				team1_name=schedule["Team1"],
-				team2_name=schedule["Team2"],
+				team1_name=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(schedule["Team1"]),
+				team2_name=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(schedule["Team2"]),
 				team1_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team1"]),
 				team2_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team2"]),
 				date=schedule["DateTime UTC"],
@@ -97,6 +97,7 @@ class Command(BaseCommand):
 			
 			# Add ban
 			for ban in bans :
+				ban = self.convert_champions_name(ban)
 				champion_obj, created = champion_DB.objects.get_or_create(name=ban, patch=patch)
 				
 				champion_obj.ban += 1
@@ -105,6 +106,7 @@ class Command(BaseCommand):
 			
 			# Add pick, win, lose
 			for team1Pick in team1Picks :
+				team1Pick = self.convert_champions_name(team1Pick)
 				champion_obj, created = champion_DB.objects.get_or_create(name=team1Pick, patch=patch)
 				
 				champion_obj.pick += 1
@@ -118,6 +120,7 @@ class Command(BaseCommand):
 					champion_obj.save()
 					
 			for team2Pick in team2Picks :
+				team2Pick = self.convert_champions_name(team2Pick)
 				champion_obj, created = champion_DB.objects.get_or_create(name=team2Pick, patch=patch)
 				
 				champion_obj.pick += 1
@@ -246,7 +249,26 @@ class Command(BaseCommand):
 			return teams[team]
 		else :
 			return team
-
+	
+	def convert_team_name_to_Korean_LCK_2024_spring(self, team) :
+		teams = {
+			"Gen.G":"젠지",
+			"T1":"T1",
+			"Hanwha Life Esports":"한화생명e스포츠",
+			"Dplus KIA":"디플러스 기아",
+			"KT Rolster":"KT 롤스터",
+			"Nongshim RedForce":"농심 레드포스",
+			"DRX":"DRX",
+			"OKSavingsBank BRION":"OK저축은행 브리온",
+			"Kwangdong Freecs":"광동 프릭스",
+			"FearX":"FearX",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+	
 	def convert_team_name_to_tricode_MSI_2024(self, team) :
 		teams = {
 			"Gen.G":"GEN",
@@ -268,6 +290,65 @@ class Command(BaseCommand):
 		else :
 			return team
 
+	def convert_team_name_to_Korean_MSI_2024(self, team) :
+		teams = {
+			"Gen.G":"젠지",
+			"T1":"T1",
+			"Bilibili Gaming":"Bilibili Gaming",
+			"G2 Esports":"G2 Esports",
+			"Team Liquid":"Team Liquid",
+			"Top Esports":"Top Esports",
+			"PSG Talon":"PSG Talon",
+			"Fnatic":"Fnatic",
+			"GAM Esports":"GAM Esports",
+			"FlyQuest":"FlyQuest",
+			"LOUD":"LOUD",
+			"Estral Esports":"Estral Esports",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+	
+	def convert_team_name_to_tricode_LCK_2024_summer(self, team) :
+		teams = {
+			"Gen.G":"GEN",
+			"T1":"T1",
+			"Hanwha Life Esports":"HLE",
+			"Dplus KIA":"DK",
+			"KT Rolster":"KT",
+			"Nongshim RedForce":"NS",
+			"DRX":"DRX",
+			"OKSavingsBank BRION":"BRO",
+			"Kwangdong Freecs":"KDF",
+			"FearX":"FOX",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+	
+	def convert_team_name_to_Korean_LCK_2024_summer(self, team) :
+		teams = {
+			"Gen.G":"젠지",
+			"T1":"T1",
+			"Hanwha Life Esports":"한화생명e스포츠",
+			"Dplus KIA":"디플러스 기아",
+			"KT Rolster":"KT 롤스터",
+			"Nongshim RedForce":"농심 레드포스",
+			"DRX":"DRX",
+			"OKSavingsBank BRION":"OK저축은행 브리온",
+			"Kwangdong Freecs":"광동 프릭스",
+			"FearX":"FearX",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+	
 	def convert_champions_name(self, name) :
 		try :
 			names = {
@@ -448,16 +529,16 @@ class Command(BaseCommand):
 		
 		
 	def handle(self, *args, **options):
-		#print("start to update schedule...")
-		#self.update_schedule()
-		#print("updating schedule complete!")
+		print("start to update schedule...")
+		self.update_schedule()
+		print("updating schedule complete!")
 		#print("start to update champion...")
 		#self.update_champion()
 		#print("updating champion complete!")
 		#print("start to update ranking_2024_LCK_spring...")
 		#self.update_ranking_2024_LCK_spring()
 		#print("updating ranking_2024_LCK_spring complete")
-		print("start to update ranking_2024_LCK_spring_player...")
-		self.update_ranking_2024_LCK_spring_player()
-		print("updating ranking_2024_LCK_spring_player complete!")
+		#print("start to update ranking_2024_LCK_spring_player...")
+		#self.update_ranking_2024_LCK_spring_player()
+		#print("updating ranking_2024_LCK_spring_player complete!")
 		

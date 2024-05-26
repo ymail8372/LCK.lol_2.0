@@ -13,7 +13,7 @@
 	</section>
 
 	<section id="champion">
-		<h2><a href="/champion?league=LCK_spring&patch=14.1">챔피언 통계</a></h2>
+		<h2><a href="/champion?league=LCK_spring&patch={league_version}">챔피언 통계</a></h2>
 		<table class="champion_table">
 			<tr class="champion_table_th_tr">
 				<th colspan=2>챔피언</th><th>픽</th><th>밴</th><th>밴픽률</th><th>승리</th><th>패배</th><th>승률</th>
@@ -44,33 +44,15 @@
 			{% for schedule in schedules %}
 			<div class="schedule_match schedule_date_{{schedule.date|date:'Y'}}{{schedule.date|date:'m'}}{{schedule.date|date:'d'}}">
 				<div class="schedule_team schedule_team1">
-					{% if "spring" in schedule.tournament %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'spring'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "MSI" in schedule.tournament %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'MSI'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.tournament or "Worlds 선발전" in schedule.tournament %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'summer'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-					{% elif "Worlds" in schedule.tournament %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'worlds'|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>	
-					{% endif %}
-					
+					<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 					<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
 				</div>
 				<div class="schedule_score_block">
 					<div class="schedule_score">{{schedule.team1_score}} : {{schedule.team2_score}}</div>
-					<div class="schedule_time">{{schedule.ampm}}<br>{{schedule.hour}}시 {{schedule.min}}분</div>
+					<div class="schedule_time">{{schedule.date|date:'a'}}<br>{{schedule.date|date:'g'}}시 {{schedule.date|date:'i'}}분</div>
 				</div>
 				<div class="schedule_team schedule_team2">
-					{% if "spring" in schedule.tournament %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'spring'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "MSI" in schedule.tournament %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'MSI'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
-					{% elif "summer" in schedule.tournament or "Worlds 선발전" in schedule.tournament %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'summer'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-					{% elif "Worlds" in schedule.tournament %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.date|date:'Y'|add:'worlds'|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>	
-					{% endif %}
-					
+					<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 					<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>
 				</div>
 			</div>
@@ -95,7 +77,7 @@
 				<div colspan="2" class="title">팀</div>
 				{% for ranking in ranking_list %}
 				<div class="team">
-					<div class="team_img"><img src="{% static 'img/teams/2024spring/'|add:ranking.tricode|add:'.webp' %}"></div>
+					<div class="team_img"><img src="{% static 'img/teams/'|add:ranking.tournament|add:'/'|add:ranking.tricode|add:'.webp' %}"></div>
 					<div class="team_name">{{ranking.team}}</div>
 				</div>
 				{% endfor %}
@@ -103,13 +85,13 @@
 			<div class="ranking_block ranking_block3">
 				<div class="title">승리</div>
 				{% for ranking in ranking_list %}
-				<div class="game_win">{{ranking.game_win}}</div>
+				<div class="game_win">{{ranking.match_win}}</div>
 				{% endfor %}
 			</div>
 			<div class="ranking_block ranking_block3">
 				<div class="title">패배</div>
 				{% for ranking in ranking_list %}
-				<div class="game_lose">{{ranking.game_lose}}</div>
+				<div class="game_lose">{{ranking.match_lose}}</div>
 				{% endfor %}
 			</div>
 			<div class="ranking_block ranking_block3">
