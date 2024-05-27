@@ -203,20 +203,22 @@ def schedule(request) :
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
 
 def ranking(request) :
+	league = "LCK 2024 spring"
+	
 	# team ranking
-	ranking_24_spring_regular = Ranking_24_spring_regular.objects.all()
+	rankings_team = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
 	
 	ranking_list_team = []
-	for ranking in ranking_24_spring_regular :
+	for ranking_team in rankings_team :
 		new_ranking = {}
-		new_ranking["team"] = ranking.name
-		new_ranking["tricode"] = ranking.tricode
-		new_ranking["match_win"] = ranking.match_win
-		new_ranking["match_lose"] = ranking.match_lose
-		new_ranking["set_win"] = ranking.set_win
-		new_ranking["set_lose"] = ranking.set_lose
-		new_ranking["set_diff"] = ranking.set_win - ranking.set_lose
-		new_ranking["etc"] = ranking.etc
+		new_ranking["team"] = ranking_team.name
+		new_ranking["tricode"] = ranking_team.tricode
+		new_ranking["match_win"] = ranking_team.match_win
+		new_ranking["match_lose"] = ranking_team.match_lose
+		new_ranking["set_win"] = ranking_team.set_win
+		new_ranking["set_lose"] = ranking_team.set_lose
+		new_ranking["set_diff"] = ranking_team.set_win - ranking_team.set_lose
+		new_ranking["etc"] = ranking_team.etc
 		ranking_list_team.append(new_ranking)
 	
 	ranking_list_team.sort(key = lambda ranking: (ranking["match_win"], ranking["set_diff"]), reverse=True)
@@ -233,33 +235,21 @@ def ranking(request) :
 	# player ranking
 	ranking_list_player = []
 	
-	ranking_24_spring_player = Ranking_24_spring_player.objects.all()
-	for player in ranking_24_spring_player :
-		i = 0
-		check = 0
-		for temp in ranking_list_player :
-			if player.nickname == temp["nickname"] :
-				check = 1
-				ranking_list_player[i]["POG_point"] += 100
-				break
-			i += 1
-		if check == 0 :
-			ranking_list_player.append({"name": player.name, "nickname": player.nickname, "team": player.team, "team_tricode": convert_team_name_to_tricode_24spring(player.team), "position": player.position, "POG_point": 100})
+	rankings_player = getattr(models, f"Ranking_{league.replace(' ', '_')}_player").objects.all().order_by("-POG_point")[0:10]
 	
-	
-	ranking_list_player.sort(key = lambda ranking: ranking["POG_point"], reverse=True)
-	ranking_list_player = ranking_list_player[:10]
+	for ranking_player in rankings_player :
+		ranking_list_player.append({"name": ranking_player.name, "nickname": ranking_player.nickname, "team": ranking_player.team, "team_tricode": ranking_player.tricode, "position": ranking_player.position, "POG_point": ranking_player.POG_point})
 	
 	for i in range(len(ranking_list_player)) :
 		if i == 0 :
-			ranking_list_player[0]["ranking"] = 1
+			ranking_list_player[i]["ranking"] = 1
 		else :
 			if ranking_list_player[i-1]["POG_point"] == ranking_list_player[i]["POG_point"] :
 				ranking_list_player[i]["ranking"] = ranking_list_player[i-1]["ranking"]
 			else :
 				ranking_list_player[i]["ranking"] = i+1
 				
-	print(ranking_list_player)
+	#print(ranking_list_player)
 	
 	return render(request, 'ranking.html', {"ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
 
