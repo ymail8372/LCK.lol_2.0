@@ -529,12 +529,12 @@ class Command(BaseCommand):
 		
 		
 	def handle(self, *args, **options):
-		print("start to update schedule...")
-		self.update_schedule()
-		print("updating schedule complete!")
-		#print("start to update champion...")
-		#self.update_champion()
-		#print("updating champion complete!")
+		#print("start to update schedule...")
+		#self.update_schedule()
+		#print("updating schedule complete!")
+		print("start to update champion...")
+		self.update_champion()
+		print("updating champion complete!")
 		#print("start to update ranking_2024_LCK_spring...")
 		#self.update_ranking_2024_LCK_spring()
 		#print("updating ranking_2024_LCK_spring complete")

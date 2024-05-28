@@ -10,20 +10,22 @@
 	<h2>챔피언 통계</h2>
 	<div id="champion_menu">
 		<div id="league_selection">
-			<a class="league LCK_spring activated"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK spring</a>
-			<a class="league MSI"><img src="{% static 'img/league_logo/MSI.png' %}">MSI</a>
+			<a href="/champion?year=2024&league=LCK_spring&patch=all" class="league LCK_spring activated"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK spring</a>
+			<a href="/champion?year=2024&league=MSI&patch=14.8" class="league MSI activated"><img src="{% static 'img/league_logo/MSI.png' %}">MSI</a>
 			<a class="league LCK_summer"><img src="{% static 'img/league_logo/LCK2.svg' %}">LCK summer</a>
 			<a class="league Worlds"><img src="{% static 'img/league_logo/Worlds.png' %}">Worlds</a>
 		</div>
 		
 		<div class="patch_selection LCK_spring">
-			<a class="patch all" href="/champion?league=LCK_spring&patch=all">모든 버전</a>
-			<a class="patch" href="/champion?league=LCK_spring&patch=14.1">14.1</a>
-			<a class="patch" href="/champion?league=LCK_spring&patch=14.1b">14.1b</a>
-			<a class="patch" href="/champion?league=LCK_spring&patch=14.2">14.2</a>
-			<a class="patch" href="/champion?league=LCK_spring&patch=14.3">14.3</a>
+			<a class="patch all" href="/champion?year=2024&league=LCK_spring&patch=all">모든 버전</a>
+			{% for patch in patch_list_spring %}
+			<a class="patch" href="/champion?year=2024&league=LCK_spring&patch={{patch}}">{{patch}}</a>
+			{% endfor %}
 		</div>
 		<div class="patch_selection MSI">
+			{% for patch in patch_list_MSI %}
+			<a class="patch" href="/champion?year=2024&league=MSI&patch={{patch}}">{{patch}}</a>
+			{% endfor %}
 		</div>
 		<div class="patch_selection LCK_summer">
 		</div>

@@ -12,12 +12,12 @@ if (temp_month.length == 1) {
 }
 var selected_month = "month_" + temp_month;
 month_blocks.forEach(function(month_block) {
-	console.log(selected_month);
 	if (month_block.classList.contains(selected_month)) {
 		month_block.style.display = "flex";
 	}
 });
 team_selections.forEach(function(team_selection) {
+	console.log(selected_month);
 	if (team_selection.classList.contains(selected_month)) {
 		team_selection.style.display = "flex";
 	}
@@ -69,7 +69,7 @@ function show_schedule() {
 			}
 			else {
 				for(let i = 0; i < selected_teams.length; i ++) {
-					if (schedule.querySelector(".team1").classList.contains(selected_teams[i]) || schedule.querySelector(".team2").classList.contains(selected_teams[i])) {
+					if (schedule.classList.contains(selected_teams[i]) || schedule.classList.contains(selected_teams[i])) {
 						schedule.style.display = "flex";
 						alternating_patternize();
 						break;
@@ -135,6 +135,7 @@ team_buttons.forEach(function(button) {
 				});
 			}
 		}
+		console.log(selected_teams)
 		show_schedule();
 	});
 });

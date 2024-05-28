@@ -98,11 +98,11 @@ h2 {
 	display: flex;
 }
 
-#team_ranking_blocks .team_ranking_block3 .game_win:nth-child(odd) {
+#team_ranking_blocks .team_ranking_block3 .match_win:nth-child(odd) {
 	background: #E7E7E7;
 }
 
-#team_ranking_blocks .team_ranking_block3 .game_lose:nth-child(odd) {
+#team_ranking_blocks .team_ranking_block3 .match_lose:nth-child(odd) {
 	background: #E7E7E7;
 }
 

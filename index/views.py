@@ -14,10 +14,10 @@ league_version = version.league_version
 live_version = version.live_version
 
 def index(request) :
-	league = "MSI 2024"
+	league = "MSI"
 	
 	# champions
-	champions = get_champions(league, 'all')
+	champions = get_champions('2024', league, 'all')
 	if champions == "Error" :
 		return "Error"
 	
@@ -59,47 +59,25 @@ def index(request) :
 	else :
 		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions[0:5], "ranking_list": ranking_list})
 
-def champion_table(request) :
-	league = request.GET.get('league', '')
-	patch = request.GET.get('patch', '')
-	sort = request.GET.get('sort', '')
-
-	champions = get_champions(league, patch, sort)
-	
-	if champions == "no_model" :
-		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_spring&patch={league_version}\";</script>")
-	
-	return render(request, "champion_table.html", {"champions": champions})
-
-def get_champions(league, patch, sort='') :
+def get_champions(year, league, patch, sort='') :
 	champions = []
+	model_name = ""
 	
-	champion_model = getattr(models, f"Champion_{league.replace(' ', '_')}", "No_champion_DB_model")
+	print(league)
+	
+	if "LCK" in league :
+		model_name = f"Champion_LCK_{year}_{league.split(' ')[1]}"
+	else :
+		model_name = f"Champion_{league}_{year}"
+	
+	champion_model = getattr(models, model_name, "No_champion_DB_model")
 	
 	if champion_model == "No_champion_DB_model" :
 		print("No_champion_DB_model")
 		return "Error"
 	
-	# patch != all
-	if patch != "all" :
-		champion_objects = champion_model.objects.filter(patch = patch)
-		if len(champion_objects) == 0 :
-			print("no champion at the patch")
-			return "Error"
-		
-		for champion_object in champion_objects :
-			new_champion = {}
-			new_champion['name'] = champion_object.name
-			new_champion['pick'] = champion_object.pick
-			new_champion['ban'] = champion_object.ban
-			new_champion['win'] = champion_object.win
-			new_champion['lose'] = champion_object.lose
-			new_champion['patch'] = champion_object.patch
-			
-			champions.append(new_champion)
-		
 	# patch == all
-	else :
+	if patch == "all" :
 		champion_objects = champion_model.objects.all()
 		if len(champion_objects) == 0 :
 			print("no champion at all")
@@ -121,6 +99,33 @@ def get_champions(league, patch, sort='') :
 			if champion_already_in_champion_all == 0 :
 				champions.append({"name": champion_object.name, "pick": champion_object.pick, "ban": champion_object.ban, "win": champion_object.win, "lose": champion_object.lose, "patch": "all"})
 	
+	# patch == none
+	elif patch == "none" :
+		champion_objects = champion_model.objects.all()
+		if len(champion_objects) == 0 :
+			print("no champion at all")
+			return "Error"
+		
+		return champion_objects
+		
+	# patch == XX.X
+	else :
+		champion_objects = champion_model.objects.filter(patch = patch)
+		if len(champion_objects) == 0 :
+			print("no champion at the patch")
+			return "Error"
+		
+		for champion_object in champion_objects :
+			new_champion = {}
+			new_champion['name'] = champion_object.name
+			new_champion['pick'] = champion_object.pick
+			new_champion['ban'] = champion_object.ban
+			new_champion['win'] = champion_object.win
+			new_champion['lose'] = champion_object.lose
+			new_champion['patch'] = champion_object.patch
+			
+			champions.append(new_champion)
+		
 	# calculate banpick_rate, win_rate
 	total_game = 0
 	for champion in champions :
@@ -251,11 +256,39 @@ def ranking(request) :
 				
 	#print(ranking_list_player)
 	
-	return render(request, 'ranking.html', {"ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
+	return render(request, 'ranking.html', {"league": league, "ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
 
 def champion(request) :
+	champions_spring = get_champions("2024", "LCK spring", 'none')
+	champions_MSI = get_champions("2024", "MSI", 'none')
 	
-	return render(request, "champion.html")
+	patch_list_spring = []
+	patch_list_MSI = []
+	
+	for champion in champions_spring :
+		if champion.patch not in patch_list_spring :
+			patch_list_spring.append(champion.patch)
+			
+	for champion in champions_MSI :
+		if champion.patch not in patch_list_MSI :
+			patch_list_MSI.append(champion.patch)
+	
+	return render(request, "champion.html", {"patch_list_spring": patch_list_spring, "patch_list_MSI": patch_list_MSI})
+
+def champion_table(request) :
+	year = request.GET.get('year', '')
+	league = request.GET.get('league', '').replace('_', ' ')
+	patch = request.GET.get('patch', '')
+	sort = request.GET.get('sort', '')
+	
+	champions = get_champions(year, league, patch, sort)
+	
+	print(champions)
+	
+	if champions == "no_model" :
+		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_spring&patch={league_version}\";</script>")
+	
+	return render(request, "champion_table.html", {"champions": champions})
 
 def history(request) :
 	year = request.GET.get("year", "")

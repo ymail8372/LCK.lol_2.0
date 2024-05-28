@@ -23,7 +23,7 @@
 			<div class="month" id="month_11">11월</div>
 			<div class="month" id="month_12">12월</div>
 		</div>
-		<div class="team_selection month_1 month_2 month_3 month_4">
+		<div class="team_selection month_01 month_02 month_03 month_04">
 			<div class="team">
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
@@ -35,7 +35,7 @@
 			</div>
 			{% endfor %}
 		</div>
-		<div class="team_selection month_5">
+		<div class="team_selection month_05">
 			<div class="team">
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
@@ -47,7 +47,7 @@
 			</div>
 			{% endfor %}
 		</div>
-		{% comment %}<div class="team_selection month_6 month_7 month_8 month_9">
+		{% comment %}<div class="team_selection month_06 month_07 month_08 month_09">
 			<div class="team">
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
@@ -67,7 +67,7 @@
 		{% endfor %}
 		<div id="schedules">
 			{% for schedule in schedules %}
-			<div class="schedule month_{{schedule.date|date:'m'}}">
+			<div class="schedule month_{{schedule.date|date:'m'}} {{schedule.team1_tricode}} {{schedule.team2_tricode}}">
 				<div class="date">{{schedule.date|date:'M'}} {{schedule.date|date:'j'}}일</div>
 				<div class="time">{{schedule.date|date:'a'}}<br>{{schedule.date|date:'g'}}시 {{schedule.date|date:'i'}}분</div>
 				
