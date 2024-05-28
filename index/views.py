@@ -25,13 +25,13 @@ def index(request) :
 	schedules = Schedule.objects.filter(date__gt=datetime(2024, 1, 1))
 	
 	# ranking
-	rankings = getattr(models, f"Ranking_LCK_2024_spring").objects.all()
+	rankings = getattr(models, f"Ranking_LCK_2024_Spring").objects.all()
 	
 	# make ranking dictionary
 	ranking_list = []
 	for ranking in rankings :
 		new_ranking = {}
-		new_ranking["tournament"] = "LCK 2024 spring"
+		new_ranking["tournament"] = "LCK 2024 Spring"
 		new_ranking["team"] = ranking.name
 		new_ranking["tricode"] = ranking.tricode
 		new_ranking["match_win"] = ranking.match_win
@@ -208,7 +208,7 @@ def schedule(request) :
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
 
 def ranking(request) :
-	league = "LCK 2024 spring"
+	league = "LCK 2024 Spring"
 	
 	# team ranking
 	rankings_team = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
@@ -259,7 +259,7 @@ def ranking(request) :
 	return render(request, 'ranking.html', {"league": league, "ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
 
 def champion(request) :
-	champions_spring = get_champions("2024", "LCK spring", 'none')
+	champions_spring = get_champions("2024", "LCK Spring", 'none')
 	champions_MSI = get_champions("2024", "MSI", 'none')
 	
 	patch_list_spring = []
@@ -277,7 +277,7 @@ def champion(request) :
 
 def champion_table(request) :
 	year = request.GET.get('year', '')
-	league = request.GET.get('league', '').replace('_', ' ')
+	league = request.GET.get('league', '')
 	patch = request.GET.get('patch', '')
 	sort = request.GET.get('sort', '')
 	
@@ -286,7 +286,7 @@ def champion_table(request) :
 	print(champions)
 	
 	if champions == "no_model" :
-		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_spring&patch={league_version}\";</script>")
+		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_Spring&patch={league_version}\";</script>")
 	
 	return render(request, "champion_table.html", {"champions": champions})
 

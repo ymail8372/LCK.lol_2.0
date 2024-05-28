@@ -55,7 +55,7 @@ champion_menus.forEach(function(champion_menu) {
 	champion_menu.addEventListener("click", function() {
 		// set CSS
 		if (champion_menu.classList.length == 1 || champion_menu.classList[1] == 'ascending') {
-			req_URL = base_URL + "?league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
+			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
 			champion_menus.forEach(function(champion_menu) {
 				champion_menu.classList.remove('descending');
 				champion_menu.classList.remove('ascending');
@@ -63,7 +63,7 @@ champion_menus.forEach(function(champion_menu) {
 			champion_menu.classList.add('descending');
 		}
 		else {
-			req_URL = base_URL + "?league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
+			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
 			champion_menus.forEach(function(champion_menu) {
 				champion_menu.classList.remove('descending');
 				champion_menu.classList.remove('ascending');
@@ -86,7 +86,7 @@ champion_menus.forEach(function(champion_menu) {
 
 // onload
 window.onload = function() {
-	req_URL = base_URL + "?league=" + selected_league + "&patch=" + selected_patch;
+	req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch;
 	
 	// set AJAX
 	xhr.open("GET", req_URL);

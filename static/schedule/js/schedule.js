@@ -6,13 +6,18 @@ const team_buttons = document.querySelectorAll("#schedule_block .team_selection 
 const schedules = document.querySelectorAll("#schedule_block #schedules .schedule");
 
 // initalize
-var selected_month = "month_" + String(today.getMonth() + 1);
+var temp_month = String(today.getMonth() + 1);
+if (temp_month.length == 1) {
+	temp_month = "0" + temp_month;
+}
+var selected_month = "month_" + temp_month;
 month_blocks.forEach(function(month_block) {
 	if (month_block.classList.contains(selected_month)) {
 		month_block.style.display = "flex";
 	}
 });
 team_selections.forEach(function(team_selection) {
+	console.log(selected_month);
 	if (team_selection.classList.contains(selected_month)) {
 		team_selection.style.display = "flex";
 	}
@@ -64,7 +69,7 @@ function show_schedule() {
 			}
 			else {
 				for(let i = 0; i < selected_teams.length; i ++) {
-					if (schedule.querySelector(".team1").classList.contains(selected_teams[i]) || schedule.querySelector(".team2").classList.contains(selected_teams[i])) {
+					if (schedule.classList.contains(selected_teams[i]) || schedule.classList.contains(selected_teams[i])) {
 						schedule.style.display = "flex";
 						alternating_patternize();
 						break;
@@ -130,6 +135,7 @@ team_buttons.forEach(function(button) {
 				});
 			}
 		}
+		console.log(selected_teams)
 		show_schedule();
 	});
 });

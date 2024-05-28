@@ -1,4 +1,5 @@
 var date = new Date();
+date.setHours(0, 0, 0, 0);
 const block = document.querySelector("#schedule_block");
 var schedules = 0;
 
@@ -13,11 +14,15 @@ window.addEventListener('load', async function() {
 
 function show_slide() {
 	let date_title = (date.getMonth()+1) + "월 " + date.getDate() + "일 (" + weekday[date.getDay()] + ")";
-	let date_match = String(date.getFullYear()) + String(date.getMonth()+1) + String(date.getDate());
+	//let date_match = String(date.getFullYear()) + String(date.getMonth()+1) + String(date.getDate());
 	let no_team = 1;
 	
 	block.querySelectorAll(".schedule_match").forEach(match => {
-		if (match.classList[1].split("_")[2] == date_match) {
+		if (match.classList[1].split("_")[2] == "team") {
+			return;
+		}
+		match_date = new Date(match.classList[1].split("_")[2].slice(0, 4), String(parseInt(match.classList[1].split("_")[2].slice(4, 6))-1), match.classList[1].split("_")[2].slice(6, 8));
+		if (match_date.getFullYear() == date.getFullYear() && match_date.getMonth() == date.getMonth() && match_date.getDate() == date.getDate()) {
 			match.style.display = "flex";
 			no_team = 0;
 		}
