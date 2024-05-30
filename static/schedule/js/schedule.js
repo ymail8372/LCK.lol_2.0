@@ -17,7 +17,6 @@ month_blocks.forEach(function(month_block) {
 	}
 });
 team_selections.forEach(function(team_selection) {
-	console.log(selected_month);
 	if (team_selection.classList.contains(selected_month)) {
 		team_selection.style.display = "flex";
 	}
@@ -83,6 +82,19 @@ function show_schedule() {
 months.forEach(function(month) {
 	month.addEventListener("click", function() {
 		selected_month = month.id;
+		selected_teams = [];
+		
+		// only make all_button's opacity == 1
+		team_buttons.forEach(function(button) {
+			let button_img = button.querySelector("img");
+			if (button_img.style.opacity == 1) {
+				button_img.style.opacity = 0.4;
+			}
+		});
+		all_buttons.forEach(function(all_button) {
+			all_button.style.opacity = 1;
+		});
+		
 		show_schedule();
 		show_month_teams();
 		

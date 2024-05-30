@@ -16,12 +16,12 @@ var selected_patch = searchParam.get('patch');
 
 // initalize
 leagues.forEach(function(league) {
-	if (league.classList.contains(selected_league)) {
+	if (league.classList.contains(selected_league.replace(" ", "_"))) {
 		league.querySelector("img").style.opacity = 1;
 	}
 });
 patch_selections.forEach(function(patch_selection) {
-	if (patch_selection.classList.contains(selected_league)) {
+	if (patch_selection.classList.contains(selected_league.replace(" ", "_"))) {
 		patch_selection.style.display = "flex";
 		patch_selection.querySelectorAll(".patch").forEach(function(patch) {
 			if (patch.textContent == selected_patch || patch.classList.contains(selected_patch)) {

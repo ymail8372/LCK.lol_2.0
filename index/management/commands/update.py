@@ -15,7 +15,7 @@ class Command(BaseCommand):
 	site = EsportsClient("lol")
 	
 	def update_schedule(self) :
-		league = "LCK 2024 spring"
+		league = "LCK 2024 Summer"
 		
 		schedules = self.site.cargo_client.query(
 			tables="Tournaments=T, MatchSchedule=MS",
@@ -531,9 +531,9 @@ class Command(BaseCommand):
 		print("start to update schedule...")
 		self.update_schedule()
 		print("updating schedule complete!")
-		print("start to update champion...")
-		self.update_champion()
-		print("updating champion complete!")
+		#print("start to update champion...")
+		#self.update_champion()
+		#print("updating champion complete!")
 		#print("start to update ranking_2024_LCK_spring...")
 		#self.update_ranking_2024_LCK_spring()
 		#print("updating ranking_2024_LCK_spring complete")
