@@ -15,7 +15,7 @@ class Command(BaseCommand):
 	site = EsportsClient("lol")
 	
 	def update_schedule(self) :
-		league = "LCK 2024 spring"
+		league = "LCK 2024 Summer"
 		
 		schedules = self.site.cargo_client.query(
 			tables="Tournaments=T, MatchSchedule=MS",
@@ -40,19 +40,29 @@ class Command(BaseCommand):
 			# set schedule.tournament
 			if created :
 				schedule_obj.tournament=schedule["Name"]
+				print(schedule_obj.tournament)
 			
-			if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team2Score"]) :
-				print("continue")
-				continue
+			if created :
+				if schedule["Team1Score"] == None or schedule["Team2Score"] == None :
+					schedule_obj.team1_score = 0
+					schedule_obj.team2_score = 0
+				else :
+					schedule_obj.team1_score = int(schedule["Team1Score"])
+					schedule_obj.team2_score = int(schedule["Team2Score"])
+			
 			else :
-				print(f"recording {schedule}")
-				schedule_obj.team1_score = schedule["Team1Score"]
-				schedule_obj.team2_score = schedule["Team2Score"]
+				if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team1Score"]) :
+					print("continue")
+					continue
+				else :
+					print(f"recording {schedule}")
+					schedule_obj.team1_score = schedule["Team1Score"]
+					schedule_obj.team2_score = schedule["Team2Score"]
 				
-				schedule_obj.save()
+			schedule_obj.save()
 	
 	def update_champion(self) :
-		league = "LCK 2024 spring"
+		league = "LCK 2024 Spring"
 		
 		pickbans = self.site.cargo_client.query(
 			tables="Tournaments=T, ScoreboardGames=SG",
@@ -139,7 +149,7 @@ class Command(BaseCommand):
 				file.write(pickban["DateTime_UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	def update_ranking_2024_LCK_spring(self) :
-		league = "LCK 2024 spring"
+		league = "LCK 2024 Spring"
 		
 		standings = self.site.cargo_client.query(
 			tables="Tournaments=T, Standings=S",
@@ -172,7 +182,7 @@ class Command(BaseCommand):
 			standing_obj.save()
 	
 	def update_ranking_2024_LCK_spring_player(self) :
-		league = "LCK 2024 spring"
+		league = "LCK 2024 Spring"
 		
 		# Get MVP list
 		mvps = self.site.cargo_client.query(
@@ -231,7 +241,7 @@ class Command(BaseCommand):
 				file.write(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	
-	def convert_team_name_to_tricode_LCK_2024_spring(self, team) :
+	def convert_team_name_to_tricode_LCK_2024_Spring(self, team) :
 		teams = {
 			"Gen.G":"GEN",
 			"T1":"T1",
@@ -250,7 +260,7 @@ class Command(BaseCommand):
 		else :
 			return team
 	
-	def convert_team_name_to_Korean_LCK_2024_spring(self, team) :
+	def convert_team_name_to_Korean_LCK_2024_Spring(self, team) :
 		teams = {
 			"Gen.G":"젠지",
 			"T1":"T1",
@@ -311,7 +321,7 @@ class Command(BaseCommand):
 		else :
 			return team
 	
-	def convert_team_name_to_tricode_LCK_2024_summer(self, team) :
+	def convert_team_name_to_tricode_LCK_2024_Summer(self, team) :
 		teams = {
 			"Gen.G":"GEN",
 			"T1":"T1",
@@ -330,7 +340,7 @@ class Command(BaseCommand):
 		else :
 			return team
 	
-	def convert_team_name_to_Korean_LCK_2024_summer(self, team) :
+	def convert_team_name_to_Korean_LCK_2024_Summer(self, team) :
 		teams = {
 			"Gen.G":"젠지",
 			"T1":"T1",
@@ -531,9 +541,9 @@ class Command(BaseCommand):
 		print("start to update schedule...")
 		self.update_schedule()
 		print("updating schedule complete!")
-		print("start to update champion...")
-		self.update_champion()
-		print("updating champion complete!")
+		#print("start to update champion...")
+		#self.update_champion()
+		#print("updating champion complete!")
 		#print("start to update ranking_2024_LCK_spring...")
 		#self.update_ranking_2024_LCK_spring()
 		#print("updating ranking_2024_LCK_spring complete")
