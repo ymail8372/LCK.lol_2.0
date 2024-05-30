@@ -111,9 +111,9 @@ def get_champions(year, league, patch, sort='') :
 	# patch == XX.X
 	else :
 		champion_objects = champion_model.objects.filter(patch = patch)
-		if len(champion_objects) == 0 :
-			print("no champion at the patch")
-			return "Error"
+		#if len(champion_objects) == 0 :
+		#	print("no champion at the patch")
+		#	return "Error"
 		
 		for champion_object in champion_objects :
 			new_champion = {}
@@ -203,7 +203,13 @@ def schedule(request) :
 				teams_2024_3.add(schedule.team2_tricode)
 			
 			schedules_2024.append(schedule)
-
+	
+	if "TBD" in teams_2024_1 :
+		teams_2024_1.remove("TBD")
+	if "TBD" in teams_2024_2 :
+		teams_2024_2.remove("TBD")
+	if "TBD" in teams_2024_3 :
+		teams_2024_3.remove("TBD")
 
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
 
@@ -261,9 +267,11 @@ def ranking(request) :
 def champion(request) :
 	champions_spring = get_champions("2024", "LCK Spring", 'none')
 	champions_MSI = get_champions("2024", "MSI", 'none')
+	champions_summer = get_champions("2024", "LCK Summer", 'none')
 	
 	patch_list_spring = []
 	patch_list_MSI = []
+	patch_list_summer = []
 	
 	for champion in champions_spring :
 		if champion.patch not in patch_list_spring :
@@ -272,8 +280,15 @@ def champion(request) :
 	for champion in champions_MSI :
 		if champion.patch not in patch_list_MSI :
 			patch_list_MSI.append(champion.patch)
+		
+	if champions_summer != "Error" :
+		for champion in champions_summer :
+			if champion.patch not in patch_list_summer :
+				patch_list_summer.append(champion.patch)
+			
+	patch_list_summer.append("14.11")
 	
-	return render(request, "champion.html", {"patch_list_spring": patch_list_spring, "patch_list_MSI": patch_list_MSI})
+	return render(request, "champion.html", {"patch_list_spring": patch_list_spring, "patch_list_MSI": patch_list_MSI, "patch_list_summer": patch_list_summer})
 
 def champion_table(request) :
 	year = request.GET.get('year', '')

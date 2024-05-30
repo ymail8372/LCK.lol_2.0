@@ -47,24 +47,18 @@
 			</div>
 			{% endfor %}
 		</div>
-		{% comment %}<div class="team_selection month_06 month_07 month_08 month_09">
+		<div class="team_selection month_06 month_07 month_08 month_09">
 			<div class="team">
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
 			</div>
 			{% for team in teams_2024_3 %}
 			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/LCK 2024 spring/'|add:team|add:'.webp' %}"></button>
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/LCK 2024 Summer/'|add:team|add:'.webp' %}"></button>
 				<div class="team_name">{{team}}</div>
 			</div>
 			{% endfor %}
-		</div>{% endcomment %}
-		{% for team in teams_2024_3 %}
-		<div class="team">
-			<button type="button"><img class="{{team}}" src="{% static 'img/teams/LCK 2024 summer/'|add:team|add:'.webp' %}"></button>
-			<div class="team_name">{{team}}</div>
 		</div>
-		{% endfor %}
 		<div id="schedules">
 			{% for schedule in schedules %}
 			<div class="schedule month_{{schedule.date|date:'m'}} {{schedule.team1_tricode}} {{schedule.team2_tricode}}">
@@ -72,7 +66,11 @@
 				<div class="time">{{schedule.date|date:'a'}}<br>{{schedule.date|date:'g'}}시 {{schedule.date|date:'i'}}분</div>
 				
 				<div class="team team1">
-					<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% if schedule.team1_tricode == "TBD" %}
+						<img class="team_img team1_img" src="{% static 'img/teams/TBD.webp' %}"><br>
+					{% else %}
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+					{% endif %}
 					<div class="team_name">{{schedule.team1_name}}</div>
 				</div>
 					{% if schedule.team1_score == 0 and schedule.team2_score == 0 %}
@@ -83,7 +81,11 @@
 					
 				<div class="team team2">
 					<div class="team_name">{{schedule.team2_name}}</div>
-					<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% if schedule.team2_tricode == "TBD" %}
+						<img class="team_img team2_img" src="{% static 'img/teams/TBD.webp' %}"><br>
+					{% else %}
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+					{% endif %}
 				</div>
 				
 				<div class="etc">{{schedule.tournament}} {{schedule.etc}}</div>
