@@ -80,6 +80,18 @@ class Ranking_LCK_2024_Summer(models.Model):
     class Meta:
         db_table = "ranking_LCK_2024_summer"
 
+class Ranking_LCK_2024_Summer_player(models.Model) :
+    key = models.AutoField(db_column="key", primary_key=True)
+    nickname = models.TextField(db_column="nickname", default="-")
+    name = models.TextField(db_column="name", default="-")
+    team = models.TextField(db_column="team", default="-")
+    tricode = models.TextField(db_column="tricode", default="-")
+    position = models.TextField(db_column="position", default="-")
+    POG_point = models.IntegerField(db_column="POG_point", default=0)
+    
+    class Meta :
+        db_table = "ranking_LCK_2024_summer_player"
+
 
 class Champion_LCK_2023_Summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)

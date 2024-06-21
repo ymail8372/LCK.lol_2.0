@@ -11,4 +11,5 @@ urlpatterns = [
 	path('champion_table', views.champion_table),
 	path('history', views.history),
 	path('ads.txt', views.Ads),
+	path('navered740bad61f2dffe423226b77ebdff35.html', views.naver)
 ]

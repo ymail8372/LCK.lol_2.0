@@ -14,24 +14,22 @@ league_version = version.league_version
 live_version = version.live_version
 
 def index(request) :
-	league = "MSI"
+	league = "LCK 2024 Summer"
 	
 	# champions
-	champions = get_champions('2024', league, 'all')
-	if champions == "Error" :
-		return "Error"
+	champions = get_champions('2024', league.split(" ")[0] + " " + league.split(" ")[2], 'all')
 	
 	# schedules
 	schedules = Schedule.objects.filter(date__gt=datetime(2024, 1, 1))
 	
 	# ranking
-	rankings = getattr(models, f"Ranking_LCK_2024_Spring").objects.all()
+	rankings = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
 	
 	# make ranking dictionary
 	ranking_list = []
 	for ranking in rankings :
 		new_ranking = {}
-		new_ranking["tournament"] = "LCK 2024 Spring"
+		new_ranking["tournament"] = league
 		new_ranking["team"] = ranking.name
 		new_ranking["tricode"] = ranking.tricode
 		new_ranking["match_win"] = ranking.match_win
@@ -214,7 +212,7 @@ def schedule(request) :
 	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
 
 def ranking(request) :
-	league = "LCK 2024 Spring"
+	league = "LCK 2024 Summer"
 	
 	# team ranking
 	rankings_team = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
@@ -285,8 +283,6 @@ def champion(request) :
 		for champion in champions_summer :
 			if champion.patch not in patch_list_summer :
 				patch_list_summer.append(champion.patch)
-			
-	patch_list_summer.append("14.11")
 	
 	return render(request, "champion.html", {"patch_list_spring": patch_list_spring, "patch_list_MSI": patch_list_MSI, "patch_list_summer": patch_list_summer})
 
@@ -313,3 +309,6 @@ def history(request) :
 
 def Ads(request) :
 	return HttpResponse("google.com, pub-9052803485032468, DIRECT, f08c47fec0942fa0", content_type="text/plain")
+
+def naver(request) :
+	return render(request, "navered740bad61f2dffe423226b77ebdff35.html")
