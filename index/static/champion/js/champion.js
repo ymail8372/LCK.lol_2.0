@@ -11,7 +11,7 @@ var champions = champions_table.querySelectorAll(".champion");
 var queryString = window.location.search;
 var searchParam = new URLSearchParams(queryString);
 
-var selected_league = searchParam.get('league');
+var selected_league = searchParam.get('league').replace(" ", "_");
 var selected_patch = searchParam.get('patch');
 
 // initalize
