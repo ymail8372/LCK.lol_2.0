@@ -292,12 +292,12 @@ def champion_table(request) :
 	patch = request.GET.get('patch', '')
 	sort = request.GET.get('sort', '')
 	
+	print(league)
 	champions = get_champions(year, league, patch, sort)
 	
-	print(champions)
 	
 	if champions == "no_model" :
-		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK_Spring&patch={league_version}\";</script>")
+		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK Summer&patch={league_version}\";</script>")
 	
 	return render(request, "champion_table.html", {"champions": champions})
 
