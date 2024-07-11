@@ -15,7 +15,8 @@ class Schedule(models.Model):
 
     class Meta:
         db_table = 'schedule'
-    
+
+
 class Ranking_LCK_2023_Spring(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
