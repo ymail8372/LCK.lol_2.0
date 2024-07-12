@@ -13,14 +13,14 @@ class Command(BaseCommand):
 	UTC = pytz.timezone("UTC")
 	KST = pytz.timezone("Asia/Seoul")
 	site = EsportsClient("lol")
+	league = "LCK 2024 Summer"
+	
 	
 	def update_schedule(self) :
-		league = "LCK 2024 Summer"
-		
 		schedules = self.site.cargo_client.query(
 			tables="Tournaments=T, MatchSchedule=MS",
 			join_on="T.OverviewPage=MS.OverviewPage",
-			where=f"T.Name LIKE '%{league}%'",
+			where=f"T.Name LIKE '%{self.__class__.league}%'",
 			order_by="MS.DateTime_UTC",
 			limit=400,
 			
@@ -32,11 +32,15 @@ class Command(BaseCommand):
 		
 		for schedule in schedules :
 			schedule["DateTime UTC"] = datetime.strptime(schedule["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
+			
+			team1_name = getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
+			team2_name = getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
+			
 			schedule_obj, created = Schedule.objects.get_or_create(
-				team1_name=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(schedule["Team1"]),
-				team2_name=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(schedule["Team2"]),
-				team1_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team1"]),
-				team2_tricode=getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(schedule["Team2"]),
+				team1_name=team1_name,
+				team2_name=team2_name,
+				team1_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(team1_name),
+				team2_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(team2_name),
 				date=schedule["DateTime UTC"],
 			)
 			
@@ -63,11 +67,9 @@ class Command(BaseCommand):
 			schedule_obj.save()
 	
 	def update_champion(self) :
-		league = "LCK 2024 Summer"
-		
 		pickbans = self.site.cargo_client.query(
 			tables="Tournaments=T, ScoreboardGames=SG",
-			where=f"T.Name LIKE '%{league}%'",
+			where=f"T.Name LIKE '%{self.__class__.league}%'",
 			join_on="T.Name=SG.Tournament",
 			order_by="SG.DateTime_UTC",
 			limit=400,
@@ -79,7 +81,7 @@ class Command(BaseCommand):
 			print("There is no pickban to record")
 			
 		# Get champion model
-		champion_DB = getattr(index.models, f"Champion_{league.replace(' ', '_')}")
+		champion_DB = getattr(index.models, f"Champion_{self.__class__.league.replace(' ', '_')}")
 		
 		for pickban in pickbans :
 			if pickban["Winner"] == None :
@@ -90,7 +92,7 @@ class Command(BaseCommand):
 			# /srv/LCK.lol_2.0/index/management/commands/last_update.txt
 			pickban["DateTime_UTC"] = datetime.strptime(pickban["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update_champion.txt", "r") as file :
+			with open("./index/management/commands/last_update_champion.txt", "r") as file :
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not pickban["DateTime_UTC"] > last_update :
@@ -149,52 +151,82 @@ class Command(BaseCommand):
 			print(f"recording {pickban}")		
 			
 			# Update last_update.txt
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update_champion.txt", "w") as file :
+			with open("./index/management/commands/last_update_champion.txt", "w") as file :
 				file.write(pickban["DateTime_UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	def update_ranking(self) :
-		league = "LCK 2024 Summer"
+		convert_Korean_team_name_to_tricode = getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")
 		
-		standings = self.site.cargo_client.query(
-			tables="Tournaments=T, Standings=S",
-			where=f"T.Name='{league}'",
-			join_on="T.OverviewPage=S.OverviewPage",
-			order_by="S.Place",
-			limit=400,
+		class Team :
+			def __init__(self, name) :
+				self.name = name
+				self.tricode = convert_Korean_team_name_to_tricode(self.name)
+				self.match_win = 0
+				self.match_lose = 0
+				self.set_win = 0
+				self.set_lose = 0
+		
+		schedules = getattr(index.models, "Schedule").objects.filter(date__gt=datetime(2024,1,1), tournament=self.__class__.league)
+		
+		teams = []
+		team_names_Korean = getattr(self, f"team_name_Korean_{self.__class__.league.replace(' ', '_')}")
+		for team in team_names_Korean :
+			teams.append(Team(team))
+		
+		for schedule in schedules :
+			for team in teams :
+				if schedule.team1_name == team.name :
+					team1 = team
+					continue
+			for team in teams :
+				if schedule.team2_name == team.name :
+					team2 = team
+					continue
+
 			
-			fields="T.Name, S.Team, S.Place, S.WinSeries, S.LossSeries, S.WinGames, S.LossGames",
-		)
+			# match score
+			if schedule.team1_score == 0 and schedule.team2_score == 0 :
+				continue
+			else :
+				if schedule.team1_score > schedule.team2_score :
+					team1.match_win += 1
+					team2.match_lose += 1
+				elif schedule.team1_score < schedule.team2_score :
+					team2.match_win += 1
+					team1.match_lose += 1
+				else :
+					continue
+			
+			# set score
+			team1.set_win += schedule.team1_score
+			team1.set_lose += schedule.team2_score
+			
+			team2.set_win += schedule.team2_score	
+			team2.set_lose += schedule.team1_score
 		
 		# Get standing model
-		standing_DB = getattr(index.models, f"Ranking_{league.replace(' ', '_')}")
+		standing_model = getattr(index.models, f"Ranking_{self.__class__.league.replace(' ', '_')}")
 		
-		for standing in standings :
-			standing_obj, created = standing_DB.objects.get_or_create(name=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(standing["Team"]))
+		for team in teams :
+			standing_obj = standing_model.objects.get(name=team.name)
 			
-			if int(standing["WinGames"]) == standing_obj.set_win and int(standing["LossGames"]) == standing_obj.set_lose :
-				print("continue")
-				continue
+			print(f"recording {team.name}")
 			
-			print(f"recording {standing}")
-			
-			standing_obj.tricode = getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(standing["Team"])
-			standing_obj.name = getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(standing["Team"])
-			standing_obj.set_win = standing["WinGames"]
-			standing_obj.set_lose = standing["LossGames"]
-			standing_obj.match_win = standing["WinSeries"]
-			standing_obj.match_lose = standing["LossSeries"]
+			standing_obj.tricode = team.tricode
+			standing_obj.set_win = team.set_win
+			standing_obj.set_lose = team.set_lose
+			standing_obj.match_win = team.match_win
+			standing_obj.match_lose = team.match_lose
 			
 			standing_obj.save()
 	
 	def update_ranking_player(self) :
-		league = "LCK 2024 Summer"
-		
 		# Get MVP list
 		mvps = self.site.cargo_client.query(
 			tables="MatchScheduleGame=MSG, ScoreboardGames=SG",
 			join_on="MSG.GameId=SG.GameId",
 			order_by="SG.DateTime_UTC",
-			where=f"SG.Tournament='{league}'",
+			where=f"SG.Tournament='{self.__class__.league}'",
 			limit=400,
 			
 			fields="MSG.MVP, SG.DateTime_UTC",
@@ -204,49 +236,32 @@ class Command(BaseCommand):
 			print("There is no mvps (no match) to record")
 			
 		# Get ranking_player model
-		ranking_player_DB = getattr(index.models, f"Ranking_{league.replace(' ', '_')}_player")
+		ranking_player_DB = getattr(index.models, f"Ranking_{self.__class__.league.replace(' ', '_')}_player")
 		
 		for mvp in mvps :
 			# check whether the log is after last_update.
 			mvp["DateTime UTC"] = datetime.strptime(mvp["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update_player_ranking.txt", "r") as file :
+			with open("./index/management/commands/last_update_player_ranking.txt", "r") as file :
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not mvp["DateTime UTC"] > last_update :
 				print("continue")
 				continue
 			
-			# MVP ID
-			mvp_ID = mvp["MVP"].split(' ')[0]
+			# MVP nickname
+			mvp_nickname = mvp["MVP"].split(' ')[0]
 			
 			# Get MVP info
-			player_ranking = self.site.cargo_client.query(
-				tables="Players=P",
-				where=f"P.ID='{mvp_ID}' and P.Country='South Korea'",
-				limit=30,
-				
-				fields="P.ID, P.NativeName, P.Team, P.Role",
-			)
+			ranking_player_obj = ranking_player_DB.objects.get(nickname=mvp_nickname)
 			
-			print(f"recording {player_ranking[0]['ID'], player_ranking[0]['Team']}")
-			
-			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(
-				nickname=player_ranking[0]["ID"],
-				name=player_ranking[0]["NativeName"],
-				team=getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(player_ranking[0]["Team"]),
-				position=player_ranking[0]["Role"]
-			)
-			
-			ranking_player_obj.tricode = getattr(self, f"convert_team_name_to_tricode_{league.replace(' ', '_')}")(player_ranking[0]["Team"])
-			ranking_player_obj.team = getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(player_ranking[0]["Team"])
 			ranking_player_obj.POG_point += 100
 			
 			
 			ranking_player_obj.save()
 			
 			# Update last_update.txt
-			with open("/srv/LCK.lol_2.0/index/management/commands/last_update_player_ranking.txt", "w") as file :
+			with open("./index/management/commands/last_update_player_ranking.txt", "w") as file :
 				file.write(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	
@@ -332,27 +347,6 @@ class Command(BaseCommand):
 			return team
 	
 	
-	def convert_team_name_to_tricode_LCK_2024_Summer(self, team) :
-		teams = {
-			"Gen.G":"GEN",
-			"T1":"T1",
-			"Hanwha Life Esports":"HLE",
-			"Dplus KIA":"DK",
-			"KT Rolster":"KT",
-			"Nongshim RedForce":"NS",
-			"DRX":"DRX",
-			"OKSavingsBank BRION":"BRO",
-			"Kwangdong Freecs":"KDF",
-			"BNK FearX":"FOX",
-		}
-		
-		if team in teams :
-			return teams[team]
-		elif team == None :
-			return "None"
-		else :
-			return team
-	
 	def convert_team_name_to_Korean_LCK_2024_Summer(self, team) :
 		teams = {
 			"Gen.G":"젠지",
@@ -375,6 +369,38 @@ class Command(BaseCommand):
 			return team
 		
 	
+	def convert_Korean_team_name_to_tricode_LCK_2024_Summer(self, team) :
+		teams = {
+			"젠지":"GEN",
+			"T1":"T1",
+			"한화생명e스포츠":"HLE",
+			"디플러스 기아":"DK",
+			"KT 롤스터":"KT",
+			"농심 레드포스":"NS",
+			"DRX":"DRX",
+			"OK저축은행 브리온":"BRO",
+			"광동 프릭스":"KDF",
+			"BNK 피어엑스":"FOX",
+		}
+		
+		if team in teams :
+			return teams[team]
+		else :
+			return team
+	
+	team_name_Korean_LCK_2024_Summer = [
+			"젠지",
+			"T1",
+			"한화생명e스포츠",
+			"디플러스 기아",
+			"KT 롤스터",
+			"농심 레드포스",
+			"DRX",
+			"OK저축은행 브리온",
+			"광동 프릭스",
+			"BNK 피어엑스",
+	]
+
 	
 	def convert_champions_name(self, name) :
 		try :
