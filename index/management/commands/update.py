@@ -7,6 +7,7 @@ from mwrogue.esports_client import EsportsClient
 
 from datetime import datetime
 import pytz
+import os
 
 class Command(BaseCommand):
 	help = 'update command!'
@@ -14,7 +15,7 @@ class Command(BaseCommand):
 	KST = pytz.timezone("Asia/Seoul")
 	site = EsportsClient("lol")
 	league = "LCK 2024 Summer"
-	
+	base_path = os.getenv("LCKINFO_HOME")
 	
 	def update_schedule(self) :
 		schedules = self.site.cargo_client.query(
@@ -92,7 +93,7 @@ class Command(BaseCommand):
 			# /srv/LCK.lol_2.0/index/management/commands/last_update.txt
 			pickban["DateTime_UTC"] = datetime.strptime(pickban["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			with open("./index/management/commands/last_update_champion.txt", "r") as file :
+			with open(f"{self.__class__.base_path}/index/management/commands/last_update_champion.txt", "r") as file :
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not pickban["DateTime_UTC"] > last_update :
@@ -151,7 +152,7 @@ class Command(BaseCommand):
 			print(f"recording {pickban}")		
 			
 			# Update last_update.txt
-			with open("./index/management/commands/last_update_champion.txt", "w") as file :
+			with open(f"{self.__class__.base_path}/index/management/commands/last_update_champion.txt", "w") as file :
 				file.write(pickban["DateTime_UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	def update_ranking(self) :
@@ -242,7 +243,7 @@ class Command(BaseCommand):
 			# check whether the log is after last_update.
 			mvp["DateTime UTC"] = datetime.strptime(mvp["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			with open("./index/management/commands/last_update_player_ranking.txt", "r") as file :
+			with open(f"{self.__class__.base_path}/index/management/commands/last_update_player_ranking.txt", "r") as file :
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not mvp["DateTime UTC"] > last_update :
@@ -257,12 +258,11 @@ class Command(BaseCommand):
 			
 			ranking_player_obj.POG_point += 100
 			
-			print(f"recording {ranking_player_obj}")
 			
 			ranking_player_obj.save()
 			
 			# Update last_update.txt
-			with open("./index/management/commands/last_update_player_ranking.txt", "w") as file :
+			with open(f"{self.__class__.base_path}/index/management/commands/last_update_player_ranking.txt", "w") as file :
 				file.write(mvp["DateTime UTC"].strftime("%Y-%m-%d %H:%M:%S"))
 	
 	
@@ -364,8 +364,11 @@ class Command(BaseCommand):
 		
 		if team in teams :
 			return teams[team]
+		elif team == None :
+			return "None"
 		else :
 			return team
+		
 	
 	def convert_Korean_team_name_to_tricode_LCK_2024_Summer(self, team) :
 		teams = {

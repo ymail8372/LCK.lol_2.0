@@ -9,3 +9,5 @@ __pycache__/
 LCKlol/__pycache__
 log/
 LCKlol/settings.py
+
+update.sh
