@@ -229,6 +229,8 @@ class Command(BaseCommand):
 				fields="P.ID, P.NativeName, P.Team, P.Role",
 			)
 			
+			print(f"recording {player_ranking[0]['ID'], player_ranking[0]['Team']}")
+			
 			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(
 				nickname=player_ranking[0]["ID"],
 				name=player_ranking[0]["NativeName"],
@@ -240,7 +242,6 @@ class Command(BaseCommand):
 			ranking_player_obj.team = getattr(self, f"convert_team_name_to_Korean_{league.replace(' ', '_')}")(player_ranking[0]["Team"])
 			ranking_player_obj.POG_point += 100
 			
-			print(f"recording {ranking_player_obj}")
 			
 			ranking_player_obj.save()
 			
@@ -347,6 +348,8 @@ class Command(BaseCommand):
 		
 		if team in teams :
 			return teams[team]
+		elif team == None :
+			return "None"
 		else :
 			return team
 	
@@ -366,8 +369,11 @@ class Command(BaseCommand):
 		
 		if team in teams :
 			return teams[team]
+		elif team == None :
+			return "None"
 		else :
 			return team
+		
 	
 	
 	def convert_champions_name(self, name) :
