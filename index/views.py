@@ -210,14 +210,10 @@ def schedule(request) :
 
 def schedule_block(request) :
 	date = datetime(int(request.GET.get('year', '')), int(request.GET.get('month', '')), int(request.GET.get('date', '')))
-	print(date)
+	
 	schedule_model = getattr(models, "Schedule", "No_champion_DB_model")
 	
-	test = schedule_model.objects.all()
 	schedules = schedule_model.objects.filter(date__year = str(date.year), date__month = str(date.month), date__day = str(date.day))
-	for i in schedules :
-		print(i.team1_name, i.team2_name)
-	print(len(schedules))
 	
 	return render(request, 'schedule_block.html', {"date": date, "schedules": schedules})
 
