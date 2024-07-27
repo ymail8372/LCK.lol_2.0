@@ -1,12 +1,6 @@
 const leagues = document.querySelectorAll("#champion_menu #league_selection .league");
 const patch_selections = document.querySelectorAll("#champion_menu .patch_selection");
 const patches = document.querySelectorAll("#champion_menu .patch_selection .patch");
-var champion_menus = document.querySelectorAll("#champions .champion_menu div");
-champion_menus = Array.from(champion_menus);
-champion_menus.pop()
-champion_menus.shift()
-const champions_table = document.querySelector("#champions .champion_table");
-var champions = champions_table.querySelectorAll(".champion");
 
 var queryString = window.location.search;
 var searchParam = new URLSearchParams(queryString);
@@ -47,54 +41,51 @@ function alternating_patternize() {
 	});
 };
 
-//// ajax
-//var xhr = new XMLHttpRequest();
-//var base_URL = "/champion_table";
+// campion_menus
+var champion_menus = document.querySelectorAll("#champions .champion_menu div");
+champion_menus = Array.from(champion_menus);
+champion_menus.pop()
+champion_menus.shift()
+const champion_table_URL = "/champion_table";
 
-//champion_menus.forEach(function(champion_menu) {
-//	champion_menu.addEventListener("click", function() {
-//		// set CSS
-//		if (champion_menu.classList.length == 1 || champion_menu.classList[1] == 'ascending') {
-//			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
-//			champion_menus.forEach(function(champion_menu) {
-//				champion_menu.classList.remove('descending');
-//				champion_menu.classList.remove('ascending');
-//			});
-//			champion_menu.classList.add('descending');
-//		}
-//		else {
-//			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
-//			champion_menus.forEach(function(champion_menu) {
-//				champion_menu.classList.remove('descending');
-//				champion_menu.classList.remove('ascending');
-//			});
-//			champion_menu.classList.add('ascending');
-//		}
-		
-//		// set AJAX
-//		xhr.open("GET", req_URL);
-//		xhr.onreadystatechange = function() {
-//			if (xhr.readyState === 4 && xhr.status === 200) {
-//				champions_table.innerHTML = xhr.responseText;
-//				alternating_patternize();
-//			}
-//		};
-//		xhr.send();
-		
-//	});
-//});
+champion_menus.forEach(function(champion_menu) {
+	champion_menu.addEventListener("click", function() {
+		if (champion_menu.classList.length == 1 || champion_menu.classList[1] == 'ascending') {
+			req_URL = champion_table_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
+			champion_menus.forEach(function(champion_menu) {
+				champion_menu.classList.remove('descending');
+				champion_menu.classList.remove('ascending');
+			});
+			champion_menu.classList.add('descending');
+		}
+		else {
+			req_URL = champion_table_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
+			champion_menus.forEach(function(champion_menu) {
+				champion_menu.classList.remove('descending');
+				champion_menu.classList.remove('ascending');
+			});
+			champion_menu.classList.add('ascending');
+		}
+	});
+});
+
+// axios
+const champions_table = document.querySelector("#champions .champion_table");
+
+const show_champions = () => {
+	axios.get(req_URL)
+	.then(response => {
+		champions_table.innerHTML = response.data;
+		alternating_patternize();
+	})
+	.catch(error => {
+		console.error("There is error on Axios", error);
+	});
+};
 
 // onload
 window.onload = function() {
-	req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch;
+	req_URL = champion_table_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch;
 	
-	// set AJAX
-	xhr.open("GET", req_URL);
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState === 4 && xhr.status === 200) {
-			champions_table.innerHTML = xhr.responseText;
-			alternating_patternize();
-		}
-	};
-	xhr.send();
+	show_champions();
 };

@@ -13,18 +13,18 @@ window.onload = () => {
 };
 
 // axios
-const schedule_block_url = "/schedule_block";
+const schedule_block_URL = "/schedule_block";
 const schedule_block = document.querySelector("#schedule_block");
 
 const show_schedule = () => {
-	var req_url = schedule_block_url + "?year=" + date.getFullYear() + "&month=" + date.getMonth() + "&date=" + date.getDate()
-	axios.get(req_url)
-		.then(response => {
-			schedule_block.innerHTML = response.data;
-		})
-		.catch(error => {
-			console.error("There is error on Axios", error);
-		});
+	var req_URL = schedule_block_URL + "?year=" + date.getFullYear() + "&month=" + (date.getMonth() + 1) + "&date=" + date.getDate()
+	axios.get(req_URL)
+	.then(response => {
+		schedule_block.innerHTML = response.data;
+	})
+	.catch(error => {
+		console.error("There is error on Axios", error);
+	});
 	};
 
 prev_button.addEventListener("click", function() {
