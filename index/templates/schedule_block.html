@@ -1,0 +1,29 @@
+{% load static %}
+
+<div id="schedule_title">
+	<div id="schedule_date">{{date|date:'Y'}}년 {{date|date:'m'}}월 {{date|date:'d'}}일</div>
+</div>
+{% for schedule in schedules %}
+<div class="schedule_match schedule_date_{{schedule.date|date:'Y'}}{{schedule.date|date:'m'}}{{schedule.date|date:'d'}}">
+	<div class="schedule_team schedule_team1">
+		{% if "TBD" in schedule.team1_tricode %}
+		<img class="team_img team1_img" src="{% static 'img/teams/TBD.webp' %}"><br>
+		{% else %}
+		<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+		{% endif %}
+		<span class="schedule_team_name schedule_team1_name">{{schedule.team1_name}}</span>
+	</div>
+	<div class="schedule_score_block">
+		<div class="schedule_score">{{schedule.team1_score}} : {{schedule.team2_score}}</div>
+		<div class="schedule_time">{{schedule.date|date:'a'}}<br>{{schedule.date|date:'g'}}시 {{schedule.date|date:'i'}}분</div>
+	</div>
+	<div class="schedule_team schedule_team2">
+		{% if "TBD" in schedule.team2_tricode %}
+		<img class="team_img team2_img" src="{% static 'img/teams/TBD.webp' %}"><br>
+		{% else %}
+		<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+		{% endif %}
+		<span class="schedule_team_name schedule_team2_name">{{schedule.team2_name}}</span>
+	</div>
+</div>
+{% endfor %}

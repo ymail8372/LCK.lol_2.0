@@ -58,7 +58,6 @@ class Command(BaseCommand):
 			
 			else :
 				if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team2Score"]) :
-					print("continue")
 					continue
 				else :
 					schedule_obj.team1_score = schedule["Team1Score"]
@@ -86,7 +85,6 @@ class Command(BaseCommand):
 		
 		for pickban in pickbans :
 			if pickban["Winner"] == None :
-				print("continue")
 				continue
 			
 			# check whether the log is after last_update.
@@ -97,7 +95,6 @@ class Command(BaseCommand):
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not pickban["DateTime_UTC"] > last_update :
-				print("continue")
 				continue
 			
 			## 2024 LCK spring 14.1 -> 14.1b
@@ -247,18 +244,16 @@ class Command(BaseCommand):
 				last_update = datetime.strptime(file.read(), "%Y-%m-%d %H:%M:%S")
 			
 			if not mvp["DateTime UTC"] > last_update :
-				print("continue")
 				continue
 			
 			# MVP nickname
 			mvp_nickname = mvp["MVP"].split(' ')[0]
 			
 			# Get MVP info
-			ranking_player_obj = ranking_player_DB.objects.get(nickname=mvp_nickname)
+			print(mvp_nickname)
+			ranking_player_obj, created = ranking_player_DB.objects.get_or_create(nickname=mvp_nickname)
 			
 			ranking_player_obj.POG_point += 100
-			
-			
 			ranking_player_obj.save()
 			
 			# Update last_update.txt
@@ -369,7 +364,6 @@ class Command(BaseCommand):
 		else :
 			return team
 		
-	
 	def convert_Korean_team_name_to_tricode_LCK_2024_Summer(self, team) :
 		teams = {
 			"젠지":"GEN",
@@ -390,18 +384,18 @@ class Command(BaseCommand):
 			return team
 	
 	team_name_Korean_LCK_2024_Summer = [
-			"젠지",
-			"T1",
-			"한화생명e스포츠",
-			"디플러스 기아",
-			"KT 롤스터",
-			"농심 레드포스",
-			"DRX",
-			"OK저축은행 브리온",
-			"광동 프릭스",
-			"BNK 피어엑스",
+		"젠지",
+		"T1",
+		"한화생명e스포츠",
+		"디플러스 기아",
+		"KT 롤스터",
+		"농심 레드포스",
+		"DRX",
+		"OK저축은행 브리온",
+		"광동 프릭스",
+		"BNK 피어엑스",	
 	]
-
+	
 	
 	def convert_champions_name(self, name) :
 		try :

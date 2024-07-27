@@ -47,42 +47,42 @@ function alternating_patternize() {
 	});
 };
 
-// ajax
-var xhr = new XMLHttpRequest();
-var base_URL = "/champion_table";
+//// ajax
+//var xhr = new XMLHttpRequest();
+//var base_URL = "/champion_table";
 
-champion_menus.forEach(function(champion_menu) {
-	champion_menu.addEventListener("click", function() {
-		// set CSS
-		if (champion_menu.classList.length == 1 || champion_menu.classList[1] == 'ascending') {
-			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
-			champion_menus.forEach(function(champion_menu) {
-				champion_menu.classList.remove('descending');
-				champion_menu.classList.remove('ascending');
-			});
-			champion_menu.classList.add('descending');
-		}
-		else {
-			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
-			champion_menus.forEach(function(champion_menu) {
-				champion_menu.classList.remove('descending');
-				champion_menu.classList.remove('ascending');
-			});
-			champion_menu.classList.add('ascending');
-		}
+//champion_menus.forEach(function(champion_menu) {
+//	champion_menu.addEventListener("click", function() {
+//		// set CSS
+//		if (champion_menu.classList.length == 1 || champion_menu.classList[1] == 'ascending') {
+//			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_descending";
+//			champion_menus.forEach(function(champion_menu) {
+//				champion_menu.classList.remove('descending');
+//				champion_menu.classList.remove('ascending');
+//			});
+//			champion_menu.classList.add('descending');
+//		}
+//		else {
+//			req_URL = base_URL + "?year=" + "2024" + "&league=" + selected_league + "&patch=" + selected_patch + "&sort=" + champion_menu.classList[0] + "_ascending";
+//			champion_menus.forEach(function(champion_menu) {
+//				champion_menu.classList.remove('descending');
+//				champion_menu.classList.remove('ascending');
+//			});
+//			champion_menu.classList.add('ascending');
+//		}
 		
-		// set AJAX
-		xhr.open("GET", req_URL);
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				champions_table.innerHTML = xhr.responseText;
-				alternating_patternize();
-			}
-		};
-		xhr.send();
+//		// set AJAX
+//		xhr.open("GET", req_URL);
+//		xhr.onreadystatechange = function() {
+//			if (xhr.readyState === 4 && xhr.status === 200) {
+//				champions_table.innerHTML = xhr.responseText;
+//				alternating_patternize();
+//			}
+//		};
+//		xhr.send();
 		
-	});
-});
+//	});
+//});
 
 // onload
 window.onload = function() {

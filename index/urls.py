@@ -9,6 +9,7 @@ urlpatterns = [
 	path('ranking', views.ranking),
 	path('champion', views.champion),
 	path('champion_table', views.champion_table),
+	path('schedule_block', views.schedule_block),
 	path('history', views.history),
 	path('ads.txt', views.Ads),
 	path('navered740bad61f2dffe423226b77ebdff35.html', views.naver)
