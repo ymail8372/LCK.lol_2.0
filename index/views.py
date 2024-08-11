@@ -309,7 +309,7 @@ def history(request) :
 	year = request.GET.get("year", "")
 	league = request.GET.get("league", "")
 	
-	return render(request, f"history_contents/{league}/{year}.html")
+	return render(request, "history.js", {"year": year, "league": league})
 
 def Ads(request) :
 	return HttpResponse("google.com, pub-9052803485032468, DIRECT, f08c47fec0942fa0", content_type="text/plain")

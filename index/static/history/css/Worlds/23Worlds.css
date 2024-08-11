@@ -1,28 +1,49 @@
-
-
-/* regular_season */
-#regular_season {
-	margin: 0 auto 50px;
+/* playin */
+#playin {
+	margin: 0 0 50px;
+	overflow: hidden;
 }
-#regular_season #regular_season_table {
-	margin: 0 auto 20px;
-	width: 98%;
+
+#playin .playin_table {
+	overflow: hidden;
+	padding: 20px 10px;
+}
+
+#playin .playin_table .playin_round {
+	float: left;
+	width: 16%;
+}
+
+#playin .playin_table .playin_round .playin_block {
+	width: 100%;
 	overflow: hidden;
 	text-align: center;
 	box-shadow: 0px 0px 10px gray;
 	border-radius: 10px;
 }
-#regular_season #regular_season_table th {
+
+#playin .playin_table .playin_round .playin_block .palyin_index {
 	background: #1C192B;
 	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
 }
-#regular_season #regular_season_table tr:nth-child(odd) {
-	background: #e7e7e7;
+
+#playin .playin_table .playin_round .playin_block .palyin_team {
+	display: flex;
 }
-#regular_season #regular_season_table tr td img {
-	display: block;
-	margin: 0 auto;
-	height: 50px;
+
+#playin .playin_table .playin_round .playin_block .win {
+	border-left: #489CFF 5px solid;
+}
+
+#playin .playin_table .playin_round .playin_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+
+#playin .playin_table .blanc {
+	
 }
 
 /* 포스트시즌 */
