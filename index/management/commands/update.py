@@ -88,7 +88,6 @@ class Command(BaseCommand):
 				continue
 			
 			# check whether the log is after last_update.
-			# /srv/LCK.lol_2.0/index/management/commands/last_update.txt
 			pickban["DateTime_UTC"] = datetime.strptime(pickban["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
 			with open(f"{self.__class__.base_path}/index/management/commands/last_update_champion.txt", "r") as file :
@@ -411,6 +410,7 @@ class Command(BaseCommand):
 				"Aphelios": "아펠리오스",
 				"Ashe": "애쉬",
 				"Aurelion Sol": "아우렐리온 솔",
+				"Aurora": "오로라",
 				"Azir": "아지르",
 				"Bard": "바드",
 				"Briar": "브라이어",

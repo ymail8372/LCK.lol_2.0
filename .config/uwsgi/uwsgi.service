@@ -3,7 +3,7 @@ Description=uWSGI service
 After=syslog.target
 
 [Service]
-ExecStart=/home/ubuntu/myvenv/bin/uwsgi -i /srv/LCK.lol_2.0/.config/uwsgi/LCKlol.ini
+ExecStart=/home/ubuntu/myvenv/bin/uwsgi -i /srv/LCKinfo.lol/.config/uwsgi/LCKlol.ini
 
 Restart=always
 KillSignal=SIGQUIT
