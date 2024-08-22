@@ -34,34 +34,25 @@ class Command(BaseCommand):
 		for schedule in schedules :
 			schedule["DateTime UTC"] = datetime.strptime(schedule["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			team1_name = getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
-			team2_name = getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
-			
 			schedule_obj, created = Schedule.objects.get_or_create(
-				team1_name=team1_name,
-				team2_name=team2_name,
-				team1_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(team1_name),
-				team2_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(team2_name),
 				date=schedule["DateTime UTC"],
 			)
 			
-			# set schedule.tournament
+			schedule_obj.team1_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
+			schedule_obj.team2_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
+			schedule_obj.team1_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule_obj.team1_name)
+			schedule_obj.team2_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule_obj.team2_name)
+			
 			if schedule["Team1Score"] == None or schedule["Team2Score"] == None :
 				schedule["Team1Score"] = '0'
 				schedule["Team2Score"] = '0'
-				
-			if created :
-				schedule_obj.tournament=schedule["Name"]
-				
-				schedule_obj.team1_score = int(schedule["Team1Score"])
-				schedule_obj.team2_score = int(schedule["Team2Score"])
 			
-			else :
-				if schedule_obj.team1_score == int(schedule["Team1Score"]) and schedule_obj.team2_score == int(schedule["Team2Score"]) :
-					continue
-				else :
-					schedule_obj.team1_score = schedule["Team1Score"]
-					schedule_obj.team2_score = schedule["Team2Score"]
+			if "Playoffs" in schedule["Name"] :
+				schedule["Name"] = ' '.join(schedule["Name"].split()[:-1])
+			schedule_obj.tournament=schedule["Name"]
+			
+			schedule_obj.team1_score = int(schedule["Team1Score"])
+			schedule_obj.team2_score = int(schedule["Team2Score"])
 				
 			print(f"recording {schedule}")
 			schedule_obj.save()
@@ -163,7 +154,7 @@ class Command(BaseCommand):
 				self.set_win = 0
 				self.set_lose = 0
 		
-		schedules = getattr(index.models, "Schedule").objects.filter(date__gt=datetime(2024,1,1), tournament=self.__class__.league)
+		schedules = getattr(index.models, "Schedule").objects.filter(date__gt=datetime(2024,1,1), date__lt=datetime(2024,8,19), tournament=self.__class__.league)
 		
 		teams = []
 		team_names_Korean = getattr(self, f"team_name_Korean_{self.__class__.league.replace(' ', '_')}")

@@ -46,6 +46,71 @@
 	
 }
 
+/* 스위스 스테이지 */
+#swiss {
+margin: 0 0 50px;
+overflow: hidden;
+}
+
+#swiss #swiss_table {
+	overflow: hidden;
+	padding: 20px 10px;
+}
+
+#swiss #swiss_table .swiss_blanc {
+	float: left;
+	width: 5%;
+}
+
+#swiss #swiss_table .swiss_round {
+	float: left;
+	width: 15%;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block_index {
+	
+}
+
+#swiss #swiss_table .swiss_round .swiss_block {
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team {
+	display: flex;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .win {
+	border-left: #489CFF 5px solid;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team .swiss_team_img {
+	height: 50px;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team div {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+
 /* 포스트시즌 */
 #post_season {
 	overflow: hidden;

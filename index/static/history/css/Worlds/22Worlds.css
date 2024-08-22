@@ -7,130 +7,91 @@
 #playin h2 {
 	font-size: 30px;
 }
-#playin #playin_table {
-	overflow: hidden;
+#playin .playin_table {
+	display: flex;
 	padding: 20px 10px;
 }
-#playin #playin_table .blanc {
-	float: left;
-	width: 6%;
-	line-height: 186px;
+#playin .playin_table .playin_group {
+	width: 40%;
+	flex: 1;
+	padding: 20px 10px;
 }
-#playin #playin_table .blanc .blanc1 {
-	width: 50%;
-	float: left;
-}
-#playin #playin_table .blanc .blanc1 div {
-	width: 100%;
-}
-#playin #playin_table .playin_round {
+#playin .playin_table .playin_group .blanc {
 	float: left;
 	width: 20%;
 }
-#playin #playin_table .playin_round .playin_block {
+#playin .playin_table .playin_group img {
+	width: 50px;
+}
+#playin .playin_table .playin_tournament {
+	width: 40%;
+	flex: 1;
+}
+#playin .playin_table .playin_tournament .blanc {
+	float: left;
+	width: 20%;
+	line-height: 186px;
+}
+#playin .playin_table .playin_tournament .blanc .blanc1 {
+	width: 50%;
+	float: left;
+}
+#playin .playin_table .playin_tournament .blanc .blanc1 div {
+	width: 100%;
+}
+#playin .playin_table .playin_tournament .playin_round {
+	float: left;
+	width: 40%;
+}
+#playin .playin_table .playin_tournament .playin_round .playin_block {
 	width: 100%;
 	overflow: hidden;
 	text-align: center;
 	box-shadow: 0px 0px 10px gray;
 	border-radius: 10px;
 }
-#playin #playin_table .playin_round .playin_block .playin_index {
+#playin .playin_table .playin_tournament .playin_round .playin_block .playin_index {
 	background: #1C192B;
 	color: #DCDFE0;
 	text-align: center;
 	padding: 5px 0;
 }
-#playin #playin_table .playin_round .playin_block .playin_team {
+#playin .playin_table .playin_tournament .playin_round .playin_block .playin_team {
 	display: flex;
 }
-#playin #playin_table .playin_round .playin_block .playin_team .playin_team_name {
+#playin .playin_table .playin_tournament .playin_round .playin_block .playin_team .playin_team_name {
 	flex-basis: 100px;
 }
-#playin #playin_table .playin_round .playin_block .playin_team img {
-	height: 60px;
+#playin .playin_table .playin_tournament .playin_round .playin_block .playin_team img {
+	height: 50px;
 }
-#playin #playin_table .playin_round .playin_block .win {
+#playin .playin_table .playin_tournament .playin_round .playin_block .win {
 	border-left: #489CFF 5px solid;
 }
-#playin #playin_table .playin_round .playin_block .lose {
+#playin .playin_table .playin_tournament .playin_round .playin_block .lose {
 	border-left: #BDBDBD 5px solid;
 	background: #dddddd;
 }
-#playin #playin_table .playin_round .playin_block .playin_team div {
+#playin .playin_table .playin_tournament .playin_round .playin_block .playin_team div {
 	display: flex;
 	flex: 1;
 	justify-content: center;
 	align-items: center;
 	padding: 5px;
 }
-/* 스위스 스테이지 */
-#swiss {
-margin: 0 0 50px;
-overflow: hidden;
+/* 그룹 스테이지 */
+#group {
+	margin: 0 auto 50px;
 }
-
-#swiss #swiss_table {
+#group .group_layer {
 	display: flex;
 	padding: 20px 10px;
 }
-
-#swiss #swiss_table .swiss_blanc {
-	width: 5%;
-}
-
-#swiss #swiss_table .swiss_round {
-	display: flex;
-	width: 16%;
-	justify-content: center;
-	flex-direction: column;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block_index {
-	background: #1C192B;
-	color: #DCDFE0;
-	text-align: center;
-	padding: 5px 0;
-	box-shadow: 0px 0px 10px gray;
-	border-radius: 10px;
-	margin-bottom: 30px;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block {
-	width: 100%;
-	overflow: hidden;
-	text-align: center;
-	box-shadow: 0px 0px 10px gray;
-	border-radius: 10px;
-	margin-bottom: 30px;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block:last-child {
-	margin-bottom: 0;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block .swiss_team {
-	display: flex;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block .win {
-	border-left: #489CFF 5px solid;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block .lose {
-	border-left: #BDBDBD 5px solid;
-	background: #dddddd;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block .swiss_team .swiss_team_img img {
-	height: 45px;
-}
-
-#swiss #swiss_table .swiss_round .swiss_block .swiss_team div {
-	display: flex;
+#group .group_layer .group_table {
 	flex: 1;
-	justify-content: center;
-	align-items: center;
-	padding: 5px;
+}
+#group .group_layer .group_table img {
+	width: 50px;
 }
 
 /* 토너먼트 */

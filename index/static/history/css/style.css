@@ -2,6 +2,7 @@
 .reference {
 	font-size: 14px;
 	overflow: hidden;
+	clear: both;
 }
 
 .reference .reference_border {
