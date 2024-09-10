@@ -579,36 +579,17 @@ class Command(BaseCommand):
 		
 		return names[name]
 	
-	def udpate_player_name(self) :
-		all_players = self.site.cargo_client.query(
-			tables="Players=P",
-			where=f"P.Country LIKE 'South Korea'",
-			limit=400,
-			
-			fields="P.ID, P.NativeName, P.Role",
-		)
-
-		ranked_players = index.models.Ranking_2024_LCK_Summer_player.objects.all()
-		
-		for ranked_player in ranked_players :
-			for temp_player in all_players :
-				if ranked_player.nickname == temp_player["ID"] :
-					ranked_player.name = temp_player["NativeName"]
-					ranked_player.position = temp_player["Role"]
-					ranked_player.save()
-	
 	def handle(self, *args, **options):
-		#self.udpate_player_name()
-		#print("start to update schedule...")
-		#self.update_schedule()
-		#print("updating schedule complete!")
-		#print("start to update champion...")
-		#self.update_champion()
-		#print("updating champion complete!")
-		#print("start to update ranking_2024_LCK_summer...")
-		#self.update_ranking()
-		#print("updating ranking_2024_LCK_summer complete")
-		#print("start to update ranking_2024_LCK_summer_player...")
-		#self.update_ranking_player()
-		#print("updating ranking_2024_LCK_summer_player complete!")
+		print("start to update schedule...")
+		self.update_schedule()
+		print("updating schedule complete!")
+		print("start to update champion...")
+		self.update_champion()
+		print("updating champion complete!")
+		print("start to update ranking_2024_LCK_summer...")
+		self.update_ranking()
+		print("updating ranking_2024_LCK_summer complete")
+		print("start to update ranking_2024_LCK_summer_player...")
+		self.update_ranking_player()
+		print("updating ranking_2024_LCK_summer_player complete!")
 		
