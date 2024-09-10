@@ -10,6 +10,6 @@ LCKlol/__pycache__
 log/
 LCKlol/settings.py
 .config/
-static/
+/static/
 
 update.sh

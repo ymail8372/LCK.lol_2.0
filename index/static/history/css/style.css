@@ -1,0 +1,220 @@
+/* reference */
+.reference {
+	font-size: 14px;
+	overflow: hidden;
+	clear: both;
+}
+
+.reference .reference_border {
+	float: right;
+	font-size: 14px;
+}
+
+.reference .reference_border .reference_element_type_color {
+	float: left;
+	margin-right: 5px;
+}
+
+.reference .reference_border .reference_element_type_color:last-child {
+	margin-right: 0;
+}
+
+.reference .reference_border .reference_element_type_color .reference_letter {
+	border-right: 1px solid #bbb;
+}
+
+.reference .reference_border .reference_element_type_color:last-child .reference_letter {
+	border-right: 0;
+}
+
+.reference .reference_border .reference_element_type_color .reference_color {
+	float: left;
+	margin: 3px;
+	width: 15px;
+	height: 15px;
+}
+
+.reference .reference_border .reference_element_type_letter {
+		
+}
+
+
+/* result_table */
+#result {
+	margin: 0 auto 50px;
+}
+
+#result #result_table {
+	margin: 0 auto;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+/* winner_team */
+#result #result_table #winner_team #winner_team_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	padding: 5px;
+}
+
+#result #result_table #winner_team #winner_team_content img {
+	padding-top: 10px;
+	width: 120px;
+}
+
+
+/* winner_coach */
+#result #result_table #winner_coach .coach {
+	overflow: hidden;
+	height: 44px;
+}
+
+#result #result_table #winner_coach .coach .coach_index {
+	float: left;
+	background: #1C192B;
+	color: #DCDFE0;
+	width: 200px;
+	height: 100%;
+	padding: 10px;
+}
+
+#result #result_table #winner_coach .coach .coach_name {
+	float: left;
+	padding: 10px;
+}
+
+/* winner_player */
+#result #result_table #winner_player {
+	display: flex;
+}
+
+#result #result_table #winner_player .winner_player {
+	flex: 1;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 0 0 10px 0;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_index img {
+	height: 40px;
+	padding: 10px 0;
+}
+
+#result #result_table #winner_player .winner_player .winner_player_name {
+	padding: 5px;
+}
+
+/* award player */
+#result #result_table #award_player {
+	display: flex;
+}
+
+#result #result_table #award_player .award_player {
+	flex: 1;
+}
+
+#result #result_table #award_player .award_player .awrd_player_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#result #result_table #award_player .award_player .awrd_player_name {
+	padding: 5px;
+}
+
+#history_menu {
+	width: 98%;
+	margin: 50px auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+/* common menu_league */
+#history_menu .menu_league {
+	background: #1C192B;
+	display: flex;
+	border-bottom: #BDBDBD 1px solid;
+	align-items: center;
+	justify-content: center;
+}
+
+#history_menu .menu_league .league {
+	color: #DCDFE0;
+	font-size: 20px;
+	padding: 10px 20px;
+	flex: 1;
+}
+
+#history_menu .menu_league .league img {
+	display: block;
+	margin: 0 auto 5px;
+}
+
+/* menu_league1 */
+#history_menu .menu_league1 .league img {
+	height: 40px;
+}
+
+/* menu_league2 */
+#history_menu .menu_league2 .league img {
+	height: 30px;
+}
+
+
+/* common menu_year */
+#history_menu .menu_year {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #1C192B;
+}
+
+#history_menu .menu_year:last-child {
+	border-bottom: 0;
+}
+
+#history_menu .menu_year .years {
+	flex: 1;
+	border-right: 1px solid #1C192B;
+}
+
+#history_menu .menu_year .years:last-child {
+	border-right: 0;
+}
+
+#history_menu .menu_year .year a {
+	color: #AAAAAA;
+}
+
+#history_menu .menu_year .disable {
+	pointer-events: none;
+	text-decoration: line-through;
+}
+
+/* menu_year1 */
+#history_menu .menu_year1 .years {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 5px;
+}
+
+/* menu_year2 */
+#history_menu .menu_year2 .years {
+	display: flex;
+}
+
+#history_menu .menu_year2 .years .year {
+	flex: 1;
+	padding: 5px;
+}

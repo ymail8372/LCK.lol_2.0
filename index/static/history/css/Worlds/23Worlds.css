@@ -1,0 +1,210 @@
+
+/* playin */
+#playin {
+	overflow: hidden;
+	margin: 0 0 50px;
+}
+#playin h2 {
+	font-size: 30px;
+}
+#playin #playin_table {
+	overflow: hidden;
+	padding: 20px 10px;
+}
+#playin #playin_table .blanc {
+	float: left;
+	width: 6%;
+	line-height: 186px;
+}
+#playin #playin_table .blanc .blanc1 {
+	width: 50%;
+	float: left;
+}
+#playin #playin_table .blanc .blanc1 div {
+	width: 100%;
+}
+#playin #playin_table .playin_round {
+	float: left;
+	width: 20%;
+}
+#playin #playin_table .playin_round .playin_block {
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+#playin #playin_table .playin_round .playin_block .playin_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+#playin #playin_table .playin_round .playin_block .playin_team {
+	display: flex;
+}
+#playin #playin_table .playin_round .playin_block .playin_team .playin_team_name {
+	flex-basis: 100px;
+}
+#playin #playin_table .playin_round .playin_block .playin_team img {
+	height: 60px;
+}
+#playin #playin_table .playin_round .playin_block .win {
+	border-left: #489CFF 5px solid;
+}
+#playin #playin_table .playin_round .playin_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+#playin #playin_table .playin_round .playin_block .playin_team div {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+/* 스위스 스테이지 */
+#swiss {
+margin: 0 0 50px;
+overflow: hidden;
+}
+
+#swiss #swiss_table {
+	display: flex;
+	padding: 20px 10px;
+}
+
+#swiss #swiss_table .swiss_blanc {
+	width: 5%;
+}
+
+#swiss #swiss_table .swiss_round {
+	display: flex;
+	width: 16%;
+	justify-content: center;
+	flex-direction: column;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+	margin-bottom: 30px;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block {
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+	margin-bottom: 30px;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block:last-child {
+	margin-bottom: 0;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team {
+	display: flex;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .win {
+	border-left: #489CFF 5px solid;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team .swiss_team_img img {
+	height: 45px;
+}
+
+#swiss #swiss_table .swiss_round .swiss_block .swiss_team div {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+
+/* 토너먼트 */
+#tournament {
+	margin: 0 auto 50px;
+}
+#tournament #tournament_table {
+	padding: 20px 10px;
+	overflow: hidden;
+}
+#tournament #tournament_table .blanc {
+	float: left;
+	width: 5%;
+	line-height: 186px;
+}
+#tournament #tournament_table .blanc .blanc1 {
+	width: 50%;
+	float: left;
+}
+#tournament #tournament_table .blanc .blanc1 div {
+	width: 100%;
+}
+#tournament #tournament_table .tournament_round {
+	width: 30%;
+	float: left;
+}
+#tournament #tournament_table .tournament_round .tournament_block {
+	height: 196px;
+	text-align: center;
+	overflow: hidden;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+	height: 46px;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_team {
+	display: flex;
+}
+#tournament #tournament_table .tournament_round .tournament_block .win {
+	border-left: #489CFF 5px solid;
+}
+#tournament #tournament_table .tournament_round .tournament_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_team div {
+	display: flex;
+	flex-basis: 120px;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_team .tournament_team_name {
+	flex-basis: 100px;
+}
+#tournament #tournament_table .tournament_round .tournament_block .tournament_team img {
+	height: 60px;
+}
+#tournament #tournament_table .tournament_round .tournament_arrow {
+	display: flex;
+	flex-basis: 50px;
+	justify-content: center;
+	align-items: center;
+}
+

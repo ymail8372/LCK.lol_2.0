@@ -1,0 +1,128 @@
+
+/* regular_season */
+#regular_season {
+	margin: 0 auto 50px;
+}
+
+#regular_season #regular_season_table {
+	margin: 0 auto 20px;
+	width: 98%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#regular_season #regular_season_table th {
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#regular_season #regular_season_table tr:nth-child(odd) {
+	background: #e7e7e7;
+}
+
+#regular_season #regular_season_table tr td img {
+	display: block;
+	margin: 0 auto;
+	height: 60px;
+}
+
+/* post_season */
+#post_season {
+	margin: 0 auto;
+}
+
+#post_season #post_season_table {
+	display: flex;
+	width: 98%;
+	margin: 0 auto 50px;
+}
+
+#post_season #post_season_table .post_season_block {
+	flex: 1;
+	margin: 0 auto;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#post_season #post_season_table .post_season_block .post_season_index {
+	background: #1C192B;
+	color: #DCDFE0;
+	text-align: center;
+	padding: 5px 0;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team {
+	display: flex;
+}
+
+#post_season #post_season_table .post_season_block .win {
+	border-left: #489CFF 5px solid;
+}
+
+#post_season #post_season_table .post_season_block .lose {
+	border-left: #BDBDBD 5px solid;
+	background: #dddddd;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team div {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+}
+
+#post_season #post_season_table .post_season_block .post_season_team img {
+	height: 60px;
+}
+
+#post_season #post_season_table .post_season_arrow {
+	display: flex;
+	flex-basis: 50px;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/* POG */
+#POG {
+	margin: 0 auto 50px;
+}
+
+#POG #POG_table {
+	margin: 0 auto 20px;
+	width: 80%;
+	overflow: hidden;
+	text-align: center;
+	box-shadow: 0px 0px 10px gray;
+	border-radius: 10px;
+}
+
+#POG #POG_table th {
+	background: #1C192B;
+	color: #DCDFE0;
+}
+
+#POG #POG_table tr:nth-child(odd) {
+	background: #e7e7e7;
+}
+
+#POG #POG_table tr td .POG_team_img {
+	display: block;
+	margin: 0 auto;
+	height: 60px;
+}
+
+#POG #POG_table tr td .POG_position_img {
+	display: block;
+	margin: 0 auto;
+	height: 30px;
+}
+
+#POG .reference {
+	margin: 0 150px 0 0;
+}
