@@ -66,6 +66,8 @@ champion_menus.forEach(function(champion_menu) {
 			});
 			champion_menu.classList.add('ascending');
 		}
+		
+		show_champions();
 	});
 });
 

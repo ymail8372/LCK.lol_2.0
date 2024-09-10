@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 
 import index.models
-from index.models import Schedule
 
 from mwrogue.esports_client import EsportsClient
 
@@ -14,7 +13,9 @@ class Command(BaseCommand):
 	UTC = pytz.timezone("UTC")
 	KST = pytz.timezone("Asia/Seoul")
 	site = EsportsClient("lol")
-	league = "LCK 2024 Summer"
+	## 받으려는 대회의 LeaguePedia에서의 대회 이름 지정
+	league = "LCK 2024 Regional Finals"
+	year = 2024
 	base_path = os.getenv("LCKINFO_HOME")
 	
 	def update_schedule(self) :
@@ -34,22 +35,35 @@ class Command(BaseCommand):
 		for schedule in schedules :
 			schedule["DateTime UTC"] = datetime.strptime(schedule["DateTime UTC"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=self.UTC).astimezone(self.KST).replace(tzinfo=None)
 			
-			schedule_obj, created = Schedule.objects.get_or_create(
+			schedule_obj, created = getattr(index.models, f"Schedule_{self.__class__.year}").objects.get_or_create(
 				date=schedule["DateTime UTC"],
 			)
 			
-			schedule_obj.team1_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
-			schedule_obj.team2_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
-			schedule_obj.team1_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule_obj.team1_name)
-			schedule_obj.team2_tricode=getattr(self, f"convert_Korean_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule_obj.team2_name)
+			if "Regional Finals" in schedule["Name"] :
+				schedule_obj.team1_name=getattr(self, f"convert_team_name_to_Korean_LCK_2024_Summer")(schedule["Team1"])
+				schedule_obj.team2_name=getattr(self, f"convert_team_name_to_Korean_LCK_2024_Summer")(schedule["Team2"])
+				schedule_obj.team1_tricode=getattr(self, f"convert_team_name_to_tricode_LCK_2024_Summer")(schedule["Team1"])
+				schedule_obj.team2_tricode=getattr(self, f"convert_team_name_to_tricode_LCK_2024_Summer")(schedule["Team2"])
+			else :
+				schedule_obj.team1_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
+				schedule_obj.team2_name=getattr(self, f"convert_team_name_to_Korean_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
+				schedule_obj.team1_tricode=getattr(self, f"convert_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule["Team1"])
+				schedule_obj.team2_tricode=getattr(self, f"convert_team_name_to_tricode_{self.__class__.league.replace(' ', '_')}")(schedule["Team2"])
+			
+			if "Regional Finals" in schedule["Name"] :
+				tournament = "선발전"
+			elif "LCK" in schedule["Name"] :
+				tournament = schedule["Name"].split(" ")[0] + " " + schedule["Name"].split(" ")[2]
+			elif "MSI" in schedule["Name"] or "Worlds" in schedule["Name"] :
+				tournament = schedule["Name"].split(" ")[0]
+			else :
+				tournament = "unknown"
+			schedule_obj.tournament = tournament
+
 			
 			if schedule["Team1Score"] == None or schedule["Team2Score"] == None :
 				schedule["Team1Score"] = '0'
 				schedule["Team2Score"] = '0'
-			
-			if "Playoffs" in schedule["Name"] :
-				schedule["Name"] = ' '.join(schedule["Name"].split()[:-1])
-			schedule_obj.tournament=schedule["Name"]
 			
 			schedule_obj.team1_score = int(schedule["Team1Score"])
 			schedule_obj.team2_score = int(schedule["Team2Score"])
@@ -354,18 +368,18 @@ class Command(BaseCommand):
 		else :
 			return team
 		
-	def convert_Korean_team_name_to_tricode_LCK_2024_Summer(self, team) :
+	def convert_team_name_to_tricode_LCK_2024_Summer(self, team) :
 		teams = {
-			"젠지":"GEN",
+			"Gen.G":"GEN",
 			"T1":"T1",
-			"한화생명e스포츠":"HLE",
-			"디플러스 기아":"DK",
-			"KT 롤스터":"KT",
-			"농심 레드포스":"NS",
+			"Hanwha Life Esports":"HLE",
+			"Dplus KIA":"DK",
+			"KT Rolster":"KT",
+			"Nongshim RedForce":"NS",
 			"DRX":"DRX",
-			"OK저축은행 브리온":"BRO",
-			"광동 프릭스":"KDF",
-			"BNK 피어엑스":"FOX",
+			"OKSavingsBank BRION":"BRO",
+			"Kwangdong Freecs":"KDF",
+			"BNK FearX":"FOX",
 		}
 		
 		if team in teams :
@@ -564,20 +578,37 @@ class Command(BaseCommand):
 			print(name)
 		
 		return names[name]
+	
+	def udpate_player_name(self) :
+		all_players = self.site.cargo_client.query(
+			tables="Players=P",
+			where=f"P.Country LIKE 'South Korea'",
+			limit=400,
+			
+			fields="P.ID, P.NativeName, P.Role",
+		)
+
+		ranked_players = index.models.Ranking_2024_LCK_Summer_player.objects.all()
 		
+		for ranked_player in ranked_players :
+			for temp_player in all_players :
+				if ranked_player.nickname == temp_player["ID"] :
+					ranked_player.name = temp_player["NativeName"]
+					ranked_player.position = temp_player["Role"]
+					ranked_player.save()
 	
 	def handle(self, *args, **options):
-		print("start to update schedule...")
-		self.update_schedule()
-		print("updating schedule complete!")
-		print("start to update champion...")
-		self.update_champion()
-		print("updating champion complete!")
-		print("start to update ranking_2024_LCK_summer...")
-		self.update_ranking()
-		print("updating ranking_2024_LCK_summer complete")
-		print("start to update ranking_2024_LCK_summer_player...")
-		self.update_ranking_player()
-		print("updating ranking_2024_LCK_summer_player complete!")
-		pass
+		#self.udpate_player_name()
+		#print("start to update schedule...")
+		#self.update_schedule()
+		#print("updating schedule complete!")
+		#print("start to update champion...")
+		#self.update_champion()
+		#print("updating champion complete!")
+		#print("start to update ranking_2024_LCK_summer...")
+		#self.update_ranking()
+		#print("updating ranking_2024_LCK_summer complete")
+		#print("start to update ranking_2024_LCK_summer_player...")
+		#self.update_ranking_player()
+		#print("updating ranking_2024_LCK_summer_player complete!")
 		

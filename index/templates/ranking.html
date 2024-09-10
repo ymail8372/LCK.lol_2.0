@@ -21,7 +21,7 @@
 			<div colspan="2" class="title">팀</div>
 			{% for ranking in ranking_list_team %}
 			<div class="team">
-				<div class="team_img"><img src="{% static 'img/teams/'|add:league|add:'/'|add:ranking.tricode|add:'.webp' %}"></div>
+				<div class="team_img"><img src="{% static 'img/teams/'|add:year|add:'/'|add:league|add:'/'|add:ranking.tricode|add:'.webp' %}"></div>
 				<div class="team_name">{{ranking.team}}</div>
 			</div>
 			{% endfor %}
@@ -80,7 +80,7 @@
 			</tr>
 			{% for player in ranking_list_player %}
 			<tr>
-				<td>{{player.ranking}}</td><td>{{player.name}}</td><td>{{player.nickname}}</td><td><img src="{% static 'img/teams/'|add:league|add:'/'|add:player.team_tricode|add:'.webp' %}"></td><td>{{player.team}}</td><td><img class="player_ranking_block_position" src="{% static 'img/position/'|add:player.position|add:'_black.webp' %}"></td><td>{{player.POG_point}}</td>
+				<td>{{player.ranking}}</td><td>{{player.name}}</td><td>{{player.nickname}}</td><td><img src="{% static 'img/teams/'|add:year|add:'/'|add:league|add:'/'|add:player.team_tricode|add:'.webp' %}"></td><td>{{player.team}}</td><td><img class="player_ranking_block_position" src="{% static 'img/position/'|add:player.position|add:'_black.webp' %}"></td><td>{{player.POG_point}}</td>
 			</tr>
 			{% endfor %}
 		</table>

@@ -26,7 +26,7 @@
 				{% for champion in champions %}
 				<tr>
 					<td>
-						<img class="champion_img" src="{% static 'img/champions'|add:'/'|add:champion.name|add:'.png' %}">
+						<img class="champion_img" src="{% static 'img/champions/'|add:champion.name|add:'.png' %}">
 					</td>
 					<td>{{champion.name}}</td><td>{{champion.pick}}</td><td>{{champion.ban}}</td><td>{{champion.banpick_rate}}%</td><td>{{champion.win}}</td><td>{{champion.lose}}</td><td>{{champion.win_rate}}%</td>
 				</tr>
@@ -60,7 +60,7 @@
 				<div colspan="2" class="title">팀</div>
 				{% for ranking in ranking_list %}
 				<div class="team">
-					<div class="team_img"><img src="{% static 'img/teams/'|add:ranking.tournament|add:'/'|add:ranking.tricode|add:'.webp' %}"></div>
+					<div class="team_img"><img src="{% static 'img/teams/'|add:year|add:'/'|add:ranking.tournament|add:'/'|add:ranking.tricode|add:'.webp' %}"></div>
 					<div class="team_name">{{ranking.team}}</div>
 				</div>
 				{% endfor %}

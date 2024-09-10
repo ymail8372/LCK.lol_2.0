@@ -1,28 +1,28 @@
 from django.shortcuts import render
 
 from index import models
-from index.models import Schedule
-from index.models import Version
 from django.http import HttpResponse
 
 from datetime import datetime
 
+league = "LCK Summer"
+year = "2024"
+
 # version
-version = Version.objects.all()[0]
+version = getattr(models, f"Version").objects.all()[0]
 
 league_version = version.league_version
 live_version = version.live_version
-league = "LCK 2024 Summer"
 
 def index(request) :
 	# champions
-	champions = get_champions(league.split(" ")[1], league.split(" ")[0] + " " + league.split(" ")[2], 'all')
+	champions = get_champions(year, league, 'all')
 	
 	# schedules
-	schedules = Schedule.objects.filter(date__gt=datetime(2024, 1, 1))
+	schedules = getattr(models, f"Schedule_{year}").objects.all()
 	
 	# ranking
-	rankings = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
+	rankings = getattr(models, f"Ranking_{year}_{league.replace(' ', '_')}").objects.all()
 	
 	# make ranking dictionary
 	ranking_list = []
@@ -52,27 +52,21 @@ def index(request) :
 				ranking_list[i]["ranking"] = i+1
 	
 	if champions == "Error" :
-		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
+		return render(request, 'index.html', {"year":year, "league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": "", "ranking_list": ranking_list})
 	else :
-		return render(request, 'index.html', {"league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions[0:5], "ranking_list": ranking_list})
+		return render(request, 'index.html', {"year":year, "league_version":league_version, "live_version":live_version, "schedules": schedules, "champions": champions[0:5], "ranking_list": ranking_list})
 
-def get_champions(year, league, patch, sort='') :
+def get_champions(get_year, get_league, get_patch, get_sort='') :
 	champions = []
-	model_name = ""
 	
-	if "LCK" in league :
-		model_name = f"Champion_LCK_{year}_{league.split(' ')[1]}"
-	else :
-		model_name = f"Champion_{league}_{year}"
-	
-	champion_model = getattr(models, model_name, "No_champion_DB_model")
+	champion_model = getattr(models, f"Champion_{get_year}_{get_league.replace(' ', '_')}", "No_champion_DB_model")
 	
 	if champion_model == "No_champion_DB_model" :
 		print("No_champion_DB_model")
 		return "Error"
 	
 	# patch == all
-	if patch == "all" :
+	if get_patch == "all" :
 		champion_objects = champion_model.objects.all()
 		if len(champion_objects) == 0 :
 			print("no champion at all")
@@ -95,7 +89,7 @@ def get_champions(year, league, patch, sort='') :
 				champions.append({"name": champion_object.name, "pick": champion_object.pick, "ban": champion_object.ban, "win": champion_object.win, "lose": champion_object.lose, "patch": "all"})
 	
 	# patch == none
-	elif patch == "none" :
+	elif get_patch == "none" :
 		champion_objects = champion_model.objects.all()
 		if len(champion_objects) == 0 :
 			print("no champion at all")
@@ -105,7 +99,7 @@ def get_champions(year, league, patch, sort='') :
 		
 	# patch == XX.X
 	else :
-		champion_objects = champion_model.objects.filter(patch = patch)
+		champion_objects = champion_model.objects.filter(patch = get_patch)
 		#if len(champion_objects) == 0 :
 		#	print("no champion at the patch")
 		#	return "Error"
@@ -138,35 +132,35 @@ def get_champions(year, league, patch, sort='') :
 		else :
 			champion["win_rate"] = 0.0
 	
-	if sort == "" :
+	if get_sort == "" :
 		champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
-	elif "pick_menu" in sort :
-		if "descending" in sort :
+	elif "pick_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["pick"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["pick"])
-	elif "ban_menu" in sort :
-		if "descending" in sort :
+	elif "ban_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["ban"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["ban"])
-	elif "banpick_rate_menu" in sort :
-		if "descending" in sort :
+	elif "banpick_rate_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["banpick_rate"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["banpick_rate"])
-	elif "win_menu" in sort :
-		if "descending" in sort :
+	elif "win_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["win"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["win"])
-	elif "lose_menu" in sort :
-		if "descending" in sort :
+	elif "lose_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["lose"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["lose"])
-	elif "win_rate_menu" in sort :
-		if "descending" in sort :
+	elif "win_rate_menu" in get_sort :
+		if "descending" in get_sort :
 			champions = sorted(champions, key=lambda x: x["win_rate"], reverse=True)
 		else :
 			champions = sorted(champions, key=lambda x: x["win_rate"])
@@ -176,42 +170,41 @@ def get_champions(year, league, patch, sort='') :
 
 def schedule(request) :
 	# schedules
-	schedules = Schedule.objects.all().order_by("date")
+	schedules = getattr(models, f"Schedule_{year}").objects.all().order_by("date")
 	
 	# team tricode list
-	teams_2024_1 = set()
-	teams_2024_2 = set()
-	teams_2024_3 = set()
+	teams_group_1 = set()
+	teams_group_2 = set()
+	teams_group_3 = set()
 	
 	# schedules (year == 2024)
 	schedules_2024 = []
 	for schedule in schedules :
-		if schedule.date > datetime(2024, 1, 1) :
-			if "Spring" in schedule.tournament :
-				teams_2024_1.add(schedule.team1_tricode)
-				teams_2024_1.add(schedule.team2_tricode)
-			elif "MSI" in schedule.tournament :
-				teams_2024_2.add(schedule.team1_tricode)
-				teams_2024_2.add(schedule.team2_tricode)
-			elif "Summer" in schedule.tournament :
-				teams_2024_3.add(schedule.team1_tricode)
-				teams_2024_3.add(schedule.team2_tricode)
-			
-			schedules_2024.append(schedule)
+		if "Spring" in schedule.tournament :
+			teams_group_1.add(schedule.team1_tricode)
+			teams_group_1.add(schedule.team2_tricode)
+		elif "MSI" in schedule.tournament :
+			teams_group_2.add(schedule.team1_tricode)
+			teams_group_2.add(schedule.team2_tricode)
+		elif "Summer" in schedule.tournament :
+			teams_group_3.add(schedule.team1_tricode)
+			teams_group_3.add(schedule.team2_tricode)
+		
+		schedules_2024.append(schedule)
 	
-	if "TBD" in teams_2024_1 :
-		teams_2024_1.remove("TBD")
-	if "TBD" in teams_2024_2 :
-		teams_2024_2.remove("TBD")
-	if "TBD" in teams_2024_3 :
-		teams_2024_3.remove("TBD")
+	if "TBD" in teams_group_1 :
+		teams_group_1.remove("TBD")
+	if "TBD" in teams_group_2 :
+		teams_group_2.remove("TBD")
+	if "TBD" in teams_group_3 :
+		teams_group_3.remove("TBD")
 
-	return render(request, 'schedule.html', {"schedules": schedules_2024, "teams_2024_1": teams_2024_1, "teams_2024_2": teams_2024_2, "teams_2024_3": teams_2024_3})
+	return render(request, 'schedule.html', {"year":year, "schedules": schedules_2024, "teams_group_1": teams_group_1, "teams_group_2": teams_group_2, "teams_group_3": teams_group_3})
 
 def schedule_block(request) :
 	date = datetime(int(request.GET.get('year', '')), int(request.GET.get('month', '')), int(request.GET.get('date', '')))
 	
-	schedule_model = getattr(models, "Schedule", "No_champion_DB_model")
+	schedule_model = getattr(models, f"Schedule_{year}")
 	
 	schedules = schedule_model.objects.filter(date__year = str(date.year), date__month = str(date.month), date__day = str(date.day))
 	
@@ -219,7 +212,7 @@ def schedule_block(request) :
 
 def ranking(request) :
 	# team ranking
-	rankings_team = getattr(models, f"Ranking_{league.replace(' ', '_')}").objects.all()
+	rankings_team = getattr(models, f"Ranking_{year}_{league.replace(' ', '_')}").objects.all()
 	
 	ranking_list_team = []
 	for ranking_team in rankings_team :
@@ -248,7 +241,7 @@ def ranking(request) :
 	# player ranking
 	ranking_list_player = []
 	
-	rankings_player = getattr(models, f"Ranking_{league.replace(' ', '_')}_player").objects.all().order_by("-POG_point")[0:10]
+	rankings_player = getattr(models, f"Ranking_{year}_{league.replace(' ', '_')}_player").objects.all().order_by("-POG_point")[0:10]
 	
 	for ranking_player in rankings_player :
 		ranking_list_player.append({"name": ranking_player.name, "nickname": ranking_player.nickname, "team": ranking_player.team, "team_tricode": ranking_player.tricode, "position": ranking_player.position, "POG_point": ranking_player.POG_point})
@@ -264,7 +257,7 @@ def ranking(request) :
 				
 	#print(ranking_list_player)
 	
-	return render(request, 'ranking.html', {"league": league, "ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
+	return render(request, 'ranking.html', {"year": year, "league": league, "ranking_list_team": ranking_list_team, "ranking_list_player": ranking_list_player})
 
 def champion(request) :
 	champions_spring = get_champions("2024", "LCK Spring", 'none')
@@ -291,14 +284,12 @@ def champion(request) :
 	return render(request, "champion.html", {"patch_list_spring": patch_list_spring, "patch_list_MSI": patch_list_MSI, "patch_list_summer": patch_list_summer})
 
 def champion_table(request) :
-	year = request.GET.get('year', '')
-	league = request.GET.get('league', '')
-	patch = request.GET.get('patch', '')
-	sort = request.GET.get('sort', '')
+	get_year = request.GET.get('year', '')
+	get_league = request.GET.get('league', '')
+	get_patch = request.GET.get('patch', '')
+	get_sort = request.GET.get('sort', '')
 	
-	print(league)
-	champions = get_champions(year, league, patch, sort)
-	
+	champions = get_champions(get_year, get_league, get_patch, get_sort)
 	
 	if champions == "no_model" :
 		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK Summer&patch={league_version}\";</script>")

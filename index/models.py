@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 
-class Schedule(models.Model):
+class Schedule_2024(models.Model):
     key = models.AutoField(db_column='key', primary_key=True)
     team1_name = models.TextField(db_column='team1_name', default='-')
     team2_name = models.TextField(db_column='team2_name', default='-')
@@ -14,10 +14,10 @@ class Schedule(models.Model):
     etc = models.TextField(db_column='etc')
 
     class Meta:
-        db_table = 'schedule'
+        db_table = 'schedule_2024'
 
 
-class Ranking_LCK_2023_Spring(models.Model):
+class Ranking_2023_LCK_Spring(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
@@ -28,9 +28,9 @@ class Ranking_LCK_2023_Spring(models.Model):
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_LCK_2023_spring"
+        db_table = "ranking_2023_LCK_Spring"
     
-class Ranking_LCK_2023_Summer(models.Model):
+class Ranking_2023_LCK_Summer(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
@@ -41,9 +41,9 @@ class Ranking_LCK_2023_Summer(models.Model):
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_LCK_2023_summer"
+        db_table = "ranking_2023_LCK_Summer"
         
-class Ranking_LCK_2024_Spring(models.Model):
+class Ranking_2024_LCK_Spring(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
@@ -54,9 +54,9 @@ class Ranking_LCK_2024_Spring(models.Model):
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_LCK_2024_spring"
+        db_table = "ranking_2024_LCK_Spring"
 
-class Ranking_LCK_2024_Spring_player(models.Model) :
+class Ranking_2024_LCK_Spring_player(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     nickname = models.TextField(db_column="nickname", default="-")
     name = models.TextField(db_column="name", default="-")
@@ -66,9 +66,9 @@ class Ranking_LCK_2024_Spring_player(models.Model) :
     POG_point = models.IntegerField(db_column="POG_point", default=0)
     
     class Meta :
-        db_table = "ranking_LCK_2024_spring_player"
+        db_table = "ranking_2024_LCK_Spring_player"
 
-class Ranking_LCK_2024_Summer(models.Model):
+class Ranking_2024_LCK_Summer(models.Model):
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default='-')
     tricode = models.TextField(db_column="tricode", default='-')
@@ -79,9 +79,9 @@ class Ranking_LCK_2024_Summer(models.Model):
     etc = models.TextField(db_column="etc", default='-')
     
     class Meta:
-        db_table = "ranking_LCK_2024_summer"
+        db_table = "ranking_2024_LCK_Summer"
 
-class Ranking_LCK_2024_Summer_player(models.Model) :
+class Ranking_2024_LCK_Summer_player(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     nickname = models.TextField(db_column="nickname", default="-")
     name = models.TextField(db_column="name", default="-")
@@ -91,10 +91,10 @@ class Ranking_LCK_2024_Summer_player(models.Model) :
     POG_point = models.IntegerField(db_column="POG_point", default=0)
     
     class Meta :
-        db_table = "ranking_LCK_2024_summer_player"
+        db_table = "ranking_2024_LCK_Summer_player"
 
 
-class Champion_LCK_2023_Summer(models.Model) :
+class Champion_2023_LCK_Summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -104,9 +104,9 @@ class Champion_LCK_2023_Summer(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_LCK_2023_summer"
+        db_table = "champion_2023_LCK_Summer"
         
-class Champion_LCK_2024_Spring(models.Model) :
+class Champion_2024_LCK_Spring(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -116,9 +116,9 @@ class Champion_LCK_2024_Spring(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_LCK_2024_spring"
+        db_table = "champion_2024_LCK_Spring"
 
-class Champion_MSI_2024(models.Model) :
+class Champion_2024_MSI(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -128,9 +128,9 @@ class Champion_MSI_2024(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_MSI_2024"
+        db_table = "champion_2024_MSI"
 
-class Champion_LCK_2024_Summer(models.Model) :
+class Champion_2024_LCK_Summer(models.Model) :
     key = models.AutoField(db_column="key", primary_key=True)
     name = models.TextField(db_column="name", default="-")
     pick = models.IntegerField(db_column="pick", default=0)
@@ -140,7 +140,7 @@ class Champion_LCK_2024_Summer(models.Model) :
     patch = models.TextField(db_column="patch", default="-")
     
     class Meta:
-        db_table = "champion_LCK_2024_Summer"
+        db_table = "champion_2024_LCK_Summer"
 
 
 class Version(models.Model) :

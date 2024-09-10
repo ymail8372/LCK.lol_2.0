@@ -28,9 +28,9 @@
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
 			</div>
-			{% for team in teams_2024_1 %}
+			{% for team in teams_group_1 %}
 			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/LCK 2024 Spring/'|add:team|add:'.webp' %}"></button>
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/'|add:year|add:'/LCK Spring/'|add:team|add:'.webp' %}"></button>
 				<div class="team_name">{{team}}</div>
 			</div>
 			{% endfor %}
@@ -40,9 +40,9 @@
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
 			</div>
-			{% for team in teams_2024_2 %}
+			{% for team in teams_group_2 %}
 			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/MSI 2024/'|add:team|add:'.webp' %}"></button>
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/'|add:year|add:'/MSI/'|add:team|add:'.webp' %}"></button>
 				<div class="team_name">{{team}}</div>
 			</div>
 			{% endfor %}
@@ -52,9 +52,9 @@
 				<button type="button"><img class="all" src="{% static 'img/teams/ALL.png' %}"></button>
 				<div class="team_name">전체</div>
 			</div>
-			{% for team in teams_2024_3 %}
+			{% for team in teams_group_3 %}
 			<div class="team">
-				<button type="button"><img class="{{team}}" src="{% static 'img/teams/LCK 2024 Summer/'|add:team|add:'.webp' %}"></button>
+				<button type="button"><img class="{{team}}" src="{% static 'img/teams/'|add:year|add:'/LCK Summer/'|add:team|add:'.webp' %}"></button>
 				<div class="team_name">{{team}}</div>
 			</div>
 			{% endfor %}
@@ -69,7 +69,7 @@
 					{% if schedule.team1_tricode == "TBD" %}
 						<img class="team_img team1_img" src="{% static 'img/teams/TBD.webp' %}"><br>
 					{% else %}
-						<img class="team_img team1_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
+						<img class="team_img team1_img" src="{% static 'img/teams/'|add:year|add:'/'|add:schedule.tournament|add:'/'|add:schedule.team1_tricode|add:'.webp' %}"><br>
 					{% endif %}
 					<div class="team_name">{{schedule.team1_name}}</div>
 				</div>
@@ -84,7 +84,7 @@
 					{% if schedule.team2_tricode == "TBD" %}
 						<img class="team_img team2_img" src="{% static 'img/teams/TBD.webp' %}"><br>
 					{% else %}
-						<img class="team_img team2_img" src="{% static 'img/teams/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
+						<img class="team_img team2_img" src="{% static 'img/teams/'|add:year|add:'/'|add:schedule.tournament|add:'/'|add:schedule.team2_tricode|add:'.webp' %}"><br>
 					{% endif %}
 				</div>
 				

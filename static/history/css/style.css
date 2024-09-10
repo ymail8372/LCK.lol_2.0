@@ -2,6 +2,7 @@
 .reference {
 	font-size: 14px;
 	overflow: hidden;
+	clear: both;
 }
 
 .reference .reference_border {
@@ -68,6 +69,7 @@
 /* winner_coach */
 #result #result_table #winner_coach .coach {
 	overflow: hidden;
+	height: 44px;
 }
 
 #result #result_table #winner_coach .coach .coach_index {
@@ -75,6 +77,7 @@
 	background: #1C192B;
 	color: #DCDFE0;
 	width: 200px;
+	height: 100%;
 	padding: 10px;
 }
 
