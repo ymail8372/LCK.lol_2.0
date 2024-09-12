@@ -8,13 +8,13 @@ from datetime import datetime
 league = "LCK Summer"
 year = "2024"
 
-# version
-version = getattr(models, f"Version").objects.all()[0]
-
-league_version = version.league_version
-live_version = version.live_version
-
 def index(request) :
+	# version
+	version = getattr(models, f"Version").objects.all()[0]
+
+	league_version = version.league_version
+	live_version = version.live_version
+
 	# champions
 	champions = get_champions(year, league, 'all')
 	
@@ -292,7 +292,7 @@ def champion_table(request) :
 	champions = get_champions(get_year, get_league, get_patch, get_sort)
 	
 	if champions == "no_model" :
-		return HttpResponse(f"<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK Summer&patch={league_version}\";</script>")
+		return HttpResponse("<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK Summer&patch=all\";</script>")
 	
 	return render(request, "champion_table.html", {"champions": champions})
 
