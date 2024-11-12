@@ -5,6 +5,8 @@ from django.http import HttpResponse
 
 from datetime import datetime
 
+# with history version.
+
 league = "LCK Summer"
 year = "2024"
 
