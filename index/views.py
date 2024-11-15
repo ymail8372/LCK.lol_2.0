@@ -5,8 +5,6 @@ from django.http import HttpResponse
 
 from datetime import datetime
 
-# with history version.
-
 league = "LCK Summer"
 year = "2024"
 
@@ -297,12 +295,6 @@ def champion_table(request) :
 		return HttpResponse("<script>alert(\"Error!\"); window.location.href = \"/champion?league=LCK Summer&patch=all\";</script>")
 	
 	return render(request, "champion_table.html", {"champions": champions})
-
-def history(request) :
-	year = request.GET.get("year", "")
-	league = request.GET.get("league", "")
-	
-	return render(request, f"history_contents/{league}/{year}.html", {"year": year, "league": league})
 
 def Ads(request) :
 	return HttpResponse("google.com, pub-9052803485032468, DIRECT, f08c47fec0942fa0", content_type="text/plain")
