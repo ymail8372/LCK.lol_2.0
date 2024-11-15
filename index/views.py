@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 from datetime import datetime
 
-# with history version.
+# This is with history version commit.
 
 league = "LCK Summer"
 year = "2024"
